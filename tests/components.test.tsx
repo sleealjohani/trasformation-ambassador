@@ -39,13 +39,25 @@ describe("Chip", () => {
   });
 });
 
+vi.mock("next/navigation", () => ({ usePathname: () => "/issues" }));
+
 describe("BottomTabs", () => {
-  it("أربعة عناصر ثابتة، والنشط معلَّم", () => {
-    render(<BottomTabs active="issues" />);
+  it("أربعة عناصر ثابتة روابط، والنشط معلَّم بلون ونص", () => {
+    render(<BottomTabs />);
     const nav = screen.getByRole("navigation", { name: "التنقل الرئيسي" });
-    const tabs = within(nav).getAllByRole("button");
+    const tabs = within(nav).getAllByRole("link");
     expect(tabs).toHaveLength(4);
-    expect(within(nav).getByRole("button", { name: /القضايا/ })).toHaveAttribute("aria-current", "page");
+
+    const active = within(nav).getByRole("link", { name: /القضايا/ });
+    expect(active).toHaveAttribute("aria-current", "page");
+    // الحالة تُنقل بنص أيضًا لا بلون وحده
+    expect(active).toHaveTextContent("القضايا");
+    expect(within(nav).getByRole("link", { name: /الرئيسية/ })).not.toHaveAttribute("aria-current");
+  });
+
+  it("مسار التتبّع يُفعّل تبويب متابعتي", () => {
+    render(<BottomTabs active="track" />);
+    expect(screen.getByRole("link", { name: /متابعتي/ })).toHaveAttribute("aria-current", "page");
   });
 });
 
