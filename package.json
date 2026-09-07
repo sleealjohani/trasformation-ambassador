@@ -17,8 +17,12 @@
     "e2e": "playwright test",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "verify": "pnpm lint && pnpm typecheck && pnpm test",
-    "budget": "node scripts/perf-budget.mjs"
+    "verify": "pnpm lint && pnpm typecheck && pnpm check:schema && pnpm test",
+    "budget": "node scripts/perf-budget.mjs",
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx db/seed.ts",
+    "db:studio": "drizzle-kit studio",
+    "check:schema": "node scripts/check-schema.mjs"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.2",
@@ -43,6 +47,7 @@
     "eslint-config-next": "16.3.4",
     "jsdom": "^30.0.1",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
   },
