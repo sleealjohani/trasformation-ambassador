@@ -11,24 +11,27 @@ type GateCardProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> &
   icon: IconName;
   /** حالة العرض فقط — تُستخدم في معرض المكوّنات لإظهار شكل الضغط. */
   pressed?: boolean;
+  /** حين تكون البطاقة داخل رابط: تُرسم كعنصر عادي لا كزر. */
+  asChild?: boolean;
 };
 
 /**
  * بطاقة بوابة — الشاشة الأولى.
  * أربع بوابات بأربعة أشكال ولون واحد: الشكل يميّز، واللون محجوز للحالة.
  */
-export function GateCard({ title, hint, icon, pressed = false, className, ...rest }: GateCardProps) {
+export function GateCard({ title, hint, icon, pressed = false, asChild = false, className, ...rest }: GateCardProps) {
+  const Tag = (asChild ? "span" : "button") as "button";
   return (
-    <button
-      type="button"
+    <Tag
+      {...(asChild ? {} : { type: "button" as const })}
       data-pressed={pressed ? "true" : undefined}
       className={cn(
-        "flex w-full items-center gap-3 rounded-card border border-line bg-panel p-4 text-start",
+        "flex min-h-11 w-full items-center gap-3 rounded-card border border-line bg-panel p-4 text-start",
         "text-ink transition-colors duration-[120ms] ease-brand",
         "hover:bg-panel-2 active:bg-tint data-[pressed=true]:bg-tint data-[pressed=true]:border-line-strong",
         className,
       )}
-      {...rest}
+      {...(asChild ? {} : rest)}
     >
       <span
         className="inline-flex shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736"
@@ -40,6 +43,6 @@ export function GateCard({ title, hint, icon, pressed = false, className, ...res
         <span className="text-card-title font-bold text-ink">{title}</span>
         {hint ? <span className="text-secondary text-muted">{hint}</span> : null}
       </span>
-    </button>
+    </Tag>
   );
 }

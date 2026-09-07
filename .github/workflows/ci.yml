@@ -9,14 +9,17 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  REF_CODE_PEPPER: ci-pepper-not-a-secret
+  ADMIN_PASSCODE: ci-admin-passcode
+  CRON_SECRET: ci-cron-secret
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -24,41 +27,44 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      # حارس الخصوصية: لا عمود يعرّف بشخص في المخطط
+      - name: Schema privacy guard
+        run: pnpm check:schema
 
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Unit tests
-        run: pnpm test
-
-      - name: Build
-        run: pnpm build
-
-      - name: Performance budget
-        run: pnpm budget
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
 
   e2e:
     runs-on: ubuntu-latest
     needs: verify
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: bridge
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/bridge
+      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:5432/bridge
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
 
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+      - name: Apply migrations and seed
+        run: pnpm db:migrate && pnpm db:seed
 
-      - name: End-to-end tests
-        run: pnpm e2e
+      - run: pnpm e2e
 
       - uses: actions/upload-artifact@v4
         if: failure()

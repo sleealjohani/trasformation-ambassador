@@ -1,0 +1,80 @@
+import { expect, test } from "@playwright/test";
+
+const PASSCODE = process.env.ADMIN_PASSCODE ?? "local-admin-passcode";
+
+const SECRETS = {
+  name: "اسمي عبدالله الشمري",
+  phone: "0559876543",
+  email: "abdullah.test@example.com",
+  employeeId: "رقمي الوظيفي 448120",
+  nationalId: "1098765432",
+};
+
+/**
+ * إثبات أن البيانات المعرِّفة لا تصل إلى التخزين:
+ * نرسل نصًا مليئًا بها، ثم نقرأ كل ما يعرضه النظام — الموظف والسفير معًا — ونتأكد أنها اختفت.
+ */
+test("لا تصل أي بيانات معرِّفة إلى التخزين ولا إلى أي شاشة", async ({ page }) => {
+  const marker = `شكوى${Math.random().toString(36).slice(2, 8).replace(/[0-9]/g, "ن")}`;
+  const raw = `${SECRETS.name} ${marker}، ${SECRETS.employeeId}، جوالي ${SECRETS.phone} وبريدي ${SECRETS.email} وهويتي ${SECRETS.nationalId}`;
+
+  await page.goto("/ask?gate=question");
+  await page.getByLabel("اكتب بحرّية — الحقل مفتوح دائمًا").fill(raw);
+  await page.getByRole("button", { name: "أرسل" }).click();
+  await page.getByRole("button", { name: "إنهاء الآن" }).click();
+  await expect(page).toHaveURL(/\/ask\/review/);
+
+  // شاشة المراجعة تعرض ما سيصل حرفيًا — ولا شيء منه معرِّف
+  const review = await page.locator("main").innerText();
+  for (const secret of Object.values(SECRETS)) expect(review).not.toContain(secret);
+  await expect(page.getByText("أزلنا معلومة قد تدلّ عليك")).toBeVisible();
+
+  await page.getByRole("button", { name: "إرسال المشاركة" }).click();
+  await expect(page).toHaveURL(/\/ask\/done/);
+  const code = (await page.getByTestId("ref-code").innerText()).trim();
+
+  // رد الخادم لا يعيد النص الخام
+  const track = await page.request.get(`/api/track/${code}`, { headers: { "x-device-hash": "0".repeat(64) } });
+  // نعيد التسلسل في JavaScript حتى لا تُهرَّب الحروف العربية كما في نص الاستجابة الخام
+  const trackBody = JSON.stringify(await track.json());
+  for (const secret of Object.values(SECRETS)) expect(trackBody).not.toContain(secret);
+
+  // ما يراه سفير التغيير في الوارد هو النص المنقّى نفسه
+  await page.goto("/admin/login");
+  await page.getByLabel("رمز الدخول").fill(PASSCODE);
+  await page.getByRole("button", { name: "دخول" }).click();
+  await expect(page).toHaveURL(/\/admin$/);
+
+  const inbox = await page.locator("main").innerText();
+  expect(inbox).toContain(marker);
+  expect(inbox).toContain("معلومة معرِّفة أُزيلت");
+  for (const secret of Object.values(SECRETS)) expect(inbox).not.toContain(secret);
+
+  // ولا في تقرير الأسبوع، فهو مجمّع بلا نص خام
+  await page.getByRole("button", { name: "تقرير الأسبوع", exact: true }).click();
+  const report = await page.getByTestId("weekly-report").innerText();
+  for (const secret of Object.values(SECRETS)) expect(report).not.toContain(secret);
+  expect(report).not.toContain(marker);
+  expect(report).toContain("مجمّع بالكامل");
+});
+
+test("واجهة الموظف بلا حقل هوية وبلا تسجيل دخول", async ({ page }) => {
+  for (const path of ["/", "/ask?gate=question", "/track", "/issues", "/rumors", "/pulse"]) {
+    await page.goto(path);
+    const html = await page.content();
+    expect(html).not.toMatch(/type="email"/);
+    expect(html).not.toMatch(/type="tel"/);
+    expect(html).not.toMatch(/autocomplete="(name|email|tel|username)"/);
+    expect(html).not.toMatch(/name="(employee_?id|national_?id|iqama)"/i);
+  }
+});
+
+test("لا تحليلات طرف ثالث ولا مورد خارجي في واجهة الموظف", async ({ page }) => {
+  const external: string[] = [];
+  page.on("request", (req) => {
+    const url = new URL(req.url());
+    if (url.hostname !== "127.0.0.1" && url.hostname !== "localhost") external.push(req.url());
+  });
+  for (const path of ["/", "/issues", "/knowledge", "/answers"]) await page.goto(path);
+  expect(external).toEqual([]);
+});

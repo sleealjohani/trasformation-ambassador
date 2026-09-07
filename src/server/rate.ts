@@ -19,7 +19,10 @@ export async function consumeRate(bucket: RateBucket, deviceHash: string): Promi
   const { limit, windowMs } = RATE_RULES[bucket];
   const key = `${bucket}:${deviceHash}`;
   const now = new Date();
-  const windowStart = new Date(now.getTime() - windowMs);
+  // نمرّر الأوقات نصًّا بصيغة ISO مع تحويل صريح: postgres-js لا يستنتج نوع الوسيط داخل CASE
+  const nowIso = sql`${now.toISOString()}::timestamptz`;
+  const cutoff = sql`${new Date(now.getTime() - windowMs).toISOString()}::timestamptz`;
+  const expired = sql`${rateLimits.windowStart} < ${cutoff}`;
 
   const rows = await db
     .insert(rateLimits)
@@ -27,8 +30,8 @@ export async function consumeRate(bucket: RateBucket, deviceHash: string): Promi
     .onConflictDoUpdate({
       target: rateLimits.key,
       set: {
-        count: sql`case when ${rateLimits.windowStart} < ${windowStart} then 1 else ${rateLimits.count} + 1 end`,
-        windowStart: sql`case when ${rateLimits.windowStart} < ${windowStart} then ${now} else ${rateLimits.windowStart} end`,
+        count: sql`case when ${expired} then 1 else ${rateLimits.count} + 1 end`,
+        windowStart: sql`case when ${expired} then ${nowIso} else ${rateLimits.windowStart} end`,
       },
     })
     .returning({ count: rateLimits.count });

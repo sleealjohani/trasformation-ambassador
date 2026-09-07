@@ -6,6 +6,8 @@ import { hashDevice } from "./device";
 import { consumeRate } from "./rate";
 import { RateLimited } from "./submissions";
 import { listTopics } from "./topics";
+import { submissions } from "../../db/schema";
+
 
 export type IssueView = {
   id: string;
@@ -85,8 +87,11 @@ export async function recomputeWeeklyWeights(): Promise<number> {
   const rows = await db.select({ id: issues.id }).from(issues);
   for (const { id } of rows) {
     const [v] = await db.select({ n: sql<number>`count(*)::int` }).from(issueVotes).where(and(eq(issueVotes.issueId, id), gte(issueVotes.createdAt, since)));
-    const [s] = await db.execute<{ n: number }>(sql`select count(*)::int as n from submissions where issue_id = ${id} and created_at >= ${since}`);
-    const weight = (v?.n ?? 0) + Number(s?.n ?? 0);
+    const [s] = await db
+      .select({ n: sql<number>`count(*)::int` })
+      .from(submissions)
+      .where(and(eq(submissions.issueId, id), gte(submissions.createdAt, since)));
+    const weight = (v?.n ?? 0) + (s?.n ?? 0);
     await db.update(issues).set({ weight }).where(and(eq(issues.id, id), inArray(issues.status, ["open", "referred", "waiting", "answered"])));
   }
   await audit({ actorRole: "system", action: "issue.recompute_weights", entity: "issue" });

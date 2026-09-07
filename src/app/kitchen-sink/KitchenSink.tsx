@@ -55,7 +55,7 @@ function StateLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function KitchenSink() {
-  const [activeTab, setActiveTab] = useState<TabKey>("home");
+  const [activeTab] = useState<TabKey>("home");
   const [selectedChip, setSelectedChip] = useState(true);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [voted, setVoted] = useState(false);
@@ -327,13 +327,13 @@ export function KitchenSink() {
       {/* ================= الشريط السفلي ================= */}
       <Section id="bottom-tabs" title="الشريط السفلي" note="أربعة عناصر ثابتة — النشط بلون ونص معًا.">
         <div className="overflow-hidden rounded-card border border-line">
-          <BottomTabs active={activeTab} onChange={setActiveTab} />
+          <BottomTabs active={activeTab} />
         </div>
-        <StateLabel>العنصر النشط: {TABS.find((t) => t.key === activeTab)?.label}</StateLabel>
+        <StateLabel>العنصر النشط: {TABS.find((t) => t.key === activeTab)?.label} — العناصر روابط حقيقية</StateLabel>
       </Section>
 
       <div className="fixed inset-x-0 bottom-0 mx-auto max-w-[430px]">
-        <BottomTabs active={activeTab} onChange={setActiveTab} />
+        <BottomTabs active={activeTab} />
       </div>
     </main>
   );

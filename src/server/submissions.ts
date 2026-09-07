@@ -3,7 +3,7 @@ import { db } from "../../db/client";
 import { answers, escalations, faqs, issues, submissionEvents, submissions } from "../../db/schema";
 import { getClassifier, type Gate } from "@/lib/classify";
 import { findCluster, toClusterKey } from "@/lib/cluster";
-import { redact } from "@/lib/redact";
+import { REDACTION_MARK, redact } from "@/lib/redact";
 import { generateRefCode } from "@/lib/refcode";
 import { slaDueFor, toVisibleStatus, transition, type SubmissionState, type VisibleStatus } from "@/lib/state";
 import { audit } from "./audit";
@@ -67,14 +67,16 @@ export async function createSubmission(input: CreateInput): Promise<CreateResult
   const answersClean: Record<string, string> = {};
   for (const [k, v] of Object.entries(input.answers ?? {})) answersClean[k] = redact(v).clean;
 
-  const fullText = [body.clean, ...Object.values(answersClean)].join("\n");
+  // علامة التنقية تُحذف قبل التصنيف حتى لا تُحسب كلماتها ضمن الموضوع
+  const fullText = [body.clean, ...Object.values(answersClean)].join("\n").split(REDACTION_MARK).join(" ");
   const classification = await getClassifier().classify(fullText, input.gate);
 
   const openIssues = await db
     .select({ id: issues.id, titleNorm: issues.titleNorm })
     .from(issues)
     .where(inArray(issues.status, ["open", "referred", "waiting", "answered"]));
-  const match = findCluster(body.clean, openIssues);
+  const cleanForCluster = body.clean.split(REDACTION_MARK).join(" ");
+  const match = findCluster(cleanForCluster, openIssues);
 
   let issueId: string;
   if (match) {
@@ -88,7 +90,7 @@ export async function createSubmission(input: CreateInput): Promise<CreateResult
       .insert(issues)
       .values({
         title: titleFrom(body.clean),
-        titleNorm: toClusterKey(body.clean),
+        titleNorm: toClusterKey(cleanForCluster),
         topic: classification.topic ?? "other",
         weight: 1,
         status: "open",

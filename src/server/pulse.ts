@@ -1,4 +1,4 @@
-import { asc, eq, sql } from "drizzle-orm";
+import { and, asc, eq, sql } from "drizzle-orm";
 import { db } from "../../db/client";
 import { pulseResponses, pulseWeeks } from "../../db/schema";
 import { PULSE_MIN_SAMPLE, clarityIndex, isoWeek } from "@/lib/ranking";
@@ -32,7 +32,10 @@ async function recompute(week: string): Promise<PulseWeekView> {
 export async function submitPulse(input: { clarity: number; oneThing?: string | undefined; deviceHash: string }): Promise<PulseWeekView> {
   const week = isoWeek(new Date());
   const device = hashDevice(input.deviceHash);
-  const [existing] = await db.select({ id: pulseResponses.id }).from(pulseResponses).where(sql`${pulseResponses.week} = ${week} and ${pulseResponses.deviceHash} = ${device}`);
+  const [existing] = await db
+    .select({ id: pulseResponses.id })
+    .from(pulseResponses)
+    .where(and(eq(pulseResponses.week, week), eq(pulseResponses.deviceHash, device)));
   if (existing) throw new AlreadyAnswered();
 
   await db.insert(pulseResponses).values({

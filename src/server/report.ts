@@ -1,9 +1,11 @@
-import { and, isNull, sql } from "drizzle-orm";
+import { and, eq, isNull, sql } from "drizzle-orm";
 import { db } from "../../db/client";
 import { auditLog, escalations, pulseWeeks, rumors, submissionEvents, submissions } from "../../db/schema";
 import { applyVisibilityThreshold, isoWeek, median } from "@/lib/ranking";
+import { toArabicDigits } from "@/lib/numerals";
 import { listIssues } from "./issues";
 import { listTopics } from "./topics";
+import { ts } from "./sql";
 
 export type WeeklyReport = {
   week: string;
@@ -25,7 +27,7 @@ export async function weeklyReport(): Promise<WeeklyReport> {
   const topics = await listTopics();
 
   const [totals] = await db
-    .select({ total: sql<number>`count(*)::int`, thisWeek: sql<number>`count(*) filter (where ${submissions.createdAt} >= ${since})::int` })
+    .select({ total: sql<number>`count(*)::int`, thisWeek: sql<number>`count(*) filter (where ${submissions.createdAt} >= ${ts(since)})::int` })
     .from(submissions);
 
   const byStatusRows = await db.select({ key: submissions.status, count: sql<number>`count(*)::int` }).from(submissions).groupBy(submissions.status);
@@ -71,7 +73,7 @@ export async function weeklyReport(): Promise<WeeklyReport> {
 
   const week = isoWeek(now);
   const lastWeek = isoWeek(since);
-  const [pulseRow] = await db.select().from(pulseWeeks).where(sql`${pulseWeeks.week} = ${lastWeek}`);
+  const [pulseRow] = await db.select().from(pulseWeeks).where(eq(pulseWeeks.week, lastWeek));
 
   const byTopic = byTopicRows.map((r) => ({ key: r.key, label: topics.find((t) => t.slug === r.key)?.label ?? "أخرى", count: r.count })).sort((a, b) => b.count - a.count);
   const byDept = applyVisibilityThreshold(byDeptRows.map((r) => ({ key: r.key ?? "other", count: r.count })));
@@ -85,17 +87,20 @@ export async function weeklyReport(): Promise<WeeklyReport> {
 
   await db.insert(auditLog).values({ actorRole: "ambassador", action: "report.weekly", entity: "report", entityId: week });
 
+  const n = (value: number) => toArabicDigits(value);
   const lines = [
-    `تقرير الأسبوع ${week} — جسر التحول`,
-    `المشاركات: ${totals?.total ?? 0} إجمالًا · ${totals?.thisWeek ?? 0} هذا الأسبوع`,
-    `أعلى المواضيع: ${byTopic.slice(0, 3).map((t) => `${t.label} (${t.count})`).join(" · ") || "—"}`,
-    `زمن الاستجابة (وسيط): ${med === null ? "لا عيّنة بعد" : `${Math.round(med)} ساعة`} على ${hours.length} إجابة`,
-    `إغلاق الحلقة: ${loop?.answered ?? 0} من ${loop?.referred ?? 0} مُحالة${ratio === null ? "" : ` (${Math.round(ratio * 100)}٪)`}`,
-    `متأخرات SLA: ${overdue}`,
-    `القضايا الأعلى: ${issues.map((i) => `${i.title} (${i.weight})`).join(" · ") || "—"}`,
-    `الشائعات: ${rumorAgg?.total ?? 0} · بانتظار موقف ${rumorAgg?.waiting ?? 0} · غير صحيحة ${rumorAgg?.falseCount ?? 0}${oldestWaitingDays === null ? "" : ` · أقدم شائعة بلا موقف منذ ${oldestWaitingDays} يومًا`}`,
-    `نبض الأسبوع الماضي: ${pulse?.clarityIndex === null || pulse?.clarityIndex === undefined ? "العيّنة غير كافية لإعلان النتيجة" : `${pulse.clarityIndex} من ١٠٠ (${pulse.sample} ردًا)`}`,
-    `تقسيم الأقسام: ${byDept.length === 0 ? "لا قسم بلغ عتبة الظهور (٧)" : byDept.map((d) => `${d.key} (${d.count})`).join(" · ")}`,
+    `تقرير الأسبوع ${toArabicDigits(week.replace("-W", " · الأسبوع "))} — جسر التحول`,
+    `المشاركات: ${n(totals?.total ?? 0)} إجمالًا · ${n(totals?.thisWeek ?? 0)} هذا الأسبوع`,
+    `أعلى المواضيع: ${byTopic.slice(0, 3).map((t) => `${t.label} (${n(t.count)})`).join(" · ") || "—"}`,
+    `زمن الاستجابة (وسيط): ${med === null ? "لا إجابة مكتملة بعد" : `${n(Math.round(med))} ساعة على ${n(hours.length)} إجابة`}`,
+    `إغلاق الحلقة: ${n(loop?.answered ?? 0)} من ${n(loop?.referred ?? 0)} مُحالة${ratio === null ? "" : ` (${n(Math.round(ratio * 100))}٪)`}`,
+    `متأخرات SLA: ${n(overdue)}`,
+    `القضايا الأعلى: ${issues.map((i) => `${i.title} (${n(i.weight)})`).join(" · ") || "—"}`,
+    `الشائعات: ${n(rumorAgg?.total ?? 0)} · بانتظار موقف ${n(rumorAgg?.waiting ?? 0)} · غير صحيحة ${n(rumorAgg?.falseCount ?? 0)}${oldestWaitingDays === null ? "" : ` · أقدم شائعة بلا موقف منذ ${n(oldestWaitingDays)} يومًا`}`,
+    `نبض الأسبوع الماضي: ${pulse?.clarityIndex === null || pulse?.clarityIndex === undefined ? "العيّنة غير كافية لإعلان النتيجة" : `${n(pulse.clarityIndex)} من ${n(100)} على ${n(pulse.sample)} ردًا`}`,
+    `تقسيم الأقسام: ${byDept.length === 0 ? "لا قسم بلغ عتبة الظهور (٧)" : byDept.map((d) => `${d.key} (${n(d.count)})`).join(" · ")}`,
+    "",
+    "هذا التقرير مجمّع بالكامل: لا نص خام، ولا معرّف شخص، ولا تقسيم دون سبع مشاركات.",
   ];
 
   return {
