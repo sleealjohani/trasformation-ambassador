@@ -295,7 +295,8 @@ async function main() {
   await seedJourney();
   await seedPulse();
 
-  const [{ count }] = await db.select({ count: sql<number>`count(*)::int` }).from(schema.issues);
+  const [agg] = await db.select({ count: sql<number>`count(*)::int` }).from(schema.issues);
+  const count = agg?.count ?? 0;
   const topics = await db.select({ slug: schema.topics.slug }).from(schema.topics).where(eq(schema.topics.slug, "contracts"));
   console.log(`✓ البذر مكتمل — ${count} قضية · ${topics.length ? "المواضيع مزروعة" : "المواضيع ناقصة"}`);
 }
