@@ -12,8 +12,8 @@
 ```bash
 pnpm install
 cp .env.example .env.local        # املأ القيم — ولا ترفع هذا الملف
-pnpm db:push                      # أو pnpm db:migrate لتطبيق الترحيلات المحفوظة
-pnpm db:seed                      # المحتوى العربي — قابل لإعادة التشغيل بلا تكرار
+pnpm db:migrate                   # مطبَّق مسبقًا على Supabase — يعمل بلا أثر
+pnpm db:seed                      # مزروع مسبقًا — قابل لإعادة التشغيل بلا تكرار
 pnpm dev                          # http://localhost:3000
 ```
 
@@ -107,10 +107,11 @@ tests/  e2e/        Vitest للوحدات · Playwright للمسارات
 
 ## النشر
 
-1. **Supabase:** أنشئ مشروعًا في أقرب منطقة معتمدة، وفعّل `pgcrypto`، وانسخ رابطي الاتصال
-   (pooler و direct)، ثم `pnpm db:migrate && pnpm db:seed` على `DIRECT_URL`.
-   فعّل RLS على كل جدول برفض كامل لدور `anon` — التطبيق يصل عبر الخادم فقط، ولا يُستخدم
-   `supabase-js` في المتصفح ولا يُنشر أي مفتاح Supabase في كود العميل. وعطّل Supabase Auth.
+1. **Supabase** — جاهز: مشروع `Salwa's Project` (المرجع `woureabyrnjlgfxcbaea`، المنطقة
+   `ap-northeast-2`) عليه المخطط كاملًا والبذر، وRLS مفعَّل على الجداول الخمسة عشر بلا سياسة
+   واحدة أي رفض كامل لدورَي `anon` و`authenticated`. لا يُستخدم `supabase-js` في المتصفح،
+   ولا يُنشر أي مفتاح Supabase في كود العميل. يبقى نسخ `DATABASE_URL` و`DIRECT_URL` من
+   Project Settings ← Database إلى `.env.local` وإلى Vercel.
 2. **Vercel:** اربط المستودع، وأضف المتغيرات الخمسة للبيئات الثلاث، واختر منطقة الدوال الأقرب
    لقاعدة البيانات، واستخدم Node runtime لا Edge. **عطّل Vercel Analytics و Speed Insights**
    على واجهة الموظف. `vercel.json` يجدول مهمة الاحتفاظ اليومية.
@@ -126,7 +127,11 @@ tests/  e2e/        Vitest للوحدات · Playwright للمسارات
 
 ---
 
-## أصول ناقصة قبل التسليم النهائي
+## الخطوط
 
-ملفا خط **Janna LT** المرخّصان (`public/fonts/README.md`) والنسخة البيضاء الرسمية للشعار
-(`public/brand/README.md`).
+**Janna LT** بوزنَي Regular و Bold في `public/fonts` بصيغة woff2، يُحمَّلان من نطاق الموقع نفسه
+ويُسبَّق تحميلهما. لا `local()` ولا أي شبكة خارجية. التفاصيل في `public/fonts/README.md`.
+
+## أصل ناقص واحد
+
+النسخة البيضاء الرسمية للشعار (`public/brand/README.md`) — تُقلب النسخة الملوّنة برمجيًا حتى تصل.

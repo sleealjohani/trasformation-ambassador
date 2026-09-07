@@ -2,26 +2,22 @@
 
 /* ============================================================================
    الخطوط — Janna LT بوزنين فقط: Regular و Bold.
-   تُحمّل محليًا من public/fonts ولا تعتمد على أي شبكة خارجية.
-   ملفات الخط المرخّصة تُوضع في public/fonts (انظر public/fonts/README.md).
+   الملفان المرخّصان مضمّنان في public/fonts بصيغة woff2، ويُحمَّلان من نطاق الموقع نفسه.
+   لا local() ولا أي شبكة خارجية: العرض يجب أن يكون واحدًا على كل جهاز.
    ============================================================================ */
 @font-face {
   font-family: "Janna";
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src:
-    local("Janna LT"), local("Janna LT Regular"), local("JannaLT-Regular"),
-    url("/fonts/JannaLT-Regular.woff2") format("woff2");
+  src: url("/fonts/JannaLT-Regular.woff2") format("woff2");
 }
 @font-face {
   font-family: "Janna";
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src:
-    local("Janna LT Bold"), local("JannaLT-Bold"),
-    url("/fonts/JannaLT-Bold.woff2") format("woff2");
+  src: url("/fonts/JannaLT-Bold.woff2") format("woff2");
 }
 
 /* ============================================================================
