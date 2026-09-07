@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   الخطوط — Janna LT بوزنين فقط: Regular و Bold.
+   تُحمّل محليًا من public/fonts ولا تعتمد على أي شبكة خارجية.
+   ملفات الخط المرخّصة تُوضع في public/fonts (انظر public/fonts/README.md).
+   ============================================================================ */
+@font-face {
+  font-family: "Janna";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src:
+    local("Janna LT"), local("Janna LT Regular"), local("JannaLT-Regular"),
+    url("/fonts/JannaLT-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Janna";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src:
+    local("Janna LT Bold"), local("JannaLT-Bold"),
+    url("/fonts/JannaLT-Bold.woff2") format("woff2");
+}
+
+/* ============================================================================
+   نظام التصميم — كل قيمة هنا مصدرها دليل هوية شركة الصحة القابضة.
+   لا يُضاف لون ولا مقاس خارج هذا الملف.
+   ============================================================================ */
+@theme {
+  /* --- لوحة الهوية الرسمية (Pantone → HEX) --- */
+  --color-hh-2985: #2fa9e0; /* أساسي — أسطح ورسوم · لا يُستخدم لنص على أبيض */
+  --color-hh-299: #1691d0; /* أساسي — عناصر نشطة · نص ١٨px فأكبر فقط */
+  --color-hh-2736: #15508a; /* الفعل الأساسي والنص الأزرق والخلفيات */
+  --color-hh-072: #283a83; /* «غير صحيح» والتصعيد */
+  --color-hh-3145: #057590; /* «بانتظار توضيح» */
+  --color-hh-229: #1194d2; /* روابط ثانوية */
+  --color-hh-7479: #3ac0c3; /* تمييز مضيء وأشرطة تقدّم — ≤ ٥٪ من الشاشة */
+  --color-hh-802: #48ad48; /* مؤشرات إيجابية (رسوم) */
+  --color-hh-375: #9ecc3b; /* اتجاه صاعد في المؤشرات (رسوم فقط) */
+  --color-hh-7543: #a09ea4; /* «جديدة» والنص الثانوي */
+
+  /* --- الأسطح والنص --- */
+  --color-bg: #f2f6fa;
+  --color-panel: #ffffff;
+  --color-panel-2: #f7fafc;
+  --color-tint: #e8f2fa; /* خلفية حاوية الأيقونة والعناصر المختارة */
+  --color-line: #e3e8ed; /* الحد الوحيد في الواجهة — ١px بلا ظلال */
+  --color-line-strong: #c9d8e4;
+  --color-ink: #0f2a44;
+  --color-ink-soft: #2c4e6e;
+  --color-muted: #657f98;
+  --color-faint: #93a9bc;
+  --color-night: #0b2c4e; /* السطح الداكن المعتمد للترويسة */
+  --color-night-deep: #071f3a;
+  --color-on-dark: #eaf2f8;
+
+  /* --- ألوان الحالات: لكل حالة لون + رمز + نص، ولا لون وحده --- */
+  --color-status-new: #a09ea4;
+  --color-status-new-tint: #f0f0f2;
+  --color-status-reviewed: #15508a;
+  --color-status-reviewed-tint: #e8f2fa;
+  --color-status-referred: #1691d0;
+  --color-status-referred-tint: #e6f2fb;
+  --color-status-waiting: #057590;
+  --color-status-waiting-tint: #e6f1f4;
+  --color-status-answered: #2f8a4a; /* نسخة أغمق من 802C ليصلح للنص */
+  --color-status-answered-tint: #e9f4e9;
+  --color-status-escalated: #283a83;
+  --color-status-escalated-tint: #e8eaf3;
+
+  /* --- الطباعة --- */
+  --font-sans: "Janna", "Janna LT", "Segoe UI", Tahoma, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --text-screen-title: 22px;
+  --text-screen-title--line-height: 1.4;
+  --text-screen-title--font-weight: 700;
+  --text-card-title: 16px;
+  --text-card-title--line-height: 1.6;
+  --text-card-title--font-weight: 700;
+  --text-body: 15px;
+  --text-body--line-height: 1.8;
+  --text-secondary: 13px;
+  --text-secondary--line-height: 1.7;
+  --text-tag: 12px;
+  --text-tag--line-height: 1.4;
+  --text-tag--letter-spacing: 0.01em;
+  --text-code: 16px;
+  --text-code--line-height: 1.5;
+
+  /* --- المسافات: الوحدة ٤px · السلّم ٤ / ٨ / ١٢ / ١٦ / ٢٤ / ٣٢ --- */
+  --spacing: 4px;
+
+  /* --- الاستدارة --- */
+  --radius-card: 12px;
+  --radius-button: 10px;
+  --radius-icon: 9px;
+  --radius-tag: 999px;
+
+  /* --- الحركة: ١٨٠ms دخول · ١٢٠ms خروج --- */
+  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+  --animate-duration-in: 180ms;
+  --animate-duration-out: 120ms;
+}
+
+@theme static {
+  /* نقش «Flow of Care» الرسمي — النسخة الفاتحة على الأسطح الداكنة فقط */
+  --pattern-flow: url("/brand/flow-of-care.webp");
+}
+
+/* ============================================================================
+   الأساسيات
+   ============================================================================ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.8;
+  }
+
+  /* أصغر مساحة لمس ٤٤×٤٤px بلا استثناء */
+  button,
+  a[role="button"],
+  [data-touch-target] {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-hh-2736);
+    outline-offset: 2px;
+  }
+
+  /* الأيقونات: سماكة ١٫٦ ثابتة · أطراف مستديرة · ترث لون النص */
+  svg[data-icon] {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* الأيقونات الاتجاهية فقط تُعكس مع الاتجاه */
+  [dir="rtl"] svg[data-icon][data-directional="true"] {
+    transform: scaleX(-1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* السطح الداكن المعتمد + النقش الرسمي أسفله بتلاشٍ لأعلى */
+  .surface-dark {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-night);
+    color: var(--color-on-dark);
+  }
+
+  .surface-dark::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 62%;
+    background: var(--pattern-flow) no-repeat center bottom / cover;
+    opacity: 0.28; /* ضمن المدى المسموح ٢٢–٥٠٪ */
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000000 42%);
+    mask-image: linear-gradient(180deg, transparent, #000000 42%);
+  }
+
+  .surface-dark > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* الشعار: النسخة البيضاء على الأسطح الداكنة فقط */
+  .brand-lockup--light {
+    filter: brightness(0) invert(1);
+  }
+
+  /* المعرّفات والرموز اللاتينية داخل نطاق LTR */
+  .code-ltr {
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
