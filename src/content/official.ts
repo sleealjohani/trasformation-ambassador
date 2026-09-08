@@ -105,7 +105,7 @@ export const OFFICIAL_SHORTS: readonly OfficialShort[] = [
     summary: "محتوى رسمي من تجمع الشرقية الصحي يشرح رحلة الانتقال بشكل مبسط.",
     sourceLabel: "تجمع الشرقية الصحي · الصحة القابضة",
     sourceUrl: "https://ae.linkedin.com/posts/e1-cluster_%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%A7%D9%84%D8%AA%D8%AD%D9%88%D9%84%D8%A7%D9%84%D8%B5%D8%AD%D9%8A-%D8%AA%D8%AC%D9%85%D8%B9%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9%D8%A7%D9%84%D8%B5%D8%AD%D9%8A-activity-7217597938082979841-ARjw",
-    localSrc: null,
+    localSrc: "/media/short-employee-journey.mp4",
   },
   {
     id: "joining-benefits",
@@ -114,7 +114,7 @@ export const OFFICIAL_SHORTS: readonly OfficialShort[] = [
     summary: "فيديو رسمي يركز على المزايا التي تهم الموظف وقت الانتقال.",
     sourceLabel: "تجمع الشرقية الصحي · الصحة القابضة",
     sourceUrl: "https://ae.linkedin.com/posts/e1-cluster_%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%AA%D8%AC%D9%85%D8%B9%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9%D8%A7%D9%84%D8%B5%D8%AD%D9%8A-activity-7219694525399674881-Va0B",
-    localSrc: null,
+    localSrc: "/media/short-joining-benefits.mp4",
   },
   {
     id: "we-transform",
@@ -123,7 +123,7 @@ export const OFFICIAL_SHORTS: readonly OfficialShort[] = [
     summary: "مقطع رسمي إنساني عن انتقال الموظفين ودورهم في رحلة التحول.",
     sourceLabel: "تجمع الشرقية الصحي · الصحة القابضة",
     sourceUrl: "https://ae.linkedin.com/posts/e1-cluster_%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%AA%D8%AC%D9%85%D8%B9%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9%D8%A7%D9%84%D8%B5%D8%AD%D9%8A-%D8%A7%D9%84%D8%AA%D8%AD%D9%88%D9%84%D8%A7%D9%84%D8%B5%D8%AD%D9%8A-activity-7218345360140734464-gg8C",
-    localSrc: null,
+    localSrc: "/media/short-we-transform.mp4",
   },
 ] as const;
 
