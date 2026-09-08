@@ -108,7 +108,7 @@ export function AdminContentManager({ snapshot, topics, onSnapshot }: { snapshot
     setMessage(null);
     const rows = parseCsv(await file.text());
     if (rows.length < 2) { setMessage("الملف ما فيه صفوف كافية."); return; }
-    const headers = rows[0].map((item) => item.toLowerCase());
+    const headers = (rows[0] ?? []).map((item) => item.toLowerCase());
     const qi = headerIndex(headers, ["question", "السؤال"]);
     const ai = headerIndex(headers, ["answer", "الإجابة", "الاجابة"]);
     const si = headerIndex(headers, ["source", "المصدر"]);

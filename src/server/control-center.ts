@@ -2,7 +2,6 @@ import { and, asc, desc, eq, gte, isNull, sql } from "drizzle-orm";
 import { db } from "../../db/client";
 import { mediaItems } from "../../db/media-schema";
 import { auditLog, faqs, issues, journeyStages, knowledgeItems, pulseWeeks, rumors, submissions } from "../../db/schema";
-import { OFFICIAL_SHORTS } from "@/content/official";
 import { audit } from "./audit";
 import { listTopics } from "./topics";
 
@@ -29,28 +28,7 @@ function mediaPublicUrl(path: string): string {
   return `https://${ref}.supabase.co/storage/v1/object/public/${MEDIA_BUCKET}/${encoded}`;
 }
 
-async function ensureDefaultMedia(): Promise<void> {
-  const [row] = await db.select({ n: sql<number>`count(*)::int` }).from(mediaItems);
-  if ((row?.n ?? 0) > 0) return;
-  await db
-    .insert(mediaItems)
-    .values(
-      OFFICIAL_SHORTS.filter((item) => item.localSrc).map((item, index) => ({
-        slug: item.id,
-        title: item.title,
-        sourceLabel: item.sourceLabel,
-        sourceUrl: item.sourceUrl,
-        mediaUrl: item.localSrc as string,
-        storagePath: null,
-        published: true,
-        sort: index,
-      })),
-    )
-    .onConflictDoNothing();
-}
-
 export async function listPublishedMedia() {
-  await ensureDefaultMedia();
   const rows = await db.select().from(mediaItems).where(eq(mediaItems.published, true)).orderBy(asc(mediaItems.sort), asc(mediaItems.createdAt));
   return rows.map((row) => ({
     id: row.id,
@@ -66,7 +44,6 @@ export async function listPublishedMedia() {
 }
 
 export async function controlCenterSnapshot() {
-  await ensureDefaultMedia();
   const now = new Date();
   const since7 = new Date(now.getTime() - 7 * DAY_MS);
   const since14 = new Date(now.getTime() - 14 * DAY_MS);
