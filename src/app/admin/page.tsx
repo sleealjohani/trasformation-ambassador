@@ -23,21 +23,31 @@ export default async function AdminPage() {
   return <div className="admin-control-page min-h-dvh bg-bg">
     <style>{`@media (max-width: 767px) {
       .admin-control-page main > div > div:first-child {
-        position: static !important;
+        position: relative !important;
         top: auto !important;
+        z-index: 1 !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
       }
 
       .admin-control-page [role="tablist"] {
         display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        overflow-x: visible !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 4px !important;
+        overflow: visible !important;
         align-items: stretch !important;
       }
 
       .admin-control-page [role="tablist"] > [role="tab"] {
         width: 100%;
         min-width: 0 !important;
-        justify-content: flex-start;
+        padding-inline: 4px !important;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px !important;
+        text-align: center;
+        font-size: 11px;
+        line-height: 1.25;
       }
 
       .admin-control-page [role="tablist"] > button:not([role="tab"]) {
