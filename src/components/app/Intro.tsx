@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { STRINGS } from "@/content/strings";
 import { setSoundOn } from "@/lib/sound";
-import { useMounted } from "@/lib/client-only";
 import { readLocal, writeLocal } from "@/lib/storage";
 
 /** مراحل التحول: من علامة وزارة الصحة إلى علامة الصحة القابضة. */
@@ -22,27 +21,24 @@ const HOLD_MS = 1500;
 const FADE_MS = 700;
 const SEEN_KEY = "bridge:intro-seen";
 
+/**
+ * يُرسَم المشهد على الخادم أيضًا ليكون حاضرًا في أول رسم، فلا تومض الرئيسية قبله.
+ * ومن رآه في هذه الجلسة يُخفى عنه قبل الرسم عبر السطر البرمجي في `layout.tsx`
+ * الذي يضع `data-intro-seen` على جذر الصفحة، وتخفيه القاعدة في `intro.css`.
+ */
 export function Intro() {
-  const mounted = useMounted();
-  if (!mounted) return null;
   return <IntroStage />;
 }
 
 function IntroStage() {
-  // تُعرض مرة واحدة لكل جلسة تصفّح؛ العودة بين الشاشات لا تعيدها
-  const [show] = useState(() => {
-    try {
-      return sessionStorage.getItem(SEEN_KEY) !== "1";
-    } catch {
-      return true;
-    }
-  });
+  // الحالة الابتدائية واحدة على الخادم والعميل، فلا يختلف الترطيب
+  const [show, setShow] = useState(true);
   // من يطلب تقليل الحركة يرى العلامة الجديدة مباشرة بلا مشهد
-  const [reduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  const [phase, setPhase] = useState<Phase>(() => (reduced ? "hold" : "old"));
+  const [reduced, setReduced] = useState(false);
+  const [phase, setPhase] = useState<Phase>("old");
   const [complete, setComplete] = useState(false);
-  const [gone, setGone] = useState(!show);
-  const [soundOn, setSound] = useState(() => readLocal<boolean>("bridge:sound") !== false);
+  const [gone, setGone] = useState(false);
+  const [soundOn, setSound] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timers = useRef<number[]>([]);
 
@@ -68,8 +64,31 @@ function IntroStage() {
     }
   }, []);
 
+  // بعد التركيب: نقرأ ما يخص هذا الجهاز — هل رآه؟ وهل يطلب تقليل الحركة؟ وهل الصوت مكتوم؟
+  // القراءة لا تصحّ قبل التركيب: الخادم لا يعرف تخزين الجهاز، والرسم الأول يجب أن يتطابق.
+  /* eslint-disable react-hooks/set-state-in-effect -- مزامنة مع تخزين الجهاز لا تتالي رسم */
   useEffect(() => {
-    if (!show) return;
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(SEEN_KEY) === "1";
+    } catch {
+      seen = false;
+    }
+    if (seen) {
+      setShow(false);
+      setGone(true);
+      return;
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setReduced(true);
+      setPhase("hold");
+    }
+    if (readLocal<boolean>("bridge:sound") === false) setSound(false);
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  useEffect(() => {
+    if (!show || gone) return;
     document.documentElement.style.overflow = "hidden";
 
     if (reduced) {
@@ -87,12 +106,12 @@ function IntroStage() {
       ids.forEach(window.clearTimeout);
       document.documentElement.style.overflow = "";
     };
-  }, [show, reduced, dismiss]);
+  }, [show, gone, reduced, dismiss]);
 
   // الصوت: يُشغَّل مع المقدمة. المتصفح قد يمنع التشغيل التلقائي، فنعيد المحاولة
   // عند أول لمسة، ويبقى المفتاح ظاهرًا في كل الأحوال.
   useEffect(() => {
-    if (!show || !soundOn) return;
+    if (!show || gone || !soundOn) return;
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.85;
@@ -111,7 +130,7 @@ function IntroStage() {
       window.removeEventListener("pointerdown", onGesture);
       window.removeEventListener("keydown", onGesture);
     };
-  }, [show, soundOn]);
+  }, [show, gone, soundOn]);
 
   function toggleSound() {
     const next = !soundOn;

@@ -26,6 +26,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ar" dir="rtl">
       <head>
+        {/*
+          يعمل قبل أول رسم: من رأى المقدمة في هذه الجلسة لا تومض عنده إطلاقًا.
+          سطر واحد بلا اعتماد على أي حزمة، ويفشل بصمت في الأوضاع الخاصة.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem('bridge:intro-seen')==='1')document.documentElement.dataset.introSeen='1'}catch(e){}`,
+          }}
+        />
         {/* الوزنان المعتمدان يُحمَّلان مبكرًا: أول رسم للمحتوى دون ١٫٨ ثانية على 4G */}
         <link rel="preload" href="/fonts/JannaLT-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/JannaLT-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
