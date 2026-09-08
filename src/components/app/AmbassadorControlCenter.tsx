@@ -61,10 +61,13 @@ export function AmbassadorControlCenter({ topics, initialInbox, initialIssues, i
     { label: "مختصرات منشورة", value: snapshot.kpis.publishedMedia, hint: snapshot.storageConfigured ? "الرفع المباشر جاهز" : "الرفع يحتاج تفعيل", tab: "media" as Tab },
   ];
 
-  return <div className="flex flex-col gap-5">
-    <div className="md:hidden">
-      <div className="grid grid-cols-1 gap-2" role="tablist" aria-label="أقسام مركز التحكم">{NAV.map((item) => <button key={item.key} type="button" role="tab" aria-selected={tab === item.key} onClick={() => setTab(item.key)} className={tab === item.key ? "flex min-h-11 w-full items-center gap-2 rounded-button bg-hh-2736 px-4 text-secondary font-bold text-panel" : "flex min-h-11 w-full items-center gap-2 rounded-button border border-line bg-panel px-4 text-secondary text-ink-soft"}><Icon name={item.icon} size={16} /><span>{item.label}</span></button>)}</div>
-      <button type="button" onClick={() => void refresh()} disabled={refreshing} className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-button border border-line bg-panel px-3 text-secondary text-muted"><Icon name="retry" size={15} />{refreshing ? "تحديث…" : "تحديث"}</button>
+  return <div className="flex flex-col gap-5 pb-32 md:pb-0">
+    <div className="flex justify-end md:hidden">
+      <button type="button" onClick={() => void refresh()} disabled={refreshing} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-button border border-line bg-panel px-4 text-secondary text-muted"><Icon name="retry" size={15} />{refreshing ? "تحديث…" : "تحديث البيانات"}</button>
+    </div>
+
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-panel p-2 pb-[max(8px,env(safe-area-inset-bottom))] shadow-[0_-8px_28px_rgb(15_42_68_/_0.12)] md:hidden">
+      <div className="mx-auto grid max-w-[480px] grid-cols-3 gap-1.5" role="tablist" aria-label="أقسام مركز التحكم">{NAV.map((item) => <button key={item.key} type="button" role="tab" aria-selected={tab === item.key} onClick={() => setTab(item.key)} className={tab === item.key ? "flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-button bg-hh-2736 px-1 text-[11px] font-bold leading-tight text-panel" : "flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-button px-1 text-[11px] leading-tight text-ink-soft"}><Icon name={item.icon} size={17} /><span className="max-w-full truncate">{item.label}</span></button>)}</div>
     </div>
 
     <div className="sticky top-0 z-20 hidden rounded-card border border-line bg-panel p-2 backdrop-blur md:block">
