@@ -8,7 +8,7 @@
   }
 
   .v2-app-frame--immersive {
-    background: #000;
+    background: #000000;
     overflow: hidden;
   }
 
@@ -53,7 +53,7 @@
   .v2-media-main {
     min-block-size: 0;
     padding: 0 0 calc(68px + env(safe-area-inset-bottom));
-    background: #000;
+    background: #000000;
     overflow: hidden;
   }
 
@@ -65,7 +65,7 @@
     scroll-snap-type: y mandatory;
     overscroll-behavior-y: contain;
     scrollbar-width: none;
-    background: #000;
+    background: #000000;
   }
   .v2-short-feed::-webkit-scrollbar { display: none; }
 
@@ -76,7 +76,7 @@
     scroll-snap-align: start;
     scroll-snap-stop: always;
     overflow: hidden;
-    background: #000;
+    background: #000000;
   }
 
   .v2-short-video {
@@ -85,6 +85,6 @@
     inline-size: 100%;
     block-size: 100%;
     object-fit: contain;
-    background: #000;
+    background: #000000;
   }
 }
