@@ -28,7 +28,7 @@ export function StatusTag({ status, label, className }: StatusTagProps) {
     <span
       data-status={status}
       className={cn(
-        "inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-tag border px-3 py-1 text-tag",
+        "fade-in inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-tag border px-3 py-1 text-tag",
         className,
       )}
       style={{ color: color.fg, backgroundColor: color.tint, borderColor: color.fg }}

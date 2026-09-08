@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 const PASSCODE = process.env.ADMIN_PASSCODE ?? "local-admin-passcode";
 

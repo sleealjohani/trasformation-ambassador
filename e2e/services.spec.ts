@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 /** الخدمات القرائية تفتح ممتلئة من البذر — لا شاشة فارغة عند أول فتح. */
 test.describe("المحتوى المزروع", () => {

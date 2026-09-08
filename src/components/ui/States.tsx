@@ -4,12 +4,12 @@ import { cn } from "@/lib/cn";
 
 /** هيكل عظمي لا دوّارة */
 export function Skeleton({ className }: { className?: string }) {
-  return <div aria-hidden className={cn("motion-safe:animate-pulse rounded-button bg-panel-2", className)} />;
+  return <div aria-hidden className={cn("shimmer rounded-button bg-panel-2", className)} />;
 }
 
 export function SkeletonCard() {
   return (
-    <div className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4">
+    <div className="surface-raise flex flex-col gap-3 rounded-card p-4">
       <Skeleton className="h-4 w-2/3" />
       <Skeleton className="h-3 w-1/3" />
       <Skeleton className="h-3 w-full" />
@@ -29,8 +29,8 @@ export function SkeletonList({ count = 3 }: { count?: number }) {
 
 export function EmptyState({ text, icon = "issues" }: { text: string; icon?: IconName }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-card border border-line bg-panel px-4 py-10 text-center">
-      <span className="inline-flex size-11 items-center justify-center rounded-icon bg-tint text-hh-2736">
+    <div className="rise surface-raise flex flex-col items-center gap-3 rounded-card px-4 py-10 text-center">
+      <span className="draw inline-flex size-11 items-center justify-center rounded-icon bg-tint text-hh-2736">
         <Icon name={icon} size={22} />
       </span>
       <p className="text-body text-muted">{text}</p>

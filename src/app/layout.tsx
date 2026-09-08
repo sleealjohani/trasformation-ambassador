@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { Intro } from "@/components/app/Intro";
 import { ServiceWorker } from "@/components/app/ServiceWorker";
 import { STRINGS } from "@/content/strings";
 import "./globals.css";
+import "./intro.css";
 
 export const metadata: Metadata = {
   title: { default: `${STRINGS.appName} — ${STRINGS.appSubtitle}`, template: `%s` },
@@ -29,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" href="/fonts/JannaLT-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
+        <Intro />
         {children}
         <ServiceWorker />
       </body>

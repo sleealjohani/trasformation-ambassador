@@ -53,7 +53,7 @@ export function AnswersList({ items, topics }: { items: FaqItem[]; topics: Array
           id="q"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full rounded-button border border-line bg-panel px-4 py-3 text-body text-ink outline-none focus-visible:border-hh-2736"
+          className="min-h-11 w-full rounded-button border border-line bg-panel px-4 text-body text-ink outline-none transition-colors duration-[160ms] focus-visible:border-hh-2736"
           placeholder="اكتب كلمة من سؤالك…"
         />
       </div>
@@ -82,8 +82,12 @@ export function AnswersList({ items, topics }: { items: FaqItem[]; topics: Array
         </div>
       ) : (
         <ul className="flex flex-col gap-3">
-          {filtered.map((item) => (
-            <li key={item.id} className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4">
+          {filtered.map((item, i) => (
+            <li
+              key={item.id}
+              className="rise lift surface-raise flex flex-col gap-3 rounded-card p-4"
+              style={{ "--i": Math.min(i, 6) } as React.CSSProperties}
+            >
               <div className="flex items-start justify-between gap-3">
                 <h2 className="text-card-title font-bold text-ink">{item.question}</h2>
                 <StatusTag status={toStatus(item.status)} />

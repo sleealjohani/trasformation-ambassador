@@ -48,7 +48,7 @@ export function RumorsPanel({ items }: { items: RumorItem[] }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <section aria-label="رصد شائعة" className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4">
+      <section aria-label="رصد شائعة" className="surface-raise flex flex-col gap-3 rounded-card p-4">
         <label htmlFor="claim" className="text-card-title font-bold text-ink">
           {STRINGS.gateOpeners.rumor}
         </label>
@@ -82,10 +82,14 @@ export function RumorsPanel({ items }: { items: RumorItem[] }) {
           <EmptyState icon="rumor" text="لا موقف معتمد للنشر بعد." />
         ) : (
           <ul className="flex flex-col gap-3">
-            {items.map((item) => {
+            {items.map((item, i) => {
               const v = VERDICT[item.verdict];
               return (
-                <li key={item.id} className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4">
+                <li
+                  key={item.id}
+                  className="rise lift surface-raise flex flex-col gap-3 rounded-card p-4"
+                  style={{ "--i": i } as React.CSSProperties}
+                >
                   <p className="text-card-title font-bold text-ink">«{item.claim}»</p>
                   <span
                     className="inline-flex w-fit items-center gap-2 rounded-tag border px-3 py-1 text-tag"

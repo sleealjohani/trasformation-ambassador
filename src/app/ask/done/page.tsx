@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "أُرسلت — جسر التحول
 
 export default function DonePage() {
   return (
-    <AppShell title="أُرسلت مشاركتك" back={{ href: "/", label: "الرئيسية" }}>
+    <AppShell ask={false} title="أُرسلت مشاركتك" back={{ href: "/", label: "الرئيسية" }}>
       <DoneCard />
     </AppShell>
   );
