@@ -2,91 +2,47 @@ import Image from "next/image";
 import Link from "next/link";
 import { BottomTabs } from "@/components/ui/BottomTabs";
 import { Icon } from "@/components/ui/Icon";
+import { SoundToggle } from "@/components/app/SiteAudio";
 import { STRINGS } from "@/content/strings";
+import { cn } from "@/lib/cn";
 
-/**
- * الإطار العام: ترويسة داكنة بالنقش والشعار، ثم المحتوى بدخول متدرّج،
- * ثم زر «شارك ما يشغلك» العائم، والشريط السفلي الثابت، ومدخل السفير في الذيل.
- */
-export function AppShell({
-  title,
-  subtitle,
-  back,
-  hero = false,
-  ask = true,
-  children,
-}: {
+export function AppShell({ title, subtitle, back, hero = false, ask: _ask = true, immersive = false, children }: {
   title: string;
   subtitle?: string;
   back?: { href: string; label: string };
   hero?: boolean;
-  /** يخفي الزر العائم في الشاشات التي هي نفسها مسار الإرسال */
   ask?: boolean;
+  immersive?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col bg-bg">
-      <header className="surface-dark px-4 pt-6 pb-7">
-        {back ? (
-          <Link
-            href={back.href}
-            className="mb-4 inline-flex min-h-11 items-center gap-2 rounded-tag px-3 text-secondary text-on-dark transition-colors duration-[120ms] hover:bg-white/10"
-          >
-            <Icon name="forward" size={16} />
-            <span>{back.label}</span>
-          </Link>
-        ) : (
-          <div className="fade-in flex items-center gap-3">
-            <Image
-              src="/brand/health-holding-lockup.webp"
-              alt="شعار شركة الصحة القابضة"
-              width={132}
-              height={132}
-              priority
-              className="brand-lockup--light h-auto w-[112px]"
-            />
-          </div>
-        )}
-        <h1 className="rise mt-4 text-screen-title font-bold" style={{ "--i": 1 } as React.CSSProperties}>
-          {title}
-        </h1>
-        {subtitle ? (
-          <p className="rise mt-2 text-body text-on-dark" style={{ "--i": 2 } as React.CSSProperties}>
-            {subtitle}
-          </p>
-        ) : null}
-        {hero ? (
-          <p className="rise mt-3 text-secondary text-on-dark" style={{ "--i": 3 } as React.CSSProperties}>
-            {STRINGS.motto}
-          </p>
-        ) : null}
+    <div className="v2-app-frame flex min-h-dvh flex-col">
+      <header className={cn("relative px-4 pb-5 pt-[max(16px,env(safe-area-inset-top))]", hero ? "surface-dark v2-hero" : "v2-appbar")}>
+        <div className="flex min-h-11 items-center justify-between gap-3">
+          {back ? (
+            <Link href={back.href} className={cn("inline-flex min-h-11 items-center gap-2 rounded-tag px-2 text-secondary", hero ? "text-on-dark" : "text-ink-soft")}>
+              <Icon name="forward" size={16} /><span>{back.label}</span>
+            </Link>
+          ) : (
+            <Link href="/" aria-label="الرئيسية" className="inline-flex min-h-11 items-center">
+              <Image src="/brand/health-holding-lockup.webp" alt="شعار شركة الصحة القابضة" width={132} height={132} priority={hero} className={cn("h-auto w-[104px]", hero && "brand-lockup--light")} />
+            </Link>
+          )}
+          <SoundToggle />
+        </div>
+        <h1 className={cn("rise mt-3 font-bold", hero ? "text-[26px] leading-[1.45] text-panel" : "text-screen-title text-ink")} style={{ "--i": 1 } as React.CSSProperties}>{title}</h1>
+        {subtitle ? <p className={cn("rise mt-1.5 text-body", hero ? "max-w-[360px] text-on-dark" : "text-muted")} style={{ "--i": 2 } as React.CSSProperties}>{subtitle}</p> : null}
       </header>
 
-      <main className="screen-in flex flex-1 flex-col gap-4 px-4 pt-6 pb-36">
-        {children}
-
-        <footer className="mt-6 flex flex-col items-center gap-3 border-t border-line pt-6 pb-2">
-          <p className="text-tag text-faint">{STRINGS.privacyNotice}</p>
-          <Link
-            href="/admin/login"
-            className="inline-flex min-h-11 items-center gap-2 rounded-tag border border-line bg-panel px-4 text-secondary text-ink-soft transition-colors duration-[120ms] hover:bg-panel-2 hover:text-hh-2736"
-          >
-            <Icon name="lock" size={14} />
-            <span>دخول سفير التغيير</span>
-          </Link>
-        </footer>
+      <main className={cn("screen-in flex flex-1 flex-col", immersive ? "v2-media-main" : "gap-5 px-4 pb-32 pt-5")}>{children}
+        {!immersive ? (
+          <footer className="mt-3 flex flex-col items-center gap-3 border-t border-line pb-2 pt-5">
+            <p className="text-center text-tag text-faint">{STRINGS.privacyNotice}</p>
+            <Link href="/admin/login" className="inline-flex min-h-11 items-center gap-2 rounded-tag px-3 text-secondary text-muted hover:text-hh-2736"><Icon name="lock" size={14} /><span>دخول سفير التغيير</span></Link>
+          </footer>
+        ) : null}
       </main>
-
-      {ask ? (
-        <Link href={{ pathname: "/ask", query: { gate: "question" } }} className="fab beckon" aria-label="شارك ما يشغلك">
-          <Icon name="plus" size={18} />
-          <span className="text-body">شارك ما يشغلك</span>
-        </Link>
-      ) : null}
-
-      <div className="fixed inset-x-0 bottom-0 z-20 mx-auto max-w-[430px]">
-        <BottomTabs />
-      </div>
+      <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-[480px]"><BottomTabs /></div>
     </div>
   );
 }
