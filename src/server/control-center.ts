@@ -1,9 +1,10 @@
-import { and, asc, desc, eq, gte, isNull, sql } from "drizzle-orm";
+import { and, asc, desc, eq, isNull, sql } from "drizzle-orm";
 import { db } from "../../db/client";
 import { mediaItems } from "../../db/media-schema";
 import { auditLog, faqs, issues, journeyStages, knowledgeItems, pulseWeeks, rumors, submissions } from "../../db/schema";
 import { audit } from "./audit";
 import { listTopics } from "./topics";
+import { ts } from "./sql";
 
 const DAY_MS = 86_400_000;
 const MEDIA_BUCKET = "bridge-media";
@@ -53,7 +54,7 @@ export async function controlCenterSnapshot() {
   const [submissionAgg] = await db
     .select({
       total: sql<number>`count(*) filter (where ${submissions.deletedAt} is null)::int`,
-      last7: sql<number>`count(*) filter (where ${submissions.deletedAt} is null and ${submissions.createdAt} >= ${since7})::int`,
+      last7: sql<number>`count(*) filter (where ${submissions.deletedAt} is null and ${submissions.createdAt} >= ${ts(since7)})::int`,
       needsReading: sql<number>`count(*) filter (where ${submissions.deletedAt} is null and ${submissions.needsReading} = true)::int`,
       overdue: sql<number>`count(*) filter (where ${submissions.deletedAt} is null and ${submissions.slaDueAt} < now() and ${submissions.status} not in ('answered','published','out_of_scope','redirected','merged','deleted_by_author'))::int`,
       answered: sql<number>`count(*) filter (where ${submissions.deletedAt} is null and ${submissions.status} in ('answered','published'))::int`,
@@ -85,7 +86,7 @@ export async function controlCenterSnapshot() {
   const topicRows = await db
     .select({ key: sql<string>`coalesce(${submissions.topic}, 'other')`, count: sql<number>`count(*)::int` })
     .from(submissions)
-    .where(and(isNull(submissions.deletedAt), gte(submissions.createdAt, since30)))
+    .where(and(isNull(submissions.deletedAt), sql`${submissions.createdAt} >= ${ts(since30)}`))
     .groupBy(sql`coalesce(${submissions.topic}, 'other')`)
     .orderBy(desc(sql`count(*)`));
 
@@ -96,7 +97,7 @@ export async function controlCenterSnapshot() {
       count: sql<number>`count(*)::int`,
     })
     .from(submissions)
-    .where(and(isNull(submissions.deletedAt), gte(submissions.createdAt, since7)))
+    .where(and(isNull(submissions.deletedAt), sql`${submissions.createdAt} >= ${ts(since7)}`))
     .groupBy(sql`to_char(timezone('Asia/Riyadh', ${submissions.createdAt}), 'YYYY-MM-DD')`, sql`coalesce(${submissions.topic}, 'other')`);
 
   const trendRows = await db
@@ -105,7 +106,7 @@ export async function controlCenterSnapshot() {
       count: sql<number>`count(*)::int`,
     })
     .from(submissions)
-    .where(and(isNull(submissions.deletedAt), gte(submissions.createdAt, since14)))
+    .where(and(isNull(submissions.deletedAt), sql`${submissions.createdAt} >= ${ts(since14)}`))
     .groupBy(sql`to_char(timezone('Asia/Riyadh', ${submissions.createdAt}), 'YYYY-MM-DD')`)
     .orderBy(asc(sql`to_char(timezone('Asia/Riyadh', ${submissions.createdAt}), 'YYYY-MM-DD')`));
 
