@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * حارس الخصوصية في CI: يفشل البناء إن ظهر في db/schema.ts أي عمود يعرّف بشخص.
+ * حارس الخصوصية في CI: يفشل البناء إن ظهر في أي ملف *schema.ts داخل db عمود يعرّف بشخص.
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 
 const FORBIDDEN = [
   /\bname\b/i,
@@ -17,7 +17,8 @@ const FORBIDDEN = [
   /\buser_?agent\b/i,
 ];
 
-const source = readFileSync("db/schema.ts", "utf8");
+const files = readdirSync("db").filter((file) => file.endsWith("schema.ts"));
+const source = files.map((file) => readFileSync(`db/${file}`, "utf8")).join("\n");
 // نفحص تعريفات الأعمدة والجداول فقط، لا التعليقات
 const code = source
   .split("\n")
@@ -30,4 +31,4 @@ if (offenders.length > 0) {
   console.error("✗ المخطط يحتوي عمودًا محظورًا:", offenders.map((r) => r.source).join(", "));
   process.exit(1);
 }
-console.log("✓ لا عمود يعرّف بشخص في db/schema.ts");
+console.log(`✓ لا عمود يعرّف بشخص في ${files.join(", ")}`);

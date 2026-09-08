@@ -11,6 +11,7 @@ test("لا تصل أي بيانات معرِّفة إلى التخزين ولا 
   await page.getByRole("button", { name: "إرسال المشاركة" }).click(); await expect(page).toHaveURL(/\/ask\/done/); const code = (await page.getByTestId("ref-code").innerText()).trim();
   const track = await page.request.get(`/api/track/${code}`, { headers: { "x-device-hash": "0".repeat(64) } }); const trackBody = JSON.stringify(await track.json()); for (const secret of Object.values(SECRETS)) expect(trackBody).not.toContain(secret);
   await page.goto("/admin/login"); await page.getByLabel("رمز الدخول").fill(PASSCODE); await page.getByRole("button", { name: "دخول" }).click(); await expect(page).toHaveURL(/\/admin$/);
+  await page.getByRole("tab", { name: "صندوق العمل", exact: true }).click();
   const inbox = await page.locator("main").innerText(); expect(inbox).toContain(marker); expect(inbox).toContain("معلومة معرِّفة أُزيلت"); for (const secret of Object.values(SECRETS)) expect(inbox).not.toContain(secret);
   await page.getByRole("button", { name: "تقرير الأسبوع", exact: true }).click(); const report = await page.getByTestId("weekly-report").innerText(); for (const secret of Object.values(SECRETS)) expect(report).not.toContain(secret); expect(report).not.toContain(marker); expect(report).toContain("مجمّع بالكامل");
 });
