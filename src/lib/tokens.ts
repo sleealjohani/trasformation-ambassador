@@ -73,6 +73,25 @@ export const ALLOWED_HEX: readonly string[] = [
   "#FFFFFF",
 ];
 
+/**
+ * لوحة الانتقال — تُستعمل في `src/app/intro.css` وحده.
+ * مشهد الافتتاح يصوّر علامتين لا علامة واحدة: الأخضر والذهبي لونا وزارة الصحة
+ * المنصرفة، وبقية القيم تدرّجات الظهور كما وردت في ملف الحركة المعتمد.
+ * لذلك يُستثنى ذلك الملف وحده من قاعدة «لا لون خارج اللوحة».
+ */
+export const TRANSITION_PALETTE: readonly string[] = [
+  "#009b72", "#a69b62", "#d3c88a", "#5fcfd0", "#27c3a4", "#59c8ef",
+  "#35c6a7", "#57d6de", "#edf8ff", "#f8ffff", "#79e0db", "#26a9d8",
+  "#e9fdff", "#68dbea", "#233f86", "#030708", "#071214", "#07111a",
+  "#071a28", "#112f6c", "#1c3d84", "#10285e", "#17336f",
+];
+
+/** ملفا مشهد الافتتاح وحدهما مستثنيان من فحص اللوحة. */
+export const PALETTE_EXEMPT_FILES: readonly string[] = [
+  "src/app/intro.css",
+  "src/components/app/Intro.tsx",
+];
+
 /** الاستدارة والمسافات والحركة */
 export const SHAPE = {
   spacingUnit: 4,

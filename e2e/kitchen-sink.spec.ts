@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 /**
  * تحقّق دخان للمرحلة صفر: صفحة نظام التصميم تعرض المكوّنات السبعة بحالاتها،

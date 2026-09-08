@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "دون اتصال — جسر الت�
 
 export default function OfflinePage() {
   return (
-    <AppShell title="دون اتصال">
+    <AppShell ask={false} title="دون اتصال">
       <OfflineBanner />
       <p className="text-body text-ink">{STRINGS.offline}</p>
       <p className="text-secondary text-muted">

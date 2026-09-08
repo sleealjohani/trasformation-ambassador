@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "سمعت أن… — جسر التح
 export default async function RumorsPage() {
   const rumors = await listPublishedRumors();
   return (
-    <AppShell title="سمعت أن…" subtitle="اكتب ما سمعته، وسيصدر الموقف الرسمي هنا بعد اعتماده.">
+    <AppShell ask={false} title="سمعت أن…" subtitle="اكتب ما سمعته، وسيصدر الموقف الرسمي هنا بعد اعتماده.">
       <RumorsPanel items={rumors.map(({ id, claim, count, verdict, officialText }) => ({ id, claim, count, verdict, officialText }))} />
     </AppShell>
   );

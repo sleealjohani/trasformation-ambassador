@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "المراجعة قبل الإرسا
 
 export default function ReviewPage() {
   return (
-    <AppShell title="راجع قبل الإرسال" back={{ href: "/ask", label: "رجوع" }}>
+    <AppShell ask={false} title="راجع قبل الإرسال" back={{ href: "/ask", label: "رجوع" }}>
       <ReviewForm />
     </AppShell>
   );

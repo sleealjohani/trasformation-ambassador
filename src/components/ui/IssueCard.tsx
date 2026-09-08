@@ -39,7 +39,7 @@ export function IssueCard({
     <article
       data-merged={merged ? "true" : undefined}
       className={cn(
-        "flex flex-col gap-3 rounded-card border border-line bg-panel p-4",
+        "lift surface-raise flex flex-col gap-3 rounded-card p-4",
         merged && "bg-panel-2",
       )}
     >
@@ -78,14 +78,16 @@ export function IssueCard({
           aria-pressed={voted}
           disabled={voted}
           className={cn(
-            "inline-flex items-center gap-2 rounded-button px-4 py-2 text-secondary",
-            "transition-colors duration-[120ms] ease-brand",
+            "group inline-flex min-h-11 items-center gap-2 rounded-button px-4 text-secondary",
+            "transition-all duration-[200ms] ease-brand active:scale-95",
             voted
               ? "cursor-default bg-tint font-bold text-hh-2736"
-              : "border border-line text-ink-soft hover:bg-panel-2",
+              : "border border-line text-ink-soft hover:border-hh-2736 hover:bg-tint hover:text-hh-2736",
           )}
         >
-          <Icon name="vote" size={14} />
+          <span className={cn("transition-transform duration-[260ms] ease-brand", voted ? "-translate-y-0.5" : "group-hover:-translate-y-0.5")}>
+            <Icon name={voted ? "check" : "vote"} size={14} />
+          </span>
           <span>{voted ? "سُجّل اهتمامك" : "هذا يشغلني أيضًا"}</span>
         </button>
       </div>

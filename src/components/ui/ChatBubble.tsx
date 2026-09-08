@@ -18,13 +18,13 @@ export function ChatBubble({ side, children, typing = false, failed = false, onR
   const isOutgoing = side === "outgoing";
 
   return (
-    <div className={cn("flex flex-col gap-1", isOutgoing ? "items-end" : "items-start")}>
+    <div className={cn("rise flex flex-col gap-1", isOutgoing ? "items-end" : "items-start")}>
       <div
         data-side={side}
         data-typing={typing ? "true" : undefined}
         data-failed={failed ? "true" : undefined}
         className={cn(
-          "max-w-[80%] rounded-card px-4 py-3 text-body",
+          "max-w-[80%] rounded-card px-4 py-3 text-body shadow-[0_2px_10px_-6px_rgb(15_42_68_/_0.3)]",
           isOutgoing
             ? "bg-hh-2736 text-panel rounded-ee-xs"
             : "border border-line bg-panel text-ink rounded-es-xs",

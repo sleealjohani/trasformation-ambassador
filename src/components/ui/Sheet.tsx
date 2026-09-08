@@ -52,7 +52,7 @@ function SheetPanel({ title, onClose, children, contained = false }: Omit<SheetP
         type="button"
         aria-label="إغلاق اللوح"
         onClick={onClose}
-        className="absolute inset-0 min-h-0 min-w-0 cursor-default bg-night/40"
+        className="fade-in absolute inset-0 min-h-0 min-w-0 cursor-default bg-night/40 backdrop-blur-[2px]"
       />
 
       <section
@@ -65,7 +65,7 @@ function SheetPanel({ title, onClose, children, contained = false }: Omit<SheetP
           transitionDuration: `${MOTION.exitMs}ms`,
           transitionTimingFunction: MOTION.easing,
         }}
-        className="relative w-full max-w-[430px] rounded-t-card border border-line bg-panel pb-4"
+        className="sheet-in relative w-full max-w-[430px] rounded-t-card border border-line bg-panel pb-4 shadow-[0_-16px_48px_-16px_rgb(15_42_68_/_0.35)]"
       >
         <div
           data-drag-handle

@@ -2,11 +2,17 @@
 
 import { SOUND_KEY, readLocal, writeLocal } from "./storage";
 
-/** التطبيق صامت عند أول فتح. مفتاح واحد، ونغمة ≤ ٣ ثوانٍ عند نجاح الإرسال فقط. */
+/**
+ * الصوت في المنصة موضعان لا ثالث لهما:
+ *  ١. نشيد الهوية في مقدمة الافتتاح — يعمل تلقائيًا بقرار صاحب المنتج، ومفتاح الكتم
+ *     ظاهر في المقدمة نفسها ويُحفظ الاختيار على الجهاز.
+ *  ٢. نغمة ≤ ٣ ثوانٍ عند نجاح الإرسال — لا شيء غيرها في أي مسار.
+ * ولا صوت إطلاقًا في لوحة سفير التغيير ولا مع الأخطاء.
+ */
 export const SOUND_MAX_MS = 3000;
 
 export function isSoundOn(): boolean {
-  return readLocal<boolean>(SOUND_KEY) === true;
+  return readLocal<boolean>(SOUND_KEY) !== false;
 }
 
 export function setSoundOn(on: boolean): void {

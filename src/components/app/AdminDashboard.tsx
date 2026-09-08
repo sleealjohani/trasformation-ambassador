@@ -140,8 +140,8 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
             onClick={() => (key === "rumors" ? void openRumors() : key === "report" ? void buildReport() : setTab(key))}
             className={
               tab === key
-                ? "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-hh-2736 bg-tint px-4 text-secondary font-bold text-hh-2736"
-                : "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-line bg-panel px-4 text-secondary text-ink-soft hover:bg-panel-2"
+                ? "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-hh-2736 bg-tint px-4 text-secondary font-bold text-hh-2736 transition-all duration-[180ms] ease-brand"
+                : "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-line bg-panel px-4 text-secondary text-ink-soft transition-all duration-[180ms] ease-brand hover:border-line-strong hover:bg-panel-2 active:scale-95"
             }
           >
             {label}
@@ -159,7 +159,7 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
         ) : (
           <div className="flex flex-col gap-4">
             {overdue.length > 0 ? (
-              <section aria-labelledby="overdue" className="flex flex-col gap-2 rounded-card border border-hh-072 bg-status-escalated-tint p-4">
+              <section aria-labelledby="overdue" className="rise flex flex-col gap-2 rounded-card border border-hh-072 bg-status-escalated-tint p-4">
                 <h2 id="overdue" className="flex items-center gap-2 text-card-title font-bold text-hh-072">
                   <Icon name="escalate" size={16} />
                   <span>متأخرات ({toArabicDigits(overdue.length)})</span>
@@ -181,12 +181,13 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
             ) : null}
 
             <ul className="flex flex-col gap-3">
-              {inbox.map((row) => (
+              {inbox.map((row, i) => (
                 <li key={row.id}>
                   <button
                     type="button"
                     onClick={() => setActive(row)}
-                    className="flex w-full flex-col gap-2 rounded-card border border-line bg-panel p-4 text-start hover:bg-panel-2"
+                    className="rise lift surface-raise flex w-full flex-col gap-2 rounded-card p-4 text-start"
+                    style={{ "--i": Math.min(i, 6) } as React.CSSProperties}
                   >
                     <span className="flex items-start justify-between gap-3">
                       <span className="text-body font-bold text-ink">{row.bodyClean ?? "— حُذف النص بطلب المرسل —"}</span>
@@ -209,9 +210,14 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
 
       {tab === "issues" ? (
         <ul className="flex flex-col gap-3">
-          {issues.map((issue) => (
+          {issues.map((issue, i) => (
             <li key={issue.id}>
-              <button type="button" onClick={() => setActiveIssue(issue)} className="flex w-full flex-col gap-2 rounded-card border border-line bg-panel p-4 text-start hover:bg-panel-2">
+              <button
+                type="button"
+                onClick={() => setActiveIssue(issue)}
+                className="rise lift surface-raise flex w-full flex-col gap-2 rounded-card p-4 text-start"
+                style={{ "--i": Math.min(i, 6) } as React.CSSProperties}
+              >
                 <span className="text-body font-bold text-ink">{issue.title}</span>
                 <span className="flex flex-wrap gap-x-3 text-secondary text-muted">
                   <span>{issue.topicLabel}</span>
@@ -232,9 +238,14 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
           <EmptyState icon="rumor" text="لا شائعات مرصودة." />
         ) : (
           <ul className="flex flex-col gap-3">
-            {rumors.map((r) => (
+            {rumors.map((r, i) => (
               <li key={r.id}>
-                <button type="button" onClick={() => setActiveRumor(r)} className="flex w-full flex-col gap-2 rounded-card border border-line bg-panel p-4 text-start hover:bg-panel-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveRumor(r)}
+                  className="rise lift surface-raise flex w-full flex-col gap-2 rounded-card p-4 text-start"
+                  style={{ "--i": Math.min(i, 6) } as React.CSSProperties}
+                >
                   <span className="text-body font-bold text-ink">«{r.claim}»</span>
                   <span className="flex flex-wrap gap-x-3 text-secondary text-muted">
                     <span>وردت {toArabicDigits(r.count)} مرة</span>
@@ -251,7 +262,7 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
       ) : null}
 
       {tab === "report" ? (
-        <section className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4">
+        <section className="rise surface-raise flex flex-col gap-3 rounded-card p-4">
           <h2 className="text-card-title font-bold text-ink">تقرير الأسبوع</h2>
           {busy && !report ? (
             <SkeletonList count={1} />

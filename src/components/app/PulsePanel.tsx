@@ -53,7 +53,7 @@ export function PulsePanel({ weeks, currentWeek }: { weeks: PulseWeek[]; current
   return (
     <div className="flex flex-col gap-4">
       {result === null ? (
-        <section aria-labelledby="q" className="flex flex-col gap-4 rounded-card border border-line bg-panel p-4">
+        <section aria-labelledby="q" className="rise surface-raise flex flex-col gap-4 rounded-card p-4">
           <h2 id="q" className="text-card-title font-bold text-ink">
             ما مدى وضوح التحول بالنسبة لك هذا الأسبوع؟
           </h2>
@@ -67,8 +67,8 @@ export function PulsePanel({ weeks, currentWeek }: { weeks: PulseWeek[]; current
                 onClick={() => setClarity(n)}
                 className={
                   clarity === n
-                    ? "flex min-h-11 items-center justify-between gap-3 rounded-button border border-hh-2736 bg-tint px-4 text-body font-bold text-hh-2736"
-                    : "flex min-h-11 items-center justify-between gap-3 rounded-button border border-line bg-panel px-4 text-body text-ink-soft hover:bg-panel-2"
+                    ? "flex min-h-11 items-center justify-between gap-3 rounded-button border border-hh-2736 bg-tint px-4 text-body font-bold text-hh-2736 transition-all duration-[180ms] ease-brand"
+                    : "flex min-h-11 items-center justify-between gap-3 rounded-button border border-line bg-panel px-4 text-body text-ink-soft transition-all duration-[180ms] ease-brand hover:border-line-strong hover:bg-panel-2 active:scale-[0.99]"
                 }
               >
                 <span>{SCALE_LABEL[n]}</span>
@@ -97,7 +97,7 @@ export function PulsePanel({ weeks, currentWeek }: { weeks: PulseWeek[]; current
           <p className="text-secondary text-muted">{STRINGS.privacyNotice}</p>
         </section>
       ) : (
-        <section className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4">
+        <section className="rise surface-raise flex flex-col gap-3 rounded-card p-4">
           <h2 className="flex items-center gap-2 text-card-title font-bold text-status-answered">
             <Icon name="check" size={22} />
             <span>وصل ردّك</span>
@@ -115,7 +115,7 @@ export function PulsePanel({ weeks, currentWeek }: { weeks: PulseWeek[]; current
 
       {error ? <ErrorState text={error} /> : null}
 
-      <section aria-labelledby="trend" className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4">
+      <section aria-labelledby="trend" className="surface-raise flex flex-col gap-3 rounded-card p-4">
         <h2 id="trend" className="text-card-title font-bold text-ink">
           الاتجاه
         </h2>
@@ -123,8 +123,8 @@ export function PulsePanel({ weeks, currentWeek }: { weeks: PulseWeek[]; current
           <p className="text-secondary text-muted">لا أسابيع سابقة بعد.</p>
         ) : (
           <ul className="flex flex-col gap-3">
-            {history.map((w) => (
-              <li key={w.week} className="flex flex-col gap-1">
+            {history.map((w, i) => (
+              <li key={w.week} className="rise flex flex-col gap-1" style={{ "--i": i } as React.CSSProperties}>
                 <div className="flex items-center justify-between gap-3 text-secondary">
                   <span className="text-ink-soft">{weekLabel(w.week)}</span>
                   <span className="code-ltr text-muted">
@@ -133,7 +133,7 @@ export function PulsePanel({ weeks, currentWeek }: { weeks: PulseWeek[]; current
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-tag bg-panel-2">
                   <div
-                    className="h-full rounded-tag bg-hh-2736"
+                    className="h-full rounded-tag bg-hh-2736 transition-[inline-size] duration-[900ms] ease-brand motion-reduce:transition-none"
                     style={{ inlineSize: `${((w.clarityIndex ?? 0) / max) * 100}%` }}
                   />
                 </div>

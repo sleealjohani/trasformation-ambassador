@@ -25,7 +25,7 @@ const ICON_GALLERY: readonly IconName[] = [
   "question", "concern", "challenge", "idea", "rumor",
   "dot", "eye", "forward", "clock", "check", "escalate",
   "home", "issues", "knowledge", "track",
-  "send", "retry", "close", "plus", "vote", "merge", "chevronDown", "drag",
+  "send", "retry", "close", "plus", "vote", "merge", "chevronDown", "drag", "lock", "spark", "journey", "pulse",
 ];
 
 function Section({

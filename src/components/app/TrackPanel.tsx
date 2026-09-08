@@ -89,7 +89,7 @@ function TrackPanelClient() {
   return (
     <div className="flex flex-col gap-4">
       <form
-        className="flex flex-col gap-3 rounded-card border border-line bg-panel p-4"
+        className="surface-raise flex flex-col gap-3 rounded-card p-4"
         onSubmit={(e) => {
           e.preventDefault();
           void lookup(code);
@@ -140,7 +140,7 @@ function TrackPanelClient() {
       {error ? <ErrorState text={error} /> : null}
 
       {result ? (
-        <section aria-labelledby="status" className="flex flex-col gap-4 rounded-card border border-line bg-panel p-4">
+        <section aria-labelledby="status" className="rise surface-raise flex flex-col gap-4 rounded-card p-4">
           <div className="flex items-start justify-between gap-3">
             <h2 id="status" className="text-card-title font-bold text-ink">
               حالة مشاركتك
@@ -165,10 +165,12 @@ function TrackPanelClient() {
             </p>
           ) : null}
 
-          <ol className="flex flex-col gap-3 border-t border-line pt-4">
+          {/* الخط الزمني: كل خطوة تدخل بعد التي قبلها، والخيط يصل بينها */}
+          <ol className="relative flex flex-col gap-4 border-t border-line pt-4">
+            <span aria-hidden className="absolute inset-block-start-[1.6rem] bottom-4 inset-inline-start-[14px] w-px bg-line" />
             {result.timeline.map((e, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="mt-1 inline-flex size-[30px] shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736">
+              <li key={i} className="rise relative flex items-start gap-3" style={{ "--i": i } as React.CSSProperties}>
+                <span className="draw relative z-10 inline-flex size-[30px] shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736 ring-4 ring-panel">
                   <Icon name="check" size={14} />
                 </span>
                 <span className="flex flex-col gap-1">

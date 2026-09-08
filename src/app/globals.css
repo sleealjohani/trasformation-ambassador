@@ -201,3 +201,169 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+/* ============================================================================
+   طبقة الحركة — الحركة تُظهر ما تغيّر، ولا تتحرك لمجرد الحركة.
+   كل ما هنا يتوقف تمامًا عند prefers-reduced-motion.
+   ============================================================================ */
+@layer utilities {
+  /* دخول متدرّج: العنصر يحمل --i لترتيبه في الصف */
+  .rise {
+    animation: rise 520ms var(--ease-brand) both;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+  /* إزاحة فقط بلا تصغير: التصغير يُنقص هدف اللمس عن ٤٤px أثناء الحركة */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .fade-in {
+    animation: fadeIn 420ms var(--ease-brand) both;
+    animation-delay: calc(var(--i, 0) * 50ms);
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* دخول الشاشة: يُطبَّق على غلاف المحتوى عند كل تنقّل */
+  .screen-in > * {
+    animation: rise 560ms var(--ease-brand) both;
+  }
+  .screen-in > *:nth-child(1) { animation-delay: 40ms; }
+  .screen-in > *:nth-child(2) { animation-delay: 100ms; }
+  .screen-in > *:nth-child(3) { animation-delay: 160ms; }
+  .screen-in > *:nth-child(4) { animation-delay: 220ms; }
+  .screen-in > *:nth-child(5) { animation-delay: 280ms; }
+  .screen-in > *:nth-child(n + 6) { animation-delay: 320ms; }
+
+  /* بطاقة تستجيب للمس: ترتفع قليلًا ثم تنضغط */
+  .lift {
+    transition:
+      transform 220ms var(--ease-brand),
+      box-shadow 220ms var(--ease-brand),
+      border-color 160ms ease;
+    will-change: transform;
+  }
+  .lift:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -12px rgb(15 42 68 / 0.22); }
+  .lift:active { transform: translateY(0) scale(0.988); transition-duration: 110ms; }
+
+  /* رسم الأيقونة عند الظهور */
+  .draw svg[data-icon] path {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+    animation: draw 900ms var(--ease-brand) forwards;
+    animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+  }
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* لمعان الهيكل العظمي أثناء التحميل */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+  @keyframes shimmer {
+    to { transform: translateX(100%); }
+  }
+
+  /* نبض خفيف لجذب الانتباه إلى الفعل الرئيسي — مرّتان فقط ثم يهدأ */
+  .beckon { animation: beckon 2.6s var(--ease-brand) 1.2s 2; }
+  @keyframes beckon {
+    0%, 100% { transform: none; }
+    8% { transform: translateY(-3px); }
+    16% { transform: none; }
+  }
+
+  /* هالة تتسع خلف زر الإرسال عند النجاح */
+  .burst::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid var(--color-status-answered);
+    animation: burst 700ms var(--ease-brand) forwards;
+  }
+  @keyframes burst {
+    from { opacity: 0.9; transform: scale(1); }
+    to { opacity: 0; transform: scale(1.35); }
+  }
+}
+
+@layer components {
+  /* السطح الفاخر: تدرّج خفيف داخل اللوحة + حد شعري */
+  .surface-raise {
+    background: linear-gradient(180deg, var(--color-panel) 0%, var(--color-panel-2) 100%);
+    border: 1px solid var(--color-line);
+    box-shadow: 0 1px 2px rgb(15 42 68 / 0.04), 0 8px 24px -18px rgb(15 42 68 / 0.28);
+  }
+
+  /* مؤشّر التبويب النشط ينزلق أسفل الأيقونة */
+  .tab-indicator {
+    position: absolute;
+    inset-block-start: 0;
+    block-size: 2px;
+    border-radius: 999px;
+    background: var(--color-hh-2736);
+    transition: inset-inline-start 280ms var(--ease-brand), inline-size 280ms var(--ease-brand);
+  }
+
+  /* زر عائم للفعل الرئيسي */
+  .fab {
+    position: fixed;
+    inset-block-end: calc(72px + env(safe-area-inset-bottom));
+    inset-inline-end: 16px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-block-size: 52px;
+    padding-inline: 20px;
+    border-radius: 999px;
+    background: var(--color-hh-2736);
+    color: var(--color-panel);
+    font-weight: 700;
+    box-shadow: 0 12px 32px -10px rgb(21 80 138 / 0.55);
+    transition: transform 220ms var(--ease-brand), box-shadow 220ms var(--ease-brand);
+  }
+  .fab:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -12px rgb(21 80 138 / 0.62); }
+  .fab:active { transform: scale(0.97); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .fade-in,
+  .screen-in > *,
+  .draw svg[data-icon] path,
+  .beckon,
+  .burst::before,
+  .shimmer::after {
+    animation: none !important;
+  }
+  .draw svg[data-icon] path { stroke-dashoffset: 0; }
+  .lift:hover,
+  .fab:hover { transform: none; }
+}
+
+@layer utilities {
+  /* اللوح السفلي ينزلق من الأسفل */
+  .sheet-in { animation: sheetIn 320ms var(--ease-brand) both; }
+  @keyframes sheetIn {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-in { animation: none !important; }
+}

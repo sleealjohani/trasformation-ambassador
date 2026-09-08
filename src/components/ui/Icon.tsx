@@ -36,12 +36,16 @@ const PATHS = {
   merge: "M7 20V9a4 4 0 0 1 4-4h6M14 8l3-3-3-3",
   chevronDown: "M6 9.5 12 15.5 18 9.5",
   drag: "M8 9h8M8 15h8",
+  lock: "M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1ZM12 15v2",
+  journey: "M5 19c0-3 3-3.5 5-4.5S15 12 15 9a3 3 0 0 0-6 0M5 19h14M18 5.5v3M16.5 7h3",
+  pulse: "M3 12h3.5l2-5.5 3 11 2.5-7 1.5 3.5H21",
+  spark: "M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.9 2.9M14.8 14.8l2.9 2.9M17.7 6.3l-2.9 2.9M9.2 14.8l-2.9 2.9",
 } as const;
 
 export type IconName = keyof typeof PATHS;
 
 /** الأيقونات الاتجاهية تُعكس مع اتجاه القراءة؛ غيرها لا يُعكس. */
-const DIRECTIONAL: ReadonlySet<IconName> = new Set<IconName>(["forward", "send", "merge"]);
+const DIRECTIONAL: ReadonlySet<IconName> = new Set<IconName>(["forward", "send", "merge", "journey"]);
 
 type IconProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
   name: IconName;
