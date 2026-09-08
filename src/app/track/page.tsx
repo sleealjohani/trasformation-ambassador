@@ -5,13 +5,4 @@ import { TrackPanel } from "@/components/app/TrackPanel";
 import { SkeletonList } from "@/components/ui/States";
 
 export const metadata: Metadata = { title: "متابعتي — جسر التحول", robots: { index: false } };
-
-export default function TrackPage() {
-  return (
-    <AppShell title="متابعتي" subtitle="كل مشاركة لها حالة ظاهرة. أدخل رمزك لترى أين وصلت.">
-      <Suspense fallback={<SkeletonList count={1} />}>
-        <TrackPanel />
-      </Suspense>
-    </AppShell>
-  );
-}
+export default function TrackPage() { return <AppShell title="متابعتي" subtitle="دخل رمزك وشوف وين وصلت مشاركتك وآخر تحديث عليها."><Suspense fallback={<SkeletonList count={1} />}><TrackPanel /></Suspense></AppShell>; }

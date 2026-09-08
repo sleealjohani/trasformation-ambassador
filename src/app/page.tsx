@@ -1,158 +1,59 @@
 import Link from "next/link";
 import { AppShell } from "@/components/app/AppShell";
-import { GateCard } from "@/components/ui/GateCard";
-import { Icon } from "@/components/ui/Icon";
+import { Icon, type IconName } from "@/components/ui/Icon";
 import { StatusTag } from "@/components/ui/StatusTag";
-import { EmptyState } from "@/components/ui/States";
 import { STRINGS } from "@/content/strings";
+import { OFFICIAL_TOPICS } from "@/content/official";
 import { toArabicDigits } from "@/lib/numerals";
 import { listIssues } from "@/server/issues";
-import { countUnclear } from "@/server/knowledge";
 
 export const dynamic = "force-dynamic";
 
-const GATES = [
-  { gate: "question", icon: "question" as const, title: STRINGS.gateTitles.question, hint: STRINGS.gateOpeners.question },
-  { gate: "concern", icon: "concern" as const, title: STRINGS.gateTitles.concern, hint: STRINGS.gateOpeners.concern },
-  { gate: "challenge", icon: "challenge" as const, title: STRINGS.gateTitles.challenge, hint: STRINGS.gateOpeners.challenge },
-  { gate: "idea", icon: "idea" as const, title: STRINGS.gateTitles.idea, hint: STRINGS.gateOpeners.idea },
+const ACTIONS: ReadonlyArray<{ href: string; icon: IconName; title: string; hint: string }> = [
+  { href: "/ask?gate=question", icon: "question", title: "عندي سؤال", hint: "اسأل عن أي شيء مو واضح لك" },
+  { href: "/ask?gate=concern", icon: "concern", title: "فيه شيء مقلقني", hint: "قول لنا وش شاغل بالك" },
+  { href: "/ask?gate=idea", icon: "idea", title: "عندي اقتراح", hint: "شارك فكرة تسهّل رحلة التحول" },
+  { href: "/pulse", icon: "pulse", title: "شارك برأيك", hint: "استطلاع سريع ياخذ أقل من دقيقة" },
 ];
 
-const SHORTCUTS = [
-  { href: "/knowledge", icon: "knowledge" as const, label: "جسر المعرفة" },
-  { href: "/journey", icon: "journey" as const, label: "رحلة التحول" },
-  { href: "/pulse", icon: "pulse" as const, label: "نبض التحول" },
-  { href: "/answers", icon: "check" as const, label: "الإجابات" },
-];
+const TOPIC_ICON: Record<string, IconName> = { salary: "wallet", contract: "copy", service: "clock", benefits: "spark", leave: "journey", qiwa: "track", transformation: "knowledge" };
 
 export default async function HomePage() {
-  const [issues, unclear] = await Promise.all([listIssues({ limit: 3 }), countUnclear()]);
-
+  const issues = await listIssues({ limit: 3 });
   return (
-    <AppShell title={STRINGS.appName} subtitle={STRINGS.promise} hero ask={false}>
-      {/* الفعل الرئيسي أولًا: لا يحتاج الموظف أن يبحث كيف يوصل صوته */}
-      <section aria-labelledby="gates" className="flex flex-col gap-3">
-        <div className="flex items-baseline justify-between gap-3">
-          <h2 id="gates" className="text-card-title font-bold text-ink">
-            بماذا نبدأ؟
-          </h2>
-          <span className="text-tag text-faint">مجهول تمامًا</span>
+    <AppShell title="وش بخاطرك عن التحول؟" subtitle={STRINGS.promise} hero ask={false}>
+      <section aria-labelledby="start" className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3"><h2 id="start" className="text-card-title font-bold text-ink">ابدأ من هنا</h2><span className="rounded-tag bg-tint px-3 py-1 text-tag font-bold text-hh-2736">بدون اسمك</span></div>
+        <div className="grid grid-cols-2 gap-3">
+          {ACTIONS.map((item, i) => (
+            <Link key={item.href} href={item.href} className="v2-action-card lift draw flex min-h-[142px] flex-col gap-3 rounded-card p-4" style={{ "--i": i } as React.CSSProperties}>
+              <span className="inline-flex size-9 items-center justify-center rounded-icon bg-tint text-hh-2736"><Icon name={item.icon} size={18} /></span>
+              <span className="text-card-title font-bold text-ink">{item.title}</span>
+              <span className="text-secondary text-muted">{item.hint}</span>
+            </Link>
+          ))}
         </div>
-
-        {GATES.map((g, i) => (
-          <Link key={g.gate} href={{ pathname: "/ask", query: { gate: g.gate } }} className="contents">
-            <GateCard icon={g.icon} title={g.title} hint={g.hint} asChild style={{ "--i": i } as React.CSSProperties} />
-          </Link>
-        ))}
-
-        <Link
-          href="/rumors"
-          className="lift draw group surface-raise flex min-h-11 items-center gap-3 rounded-card p-4 text-start"
-          style={{ "--i": 4 } as React.CSSProperties}
-        >
-          <span className="inline-flex size-[30px] shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736 transition-transform duration-[260ms] ease-brand group-hover:scale-110">
-            <Icon name="rumor" size={16} />
-          </span>
-          <span className="flex flex-1 flex-col">
-            <span className="text-card-title font-bold text-ink">{STRINGS.gateTitles.rumor}</span>
-            <span className="text-secondary text-muted">{STRINGS.gateOpeners.rumor}</span>
-          </span>
-          <span aria-hidden className="shrink-0 text-line-strong transition-all duration-[260ms] ease-brand group-hover:-translate-x-1 group-hover:text-hh-2736">
-            <Icon name="forward" size={18} />
-          </span>
-        </Link>
+        <Link href="/rumors" className="surface-raise lift flex min-h-11 items-center gap-3 rounded-card p-4"><span className="inline-flex size-9 shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736"><Icon name="rumor" size={18} /></span><span className="flex-1"><b className="block text-body text-ink">سمعت معلومة وتبي تتأكد؟</b><span className="text-secondary text-muted">أرسلها لنا ونوضح لك الموقف الرسمي</span></span><Icon name="forward" size={17} /></Link>
       </section>
+
+      <section aria-labelledby="official" className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3"><div><h2 id="official" className="text-card-title font-bold text-ink">يمكن جوابك موجود</h2><p className="text-secondary text-muted">معلومات مختصرة من مصادر الصحة القابضة الرسمية</p></div><Link href="/info" className="inline-flex min-h-11 items-center gap-1 text-secondary font-bold text-hh-2736">الكل <Icon name="forward" size={14} /></Link></div>
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {OFFICIAL_TOPICS.slice(0, 5).map((topic) => <Link key={topic.slug} href={{ pathname: "/info", query: { topic: topic.slug } }} className="surface-raise flex min-w-[128px] flex-col gap-2 rounded-card p-3"><Icon name={TOPIC_ICON[topic.slug] ?? "info"} size={18} /><span className="text-secondary font-bold text-ink">{topic.label}</span></Link>)}
+        </div>
+      </section>
+
+      <Link href="/videos" className="surface-dark lift relative flex min-h-[132px] flex-col justify-end overflow-hidden rounded-card p-4">
+        <span className="mb-5 inline-flex size-10 items-center justify-center rounded-tag bg-panel/10 text-panel"><Icon name="video" size={21} /></span>
+        <span className="text-card-title font-bold text-panel">مختصرات التحول</span><span className="mt-1 text-secondary text-on-dark">محتوى قصير من مصادر رسمية — اسحب وشوف اللي يهمك</span>
+      </Link>
 
       <section aria-labelledby="live" className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3">
-          <h2 id="live" className="text-card-title font-bold text-ink">
-            القضايا الحيّة
-          </h2>
-          <Link href="/issues" className="inline-flex min-h-11 items-center gap-1 text-secondary text-hh-2736 hover:underline">
-            <span>الكل</span>
-            <Icon name="forward" size={14} />
-          </Link>
-        </div>
-        {issues.length === 0 ? (
-          <EmptyState text={STRINGS.emptyIssues} />
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {issues.map((issue, i) => (
-              <li key={issue.id}>
-                <Link
-                  href="/issues"
-                  className="lift surface-raise flex min-h-11 items-center justify-between gap-3 rounded-card p-4"
-                  style={{ "--i": i } as React.CSSProperties}
-                >
-                  <span className="flex min-w-0 flex-col gap-1">
-                    <span className="text-body font-bold text-ink">{issue.title}</span>
-                    <span className="text-secondary text-muted">
-                      {issue.topicLabel} · {toArabicDigits(issue.weight)} مهتمًا
-                    </span>
-                  </span>
-                  <StatusTag
-                    status={
-                      issue.status === "answered"
-                        ? "answered"
-                        : issue.status === "referred"
-                          ? "referred"
-                          : issue.status === "waiting"
-                            ? "waiting"
-                            : "new"
-                    }
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className="flex items-center justify-between gap-3"><div><h2 id="live" className="text-card-title font-bold text-ink">أكثر الأشياء اللي تشغل الموظفين</h2><p className="text-secondary text-muted">المواضيع اللي عليها اهتمام الآن</p></div><Link href="/issues" className="inline-flex min-h-11 items-center gap-1 text-secondary font-bold text-hh-2736">شوف الكل <Icon name="forward" size={14} /></Link></div>
+        {issues.length === 0 ? <p className="surface-raise rounded-card p-4 text-secondary text-muted">{STRINGS.emptyIssues}</p> : <ul className="flex flex-col gap-2">{issues.map((issue) => <li key={issue.id}><Link href="/issues" className="surface-raise lift flex items-center justify-between gap-3 rounded-card p-4"><span className="min-w-0 flex-1"><b className="block text-body text-ink">{issue.title}</b><span className="text-secondary text-muted">{issue.topicLabel}{issue.weight > 0 ? ` · ${toArabicDigits(issue.weight)} مهتم` : ""}</span></span><StatusTag status={issue.status === "answered" ? "answered" : issue.status === "referred" ? "referred" : issue.status === "waiting" ? "waiting" : "new"} /></Link></li>)}</ul>}
       </section>
 
-      <section aria-labelledby="explore" className="flex flex-col gap-3">
-        <h2 id="explore" className="text-card-title font-bold text-ink">
-          تصفّح
-        </h2>
-        <ul className="grid grid-cols-2 gap-3">
-          {SHORTCUTS.map((s, i) => (
-            <li key={s.href}>
-              <Link
-                href={s.href}
-                className="lift draw group surface-raise flex min-h-11 flex-col gap-2 rounded-card p-4 text-hh-2736"
-                style={{ "--i": i } as React.CSSProperties}
-              >
-                <span className="inline-flex size-[30px] items-center justify-center rounded-icon bg-tint transition-transform duration-[260ms] ease-brand group-hover:scale-110">
-                  <Icon name={s.icon} size={16} />
-                </span>
-                <span className="text-secondary font-bold text-ink">{s.label}</span>
-                {s.href === "/knowledge" && unclear > 0 ? (
-                  <span className="text-tag text-muted">{toArabicDigits(unclear)} لم تتضح بعد</span>
-                ) : null}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="surface-raise flex flex-col gap-3 rounded-card p-4">
-        <h2 className="flex items-center gap-2 text-card-title font-bold text-ink">
-          <Icon name="spark" size={16} />
-          <span>كيف تعمل القناة؟</span>
-        </h2>
-        <ol className="flex flex-col gap-3">
-          {[
-            "تكتب ما يشغلك بلا اسم ولا رقم وظيفي.",
-            "ننقّي النص من أي معلومة قد تدلّ عليك، ثم يصل لسفير التغيير.",
-            "يحيله إلى فريق التحول، وتتابع الحالة برمزك حتى تُنشر الإجابة.",
-          ].map((step, i) => (
-            <li key={step} className="flex items-start gap-3 text-secondary text-ink-soft">
-              <span className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-tag bg-tint text-tag font-bold text-hh-2736">
-                {toArabicDigits(i + 1)}
-              </span>
-              <span>{step}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <Link href="/answers" className="surface-raise lift flex items-center gap-3 rounded-card p-4"><span className="inline-flex size-9 shrink-0 items-center justify-center rounded-icon bg-status-answered-tint text-status-answered"><Icon name="check" size={18} /></span><span className="flex-1"><b className="block text-body text-ink">آخر الإجابات</b><span className="text-secondary text-muted">شوف وش اتجاوب عليه من أسئلة الموظفين</span></span><Icon name="forward" size={17} /></Link>
     </AppShell>
   );
 }
