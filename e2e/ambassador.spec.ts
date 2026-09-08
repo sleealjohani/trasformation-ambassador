@@ -5,9 +5,9 @@ const PASSCODE = process.env.ADMIN_PASSCODE ?? "local-admin-passcode";
 
 async function submitConcern(page: Page, text: string): Promise<string> {
   await page.goto("/ask?gate=concern");
-  await page.getByLabel("اكتب بحرّية — الحقل مفتوح دائمًا").fill(text);
-  await page.getByRole("button", { name: "أرسل" }).click();
-  await page.getByRole("button", { name: "إنهاء الآن" }).click();
+  await page.getByLabel("اكتب مشاركتك").fill(text);
+  await page.getByRole("button", { name: "راجع وأرسل" }).click();
+  await expect(page).toHaveURL(/\/ask\/review/);
   await page.getByRole("button", { name: "إرسال المشاركة" }).click();
   await expect(page).toHaveURL(/\/ask\/done/);
   return (await page.getByTestId("ref-code").innerText()).trim();
