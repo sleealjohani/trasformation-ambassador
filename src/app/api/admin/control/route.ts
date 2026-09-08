@@ -36,19 +36,44 @@ export async function POST(req: NextRequest) {
     try {
       if (action === "faq.save") {
         const parsed = faqSchema.safeParse(raw); if (!parsed.success) return badRequest(parsed.error.flatten());
-        await saveFaq(parsed.data);
+        const data = parsed.data;
+        await saveFaq({
+          question: data.question,
+          topic: data.topic,
+          ...(data.id !== undefined ? { id: data.id } : {}),
+          ...(data.answer !== undefined ? { answer: data.answer } : {}),
+          ...(data.source !== undefined ? { source: data.source } : {}),
+        });
       } else if (action === "faq.import") {
         const parsed = importSchema.safeParse(raw); if (!parsed.success) return badRequest(parsed.error.flatten());
-        await importFaqs(parsed.data.rows);
+        await importFaqs(parsed.data.rows.map((row) => ({
+          question: row.question,
+          ...(row.answer !== undefined ? { answer: row.answer } : {}),
+          ...(row.source !== undefined ? { source: row.source } : {}),
+          ...(row.topic !== undefined ? { topic: row.topic } : {}),
+        })));
       } else if (action === "knowledge.save") {
         const parsed = knowledgeSchema.safeParse(raw); if (!parsed.success) return badRequest(parsed.error.flatten());
-        await saveKnowledge(parsed.data);
+        const data = parsed.data;
+        await saveKnowledge({ kind: data.kind, title: data.title, body: data.body, source: data.source, sort: data.sort, ...(data.id !== undefined ? { id: data.id } : {}) });
       } else if (action === "journey.save") {
         const parsed = journeySchema.safeParse(raw); if (!parsed.success) return badRequest(parsed.error.flatten());
-        await saveJourney(parsed.data);
+        const data = parsed.data;
+        await saveJourney({ sort: data.sort, title: data.title, state: data.state, whatHappens: data.whatHappens, employeeAction: data.employeeAction, openQuestions: data.openQuestions, ...(data.id !== undefined ? { id: data.id } : {}) });
       } else if (action === "media.save") {
         const parsed = mediaSchema.safeParse(raw); if (!parsed.success) return badRequest(parsed.error.flatten());
-        await saveMedia({ ...parsed.data, sourceUrl: parsed.data.sourceUrl || null });
+        const data = parsed.data;
+        await saveMedia({
+          title: data.title,
+          sourceLabel: data.sourceLabel,
+          sourceUrl: data.sourceUrl || null,
+          mediaUrl: data.mediaUrl,
+          published: data.published,
+          sort: data.sort,
+          ...(data.id !== undefined ? { id: data.id } : {}),
+          ...(data.slug !== undefined ? { slug: data.slug } : {}),
+          ...(data.storagePath !== undefined ? { storagePath: data.storagePath } : {}),
+        });
       } else if (action === "entity.delete") {
         const parsed = deleteSchema.safeParse(raw); if (!parsed.success) return badRequest(parsed.error.flatten());
         await deleteManaged(parsed.data.entity, parsed.data.id);
