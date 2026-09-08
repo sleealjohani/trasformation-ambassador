@@ -21,13 +21,20 @@ async function login(page: Page) {
   await expect(page.getByRole("heading", { name: "مركز تحكم سفير التغيير" })).toBeVisible();
 }
 
+async function selectControlTab(page: Page, name: string) {
+  const tab = page.getByRole("tab", { name, exact: true });
+  await tab.focus();
+  await tab.press("Enter");
+  await expect(tab).toHaveAttribute("aria-selected", "true");
+}
+
 /** مسار السفير من الوارد إلى نشر الإجابة ثم رجوع الموظف للمتابعة. */
 test("مسار سفير التغيير من التصنيف إلى نشر الإجابة", async ({ page }) => {
   const marker = `تدريب${Math.random().toString(36).slice(2, 8).replace(/[0-9]/g, "س")}`;
   const code = await submitConcern(page, `لا أعرف ما التدريب المطلوب قبل الانتقال ${marker}`);
 
   await login(page);
-  await page.getByRole("tab", { name: "صندوق العمل", exact: true }).click();
+  await selectControlTab(page, "صندوق العمل");
   await expect(page.getByRole("button", { name: "الوارد", exact: true })).toBeVisible();
 
   const row = page.getByRole("button").filter({ hasText: marker }).first();
@@ -70,15 +77,15 @@ test("مركز التحكم يعرض الداشبورد وHeatmap", async ({ pag
   await login(page);
   await expect(page.getByText("وش يحتاج انتباهك اليوم؟")).toBeVisible();
   await expect(page.getByText("خريطة الاهتمام")).toBeVisible();
-  await page.getByRole("tab", { name: "المحتوى", exact: true }).click();
+  await selectControlTab(page, "المحتوى");
   await expect(page.getByRole("tab", { name: "الأسئلة والإجابات" })).toBeVisible();
-  await page.getByRole("tab", { name: "المختصرات", exact: true }).click();
+  await selectControlTab(page, "المختصرات");
   await expect(page.getByText("قائمة المختصرات")).toBeVisible();
 });
 
 test("تقرير الأسبوع مجمّع بلا نص خام", async ({ page }) => {
   await login(page);
-  await page.getByRole("tab", { name: "صندوق العمل", exact: true }).click();
+  await selectControlTab(page, "صندوق العمل");
   await page.getByRole("button", { name: "تقرير الأسبوع", exact: true }).click();
   const report = page.getByTestId("weekly-report");
   await expect(report).toBeVisible();
