@@ -9,7 +9,7 @@ const VIDEO_VOLUME = 0.72;
 export function ShortsFeed() {
   const videos = useRef(new Map<string, HTMLVideoElement>());
   const activeId = useRef<string | null>(null);
-  const [needsTap, setNeedsTap] = useState(false);
+  const [needsTapId, setNeedsTapId] = useState<string | null>(null);
 
   const playActive = useCallback(async () => {
     const id = activeId.current;
@@ -23,22 +23,21 @@ export function ShortsFeed() {
     target.volume = VIDEO_VOLUME;
     try {
       await target.play();
-      setNeedsTap(false);
+      setNeedsTapId(null);
     } catch {
-      // iOS وبعض المتصفحات تمنع autoplay بصوت؛ أول لمسة لاحقة تعيد المحاولة.
-      setNeedsTap(true);
+      setNeedsTapId(id);
     }
   }, []);
 
   useEffect(() => {
+    const videoMap = videos.current;
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (!visible || visible.intersectionRatio < 0.62) return;
-        const id = (visible.target as HTMLElement).dataset.shortId ?? null;
-        activeId.current = id;
+        activeId.current = (visible.target as HTMLElement).dataset.shortId ?? null;
         void playActive();
       },
       { threshold: [0.35, 0.62, 0.85] },
@@ -51,7 +50,7 @@ export function ShortsFeed() {
     return () => {
       observer.disconnect();
       window.removeEventListener("pointerdown", retry);
-      videos.current.forEach((video) => video.pause());
+      videoMap.forEach((video) => video.pause());
     };
   }, [playActive]);
 
@@ -89,7 +88,7 @@ export function ShortsFeed() {
               <h2 className="max-w-[360px] text-[25px] font-bold leading-[1.55] text-panel">{item.title}</h2>
               <p className="mt-2 max-w-[360px] text-body text-on-dark">{item.summary}</p>
               {!src ? <p className="mt-3 rounded-button border border-panel/20 bg-panel/10 p-3 text-secondary text-on-dark">النسخة التجريبية تعرض المصدر بدون تحميل أي محتوى خارجي. أول ما نستلم ملف MP4 المعتمد، يشتغل هنا مباشرة.</p> : null}
-              {src && needsTap && activeId.current === item.id ? <button type="button" onClick={() => void playActive()} className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-tag bg-panel px-4 text-secondary font-bold text-night"><Icon name="volume" size={16} />اضغط لتشغيل صوت المقطع</button> : null}
+              {src && needsTapId === item.id ? <button type="button" onClick={() => void playActive()} className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-tag bg-panel px-4 text-secondary font-bold text-night"><Icon name="volume" size={16} />اضغط لتشغيل صوت المقطع</button> : null}
               <a href={item.sourceUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-tag bg-panel px-4 text-secondary font-bold text-night"><Icon name="info" size={15} />المصدر الرسمي</a>
             </div>
             <div className="relative z-10 mt-5 text-center text-tag text-on-dark">اسحب للأعلى للمقطع اللي بعده ↑</div>
