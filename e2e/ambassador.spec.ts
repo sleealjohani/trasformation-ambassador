@@ -27,7 +27,7 @@ test("مسار سفير التغيير من التصنيف إلى نشر الإ�
   const code = await submitConcern(page, `لا أعرف ما التدريب المطلوب قبل الانتقال ${marker}`);
 
   await login(page);
-  await page.getByRole("button", { name: "صندوق العمل", exact: true }).click();
+  await page.getByRole("tab", { name: "صندوق العمل", exact: true }).click();
   await expect(page.getByRole("button", { name: "الوارد", exact: true })).toBeVisible();
 
   const row = page.getByRole("button").filter({ hasText: marker }).first();
@@ -70,15 +70,15 @@ test("مركز التحكم يعرض الداشبورد وHeatmap", async ({ pag
   await login(page);
   await expect(page.getByText("وش يحتاج انتباهك اليوم؟")).toBeVisible();
   await expect(page.getByText("خريطة الاهتمام")).toBeVisible();
-  await page.getByRole("button", { name: "المحتوى", exact: true }).click();
+  await page.getByRole("tab", { name: "المحتوى", exact: true }).click();
   await expect(page.getByRole("tab", { name: "الأسئلة والإجابات" })).toBeVisible();
-  await page.getByRole("button", { name: "المختصرات", exact: true }).click();
+  await page.getByRole("tab", { name: "المختصرات", exact: true }).click();
   await expect(page.getByText("قائمة المختصرات")).toBeVisible();
 });
 
 test("تقرير الأسبوع مجمّع بلا نص خام", async ({ page }) => {
   await login(page);
-  await page.getByRole("button", { name: "صندوق العمل", exact: true }).click();
+  await page.getByRole("tab", { name: "صندوق العمل", exact: true }).click();
   await page.getByRole("button", { name: "تقرير الأسبوع", exact: true }).click();
   const report = page.getByTestId("weekly-report");
   await expect(report).toBeVisible();
