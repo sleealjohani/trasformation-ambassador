@@ -18,6 +18,11 @@
   visibility: visible;
   transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.7s linear;
 }
+/* من رأى المشهد في هذه الجلسة لا يراه ثانية، ويُخفى قبل أول رسم لا بعده */
+html[data-intro-seen="1"] .intro {
+  display: none;
+}
+
 .intro[data-complete="true"] {
   opacity: 0;
   visibility: hidden;
