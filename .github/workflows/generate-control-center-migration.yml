@@ -1,0 +1,39 @@
+name: Generate control center migration
+
+on:
+  push:
+    branches: [feat/ambassador-control-center]
+    paths:
+      - "db/media-schema.ts"
+      - "drizzle.config.ts"
+      - ".github/workflows/generate-control-center-migration.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/ambassador-control-center
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Generate Drizzle migration
+        run: pnpm db:generate --name=ambassador_control_center
+      - name: Commit generated migration
+        run: |
+          if git diff --quiet -- db/migrations; then
+            echo "No migration changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add db/migrations
+          git commit -m "db: add ambassador control center media schema"
+          git push origin HEAD:feat/ambassador-control-center
