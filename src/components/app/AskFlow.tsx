@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { STRINGS } from "@/content/strings";
 import { DRAFT_KEY, readLocal, writeLocal } from "@/lib/storage";
+import { toArabicDigits } from "@/lib/numerals";
+import { cn } from "@/lib/cn";
 import { SkeletonList } from "@/components/ui/States";
 import type { Gate } from "@/lib/classify";
 
@@ -102,8 +104,28 @@ function AskFlowClient({ gate, prefill }: { gate: Gate; prefill: string }) {
 
   const done = step > followUps.length;
 
+  const totalSteps = followUps.length + 1;
+  const stepNow = Math.min(step + 1, totalSteps);
+
   return (
     <div className="flex flex-col gap-4">
+      {/* مؤشّر التقدّم: ثلاث خطوات لا أكثر، ومَخرج «إنهاء الآن» متاح في كل واحدة */}
+      <div className="flex items-center gap-2" role="group" aria-label={`الخطوة ${stepNow} من ${totalSteps}`}>
+        {Array.from({ length: totalSteps }, (_, i) => (
+          <span
+            key={i}
+            aria-hidden
+            className={cn(
+              "h-1 flex-1 rounded-tag transition-all duration-[420ms] ease-brand",
+              i < stepNow ? "bg-hh-2736" : "bg-line",
+            )}
+          />
+        ))}
+        <span className="text-tag text-muted">
+          {toArabicDigits(stepNow)}/{toArabicDigits(totalSteps)}
+        </span>
+      </div>
+
       {restored ? (
         <p role="status" className="rounded-card border border-line bg-status-waiting-tint p-3 text-secondary text-hh-3145">
           استعدنا ما كتبته سابقًا. أكمل من حيث توقفت.

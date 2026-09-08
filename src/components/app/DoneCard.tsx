@@ -61,7 +61,7 @@ function DoneCardClient() {
         </p>
         <p className="text-secondary text-hh-072">{STRINGS.keepCode}</p>
         <Button variant="secondary" onClick={() => void copy()}>
-          <Icon name={copied ? "check" : "plus"} size={16} />
+          <Icon name={copied ? "check" : "copy"} size={16} />
           <span>{copied ? "نُسخ الرمز" : "نسخ الرمز"}</span>
         </Button>
       </section>

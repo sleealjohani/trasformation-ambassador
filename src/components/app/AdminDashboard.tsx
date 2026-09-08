@@ -277,7 +277,7 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
                   void navigator.clipboard.writeText(report.text).then(() => setCopied(true)).catch(() => setCopied(false));
                 }}
               >
-                <Icon name={copied ? "check" : "plus"} size={16} />
+                <Icon name={copied ? "check" : "copy"} size={16} />
                 <span>{copied ? "نُسخ" : "انسخ التقرير"}</span>
               </Button>
               <p className="text-secondary text-muted">مجمّع فقط — بلا نص خام، ولا تقسيم دون سبع مشاركات.</p>

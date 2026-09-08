@@ -62,7 +62,7 @@ export function AppShell({
         ) : null}
       </header>
 
-      <main className="screen-in flex flex-1 flex-col gap-4 px-4 pt-6 pb-28">
+      <main className="screen-in flex flex-1 flex-col gap-4 px-4 pt-6 pb-36">
         {children}
 
         <footer className="mt-6 flex flex-col items-center gap-3 border-t border-line pt-6 pb-2">
