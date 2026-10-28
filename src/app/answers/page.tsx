@@ -5,13 +5,5 @@ import { listFaqs } from "@/server/faqs";
 import { listTopics } from "@/server/topics";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "الأسئلة والإجابات — جسر التحول", robots: { index: false } };
-
-export default async function AnswersPage() {
-  const [items, topics] = await Promise.all([listFaqs(), listTopics()]);
-  return (
-    <AppShell title="الأسئلة والإجابات" subtitle="أسئلة بناها الموظفون. السؤال بلا إجابة يبقى ظاهرًا بحالته.">
-      <AnswersList items={items} topics={topics} />
-    </AppShell>
-  );
-}
+export const metadata: Metadata = { title: "إجابات تهمك — جسر التحول", robots: { index: false } };
+export default async function AnswersPage() { const [items, topics] = await Promise.all([listFaqs(), listTopics()]); return <AppShell title="إجابات تهمك" subtitle="أسئلة وصلت من الموظفين، والإجابة الرسمية تظهر أول ما تعتمد."><AnswersList items={items} topics={topics} /></AppShell>; }
