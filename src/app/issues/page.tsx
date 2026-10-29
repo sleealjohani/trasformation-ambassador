@@ -28,7 +28,7 @@ export default async function IssuesPage() {
           voted,
         }))}
       />
-      <Link href="/answers" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-button border border-line bg-panel px-4 text-secondary text-hh-2736 hover:bg-panel-2">
+      <Link href="/answers" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-button border border-line bg-panel px-4 text-note text-primary-ink hover:bg-section">
         <Icon name="check" size={16} />
         <span>كل الأسئلة والإجابات</span>
       </Link>

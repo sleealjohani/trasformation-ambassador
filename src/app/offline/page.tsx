@@ -10,7 +10,7 @@ export default function OfflinePage() {
     <AppShell ask={false} title="دون اتصال">
       <OfflineBanner />
       <p className="text-body text-ink">{STRINGS.offline}</p>
-      <p className="text-secondary text-muted">
+      <p className="text-note text-muted">
         ما سبق أن فتحته من القضايا وجسر المعرفة والإجابات يبقى متاحًا للقراءة. الإرسال يستأنف تلقائيًا عند عودة الشبكة.
       </p>
     </AppShell>

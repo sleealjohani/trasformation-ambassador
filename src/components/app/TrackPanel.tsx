@@ -107,7 +107,7 @@ function TrackPanelClient() {
           autoComplete="off"
           maxLength={12}
           placeholder="J7K4M2QP"
-          className="code-ltr w-full rounded-button border border-line bg-panel-2 px-4 py-3 text-center text-code tracking-widest text-ink outline-none focus-visible:border-hh-2736"
+          className="code-ltr w-full rounded-button border border-line bg-section px-4 py-3 text-center text-code tracking-widest text-ink outline-none focus-visible:border-primary"
         />
         <Button type="submit" full disabled={loading}>
           <Icon name="track" size={16} />
@@ -117,7 +117,7 @@ function TrackPanelClient() {
 
       {saved.length > 0 && !result ? (
         <section className="flex flex-col gap-2">
-          <h2 className="text-secondary text-muted">رموز محفوظة على هذا الجهاز</h2>
+          <h2 className="text-note text-muted">رموز محفوظة على هذا الجهاز</h2>
           <div className="flex flex-wrap gap-2">
             {saved.map((c) => (
               <button
@@ -127,7 +127,7 @@ function TrackPanelClient() {
                   setCode(c);
                   void lookup(c);
                 }}
-                className="code-ltr inline-flex min-h-11 items-center rounded-tag border border-line bg-panel px-4 text-secondary text-hh-2736 hover:bg-panel-2"
+                className="code-ltr inline-flex min-h-11 items-center rounded-tag border border-line bg-panel px-4 text-note text-primary-ink hover:bg-section"
               >
                 {c}
               </button>
@@ -148,19 +148,19 @@ function TrackPanelClient() {
             <StatusTag status={result.status} />
           </div>
 
-          <p className="text-secondary text-muted">
+          <p className="text-note text-muted">
             التصنيف: {result.topic}
             {result.similarCount > 0 ? ` · ${toArabicDigits(result.similarCount)} مشاركة مشابهة` : " · لا مشاركات مشابهة بعد"}
           </p>
 
           {result.overdue ? (
-            <p role="status" className="rounded-button border border-hh-072 bg-status-escalated-tint p-3 text-secondary text-hh-072">
+            <p role="status" className="rounded-button border border-error bg-status-escalated-tint p-3 text-note text-error">
               {STRINGS.slaBreached}
             </p>
           ) : null}
 
           {result.deleted ? (
-            <p className="rounded-button border border-line bg-panel-2 p-3 text-secondary text-muted">
+            <p className="rounded-button border border-line bg-section p-3 text-note text-muted">
               حُذف نص مشاركتك بناءً على طلبك. بقي العدّاد المجمّع فقط.
             </p>
           ) : null}
@@ -170,13 +170,13 @@ function TrackPanelClient() {
             <span aria-hidden className="absolute inset-block-start-[1.6rem] bottom-4 inset-inline-start-[14px] w-px bg-line" />
             {result.timeline.map((e, i) => (
               <li key={i} className="rise relative flex items-start gap-3" style={{ "--i": i } as React.CSSProperties}>
-                <span className="draw relative z-10 inline-flex size-[30px] shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736 ring-4 ring-panel">
+                <span className="draw relative z-10 inline-flex size-[30px] shrink-0 items-center justify-center rounded-icon bg-tint text-primary ring-4 ring-panel">
                   <Icon name="check" size={14} />
                 </span>
                 <span className="flex flex-col gap-1">
                   <StatusTag status={e.state} />
-                  <span className="text-secondary text-muted">{formatDate(e.at)}</span>
-                  {e.note ? <span className="text-secondary text-ink-soft">{e.note}</span> : null}
+                  <span className="text-note text-muted">{formatDate(e.at)}</span>
+                  {e.note ? <span className="text-note text-ink-soft">{e.note}</span> : null}
                 </span>
               </li>
             ))}

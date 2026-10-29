@@ -18,9 +18,9 @@ export function Button({ variant = "primary", full = false, className, children,
         "transition-all duration-[180ms] ease-brand active:scale-[0.98]",
         "disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100",
         variant === "primary" &&
-          "bg-hh-2736 font-bold text-panel shadow-[0_8px_24px_-12px_rgb(21_80_138_/_0.7)] hover:bg-hh-072 hover:shadow-[0_12px_28px_-12px_rgb(21_80_138_/_0.8)]",
-        variant === "secondary" && "border border-line bg-panel text-hh-2736 hover:border-hh-2736 hover:bg-tint",
-        variant === "ghost" && "text-hh-2736 hover:bg-tint",
+          "bg-primary font-bold text-panel shadow-[0_8px_24px_-12px_rgb(21_80_138_/_0.7)] hover:bg-error hover:shadow-[0_12px_28px_-12px_rgb(21_80_138_/_0.8)]",
+        variant === "secondary" && "border border-line bg-panel text-primary hover:border-primary hover:bg-tint",
+        variant === "ghost" && "text-primary hover:bg-tint",
         full && "w-full",
         className,
       )}

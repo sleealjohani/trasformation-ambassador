@@ -15,19 +15,20 @@ export default async function AdminLoginPage() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col bg-bg">
       <header className="surface-dark px-4 pt-10 pb-9">
+        {/* النسخة البيضاء على #103F4B أو أغمق — قاعدة الدليل. لا فلتر على الشعار. */}
         <Image
-          src="/brand/health-holding-lockup.webp"
-          alt="شعار شركة الصحة القابضة"
-          width={132}
-          height={132}
+          src="/brand/hadithah-logo-white.svg"
+          alt="شعار مستشفى الحديثة العام"
+          width={128}
+          height={122}
           priority
-          className="brand-lockup--light fade-in h-auto w-[112px]"
+          className="fade-in h-auto w-[96px]"
         />
         <h1 className="rise mt-6 flex items-center gap-2 text-screen-title font-bold" style={{ "--i": 1 } as React.CSSProperties}>
           <Icon name="lock" size={20} />
           <span>لوحة سفير التغيير</span>
         </h1>
-        <p className="rise mt-2 text-body text-on-dark" style={{ "--i": 2 } as React.CSSProperties}>
+        <p className="rise mt-2 text-body text-inverse-muted" style={{ "--i": 2 } as React.CSSProperties}>
           الدخول برمز واحد. لا حساب مستخدم ولا بريد ولا كلمة مرور شخصية.
         </p>
       </header>
@@ -36,7 +37,7 @@ export default async function AdminLoginPage() {
         <AdminLogin />
 
         <section className="surface-raise flex flex-col gap-2 rounded-card p-4">
-          <h2 className="text-secondary font-bold text-ink">ما الذي تديره من هنا؟</h2>
+          <h2 className="text-note font-bold text-ink">ما الذي تديره من هنا؟</h2>
           <ul className="flex flex-col gap-2">
             {[
               "الوارد مرتّبًا بالإلحاح، ومعه صندوق «يحتاج قراءة»",
@@ -44,8 +45,8 @@ export default async function AdminLoginPage() {
               "نشر الإجابات المعتمدة بمصدر إلزامي، ومواقف الشائعات",
               "تقرير الأسبوع مجمّعًا بلا نص خام",
             ].map((line) => (
-              <li key={line} className="flex items-start gap-2 text-secondary text-ink-soft">
-                <span className="mt-1 text-hh-2736">
+              <li key={line} className="flex items-start gap-2 text-note text-ink-soft">
+                <span className="mt-1 text-primary">
                   <Icon name="check" size={14} />
                 </span>
                 <span>{line}</span>
@@ -56,7 +57,7 @@ export default async function AdminLoginPage() {
 
         <Link
           href="/"
-          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-button border border-line bg-panel px-4 text-secondary text-ink-soft transition-colors duration-[120ms] hover:bg-panel-2"
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-button border border-line bg-panel px-4 text-note text-ink-soft transition-colors duration-[120ms] hover:bg-section"
         >
           <Icon name="forward" size={16} />
           <span>رجوع لواجهة الموظف</span>

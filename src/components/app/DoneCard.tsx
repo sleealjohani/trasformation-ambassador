@@ -56,10 +56,10 @@ function DoneCardClient() {
         <h2 id="code" className="text-card-title font-bold text-ink">
           رمز المتابعة
         </h2>
-        <p data-testid="ref-code" className="code-ltr rounded-button bg-tint px-4 py-3 text-center text-code font-bold tracking-widest text-hh-2736">
+        <p data-testid="ref-code" className="code-ltr rounded-button bg-tint px-4 py-3 text-center text-code font-bold tracking-widest text-primary">
           {result.refCode}
         </p>
-        <p className="text-secondary text-hh-072">{STRINGS.keepCode}</p>
+        <p className="text-note text-error">{STRINGS.keepCode}</p>
         <Button variant="secondary" onClick={() => void copy()}>
           <Icon name={copied ? "check" : "copy"} size={16} />
           <span>{copied ? "نُسخ الرمز" : "نسخ الرمز"}</span>
@@ -72,13 +72,13 @@ function DoneCardClient() {
         </h2>
         <ul className="flex flex-col gap-2">
           {SLA_ROWS.map((row) => (
-            <li key={row.step} className="flex items-center justify-between gap-3 border-b border-line pb-2 text-secondary last:border-0 last:pb-0">
+            <li key={row.step} className="flex items-center justify-between gap-3 border-b border-line pb-2 text-note last:border-0 last:pb-0">
               <span className="text-ink-soft">{row.step}</span>
               <span className="text-muted">خلال {row.within}</span>
             </li>
           ))}
         </ul>
-        <p className="text-secondary text-muted">
+        <p className="text-note text-muted">
           التصنيف: {result.topic}
           {result.similarCount > 0 ? ` · ${toArabicDigits(result.similarCount)} مشاركة مشابهة وصلت قبلك` : ""}
         </p>

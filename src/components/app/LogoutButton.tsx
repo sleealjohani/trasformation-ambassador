@@ -14,7 +14,7 @@ export function LogoutButton() {
           router.refresh();
         });
       }}
-      className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-button border border-on-dark px-3 text-secondary text-on-dark"
+      className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-button border border-inverse-muted px-3 text-note text-inverse-muted"
     >
       <Icon name="close" size={16} />
       <span>خروج</span>

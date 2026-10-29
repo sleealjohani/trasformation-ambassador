@@ -140,8 +140,8 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
             onClick={() => (key === "rumors" ? void openRumors() : key === "report" ? void buildReport() : setTab(key))}
             className={
               tab === key
-                ? "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-hh-2736 bg-tint px-4 text-secondary font-bold text-hh-2736 transition-all duration-[180ms] ease-brand"
-                : "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-line bg-panel px-4 text-secondary text-ink-soft transition-all duration-[180ms] ease-brand hover:border-line-strong hover:bg-panel-2 active:scale-95"
+                ? "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-primary bg-tint px-4 text-note font-bold text-primary-ink transition-all duration-[180ms] ease-brand"
+                : "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-line bg-panel px-4 text-note text-ink-soft transition-all duration-[180ms] ease-brand hover:border-control-border hover:bg-section active:scale-95"
             }
           >
             {label}
@@ -159,14 +159,14 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
         ) : (
           <div className="flex flex-col gap-4">
             {overdue.length > 0 ? (
-              <section aria-labelledby="overdue" className="rise flex flex-col gap-2 rounded-card border border-hh-072 bg-status-escalated-tint p-4">
-                <h2 id="overdue" className="flex items-center gap-2 text-card-title font-bold text-hh-072">
+              <section aria-labelledby="overdue" className="rise flex flex-col gap-2 rounded-card border border-error bg-status-escalated-tint p-4">
+                <h2 id="overdue" className="flex items-center gap-2 text-card-title font-bold text-error">
                   <Icon name="escalate" size={16} />
                   <span>متأخرات ({toArabicDigits(overdue.length)})</span>
                 </h2>
                 <ul className="flex flex-col gap-1">
                   {overdue.slice(0, 5).map((r) => (
-                    <li key={r.id} className="text-secondary text-hh-072">
+                    <li key={r.id} className="text-note text-error">
                       {r.issueTitle ?? r.bodyClean?.slice(0, 60) ?? "—"}
                     </li>
                   ))}
@@ -175,7 +175,7 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
             ) : null}
 
             {needsReading.length > 0 ? (
-              <p className="rounded-card border border-line bg-status-waiting-tint p-3 text-secondary text-hh-3145">
+              <p className="rounded-card border border-line bg-status-waiting-tint p-3 text-note text-primary-ink">
                 {toArabicDigits(needsReading.length)} مشاركة في صندوق «يحتاج قراءة» — ثقة التصنيف دون ٠٫٦.
               </p>
             ) : null}
@@ -193,12 +193,12 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
                       <span className="text-body font-bold text-ink">{row.bodyClean ?? "— حُذف النص بطلب المرسل —"}</span>
                       <StatusTag status={toVisibleStatus(row.status as SubmissionState, row.overdue)} />
                     </span>
-                    <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-secondary text-muted">
+                    <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-note text-muted">
                       <span>إلحاح {toArabicDigits(Math.round(row.score * 100))}٪</span>
                       <span>{topics.find((t) => t.slug === row.topic)?.label ?? "بلا تصنيف"}</span>
                       <span>{toArabicDigits(row.similarCount)} مشابهة</span>
                       <span>{fmt(row.createdAt)}</span>
-                      {row.needsReading ? <span className="text-hh-3145">يحتاج قراءة</span> : null}
+                      {row.needsReading ? <span className="text-primary">يحتاج قراءة</span> : null}
                     </span>
                   </button>
                 </li>
@@ -219,11 +219,11 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
                 style={{ "--i": Math.min(i, 6) } as React.CSSProperties}
               >
                 <span className="text-body font-bold text-ink">{issue.title}</span>
-                <span className="flex flex-wrap gap-x-3 text-secondary text-muted">
+                <span className="flex flex-wrap gap-x-3 text-note text-muted">
                   <span>{issue.topicLabel}</span>
                   <span>وزن {toArabicDigits(issue.weight)}</span>
                   <span>{issue.status}</span>
-                  {issue.needsReview ? <span className="text-hh-3145">قضية جديدة تحتاج مراجعة</span> : null}
+                  {issue.needsReview ? <span className="text-primary">قضية جديدة تحتاج مراجعة</span> : null}
                 </span>
               </button>
             </li>
@@ -247,12 +247,12 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
                   style={{ "--i": Math.min(i, 6) } as React.CSSProperties}
                 >
                   <span className="text-body font-bold text-ink">«{r.claim}»</span>
-                  <span className="flex flex-wrap gap-x-3 text-secondary text-muted">
+                  <span className="flex flex-wrap gap-x-3 text-note text-muted">
                     <span>وردت {toArabicDigits(r.count)} مرة</span>
                     <span>{r.verdict}</span>
-                    {r.needsEscalation ? <span className="text-hh-072">تحتاج تصعيدًا</span> : null}
-                    {r.needsReview ? <span className="text-hh-072">تذكر اسمًا — محجوبة</span> : null}
-                    {r.overdue ? <span className="text-hh-072">تجاوزت ٤٨ ساعة</span> : null}
+                    {r.needsEscalation ? <span className="text-error">تحتاج تصعيدًا</span> : null}
+                    {r.needsReview ? <span className="text-error">تذكر اسمًا — محجوبة</span> : null}
+                    {r.overdue ? <span className="text-error">تجاوزت ٤٨ ساعة</span> : null}
                   </span>
                 </button>
               </li>
@@ -268,7 +268,7 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
             <SkeletonList count={1} />
           ) : report ? (
             <>
-              <pre data-testid="weekly-report" className="whitespace-pre-wrap rounded-button border border-line bg-panel-2 p-3 text-secondary text-ink">
+              <pre data-testid="weekly-report" className="whitespace-pre-wrap rounded-button border border-line bg-section p-3 text-note text-ink">
                 {report.text}
               </pre>
               <Button
@@ -280,7 +280,7 @@ export function AdminDashboard({ topics, initialInbox, initialIssues }: { topics
                 <Icon name={copied ? "check" : "copy"} size={16} />
                 <span>{copied ? "نُسخ" : "انسخ التقرير"}</span>
               </Button>
-              <p className="text-secondary text-muted">مجمّع فقط — بلا نص خام، ولا تقسيم دون سبع مشاركات.</p>
+              <p className="text-note text-muted">مجمّع فقط — بلا نص خام، ولا تقسيم دون سبع مشاركات.</p>
             </>
           ) : null}
           <Button onClick={() => void buildReport()} disabled={busy}>
@@ -310,10 +310,10 @@ function SubmissionSheet({ row, topics, issues, busy, onClose, onAct }: { row: I
   return (
     <Sheet open title="إجراءات على المشاركة" onClose={onClose}>
       <div className="flex max-h-[70vh] flex-col gap-4 overflow-y-auto pb-4">
-        <p className="rounded-button border border-line bg-panel-2 p-3 text-body text-ink">{row.bodyClean ?? "— حُذف النص —"}</p>
+        <p className="rounded-button border border-line bg-section p-3 text-body text-ink">{row.bodyClean ?? "— حُذف النص —"}</p>
         {row.answersClean
           ? Object.entries(row.answersClean).map(([k, v]) => (
-              <p key={k} className="text-secondary text-ink-soft">
+              <p key={k} className="text-note text-ink-soft">
                 {v}
               </p>
             ))
@@ -335,10 +335,10 @@ function SubmissionSheet({ row, topics, issues, busy, onClose, onAct }: { row: I
               </Chip>
             ))}
           </div>
-          <label htmlFor="urgency" className="text-secondary text-muted">
+          <label htmlFor="urgency" className="text-note text-muted">
             الإلحاح: {toArabicDigits(urgency)}
           </label>
-          <input id="urgency" type="range" min={1} max={5} value={urgency} onChange={(e) => setUrgency(Number(e.target.value))} className="accent-hh-2736" />
+          <input id="urgency" type="range" min={1} max={5} value={urgency} onChange={(e) => setUrgency(Number(e.target.value))} className="accent-primary" />
           <Button disabled={busy} onClick={() => void onAct(() => apiSend(`/api/admin/submissions/${row.id}/classify`, { topic, type, urgency }))}>
             احفظ التصنيف
           </Button>
@@ -420,7 +420,7 @@ function IssueSheet({ issue, busy, onClose, onAct }: { issue: IssueRow; busy: bo
             placeholder="المصدر (إلزامي)"
             className="min-h-11 w-full rounded-button border border-line bg-panel px-3 text-body text-ink"
           />
-          <p className="text-secondary text-muted">لا تُنشر إجابة بلا مصدر.</p>
+          <p className="text-note text-muted">لا تُنشر إجابة بلا مصدر.</p>
           <Button disabled={busy || answer.trim().length < 5 || source.trim().length < 2} onClick={() => void onAct(() => apiSend("/api/admin/answers", { issueId: issue.id, answer, source }))}>
             انشر الإجابة
           </Button>
@@ -444,7 +444,7 @@ function RumorSheet({ rumor, busy, onClose, onAct }: { rumor: RumorRow; busy: bo
   return (
     <Sheet open title="موقف من شائعة" onClose={onClose}>
       <div className="flex flex-col gap-4 pb-4">
-        <p className="rounded-button border border-line bg-panel-2 p-3 text-body text-ink">«{rumor.claim}»</p>
+        <p className="rounded-button border border-line bg-section p-3 text-body text-ink">«{rumor.claim}»</p>
         <div className="flex flex-wrap gap-2">
           {options.map((o) => (
             <Chip key={o.value} selected={verdict === o.value} onClick={() => setVerdict(o.value)}>

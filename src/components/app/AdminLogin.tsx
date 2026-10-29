@@ -42,7 +42,7 @@ export function AdminLogin() {
         value={passcode}
         onChange={(e) => setPasscode(e.target.value)}
         autoComplete="off"
-        className="w-full rounded-button border border-line bg-panel-2 px-4 py-3 text-body text-ink outline-none focus-visible:border-hh-2736"
+        className="w-full rounded-button border border-line bg-section px-4 py-3 text-body text-ink outline-none focus-visible:border-primary"
       />
       <Button type="submit" full disabled={busy || passcode.length === 0}>
         {busy ? "جارٍ التحقق…" : "دخول"}

@@ -55,9 +55,9 @@ function ReviewFormClient() {
   const answerLines = Object.entries(cleaned.answers).filter(([, v]) => v.trim().length > 0);
   return <div className="flex flex-col gap-4">
     {!online ? <OfflineBanner /> : null}
-    <section aria-labelledby="what-arrives" className="surface-raise flex flex-col gap-3 rounded-card p-4"><h2 id="what-arrives" className="text-card-title font-bold text-ink">هذا اللي بيروح لسفير التغيير</h2><p className="whitespace-pre-wrap text-body text-ink">{cleaned.body}</p>{answerLines.map(([key, value]) => <p key={key} className="border-t border-line pt-3 text-secondary text-ink-soft">{STRINGS.followUps.find((f) => f.key === key)?.question}<span className="mt-1 block text-body text-ink">{value}</span></p>)}</section>
-    {cleaned.hits > 0 ? <p role="status" className="flex items-center gap-2 rounded-card border border-line bg-status-waiting-tint p-3 text-secondary text-hh-3145"><Icon name="eye" size={16} /><span>{STRINGS.redactionNotice}</span></p> : null}
-    <div className="rounded-card bg-tint p-3 text-secondary text-ink-soft"><b className="block text-ink">قبل الإرسال</b> ما نطلب منك اسم أو رقم وظيفي، والنص اللي فوق هو النسخة المنقّاة اللي بتنحفظ.</div>
+    <section aria-labelledby="what-arrives" className="surface-raise flex flex-col gap-3 rounded-card p-4"><h2 id="what-arrives" className="text-card-title font-bold text-ink">هذا اللي بيروح لسفير التغيير</h2><p className="whitespace-pre-wrap text-body text-ink">{cleaned.body}</p>{answerLines.map(([key, value]) => <p key={key} className="border-t border-line pt-3 text-note text-ink-soft">{STRINGS.followUps.find((f) => f.key === key)?.question}<span className="mt-1 block text-body text-ink">{value}</span></p>)}</section>
+    {cleaned.hits > 0 ? <p role="status" className="flex items-center gap-2 rounded-card border border-line bg-status-waiting-tint p-3 text-note text-primary-ink"><Icon name="eye" size={16} /><span>{STRINGS.redactionNotice}</span></p> : null}
+    <div className="rounded-card bg-tint p-3 text-note text-ink-soft"><b className="block text-ink">قبل الإرسال</b> ما نطلب منك اسم أو رقم وظيفي، والنص اللي فوق هو النسخة المنقّاة اللي بتنحفظ.</div>
     {error ? <ErrorState text={error} onRetry={() => void submit()} /> : null}
     <div className="flex flex-col gap-2"><Button full onClick={() => void submit()} disabled={sending}>{sending ? "جاري الإرسال…" : STRINGS.submitButton}</Button><Button variant="ghost" full onClick={() => router.push(`/ask?gate=${draft.gate}`)}>رجوع للتعديل</Button></div>
   </div>;

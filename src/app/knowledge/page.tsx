@@ -34,8 +34,8 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
             aria-current={tab.kind === kind ? "page" : undefined}
             className={
               tab.kind === kind
-                ? "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-hh-2736 bg-tint px-4 text-secondary font-bold text-hh-2736"
-                : "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-line bg-panel px-4 text-secondary text-ink-soft hover:bg-panel-2"
+                ? "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-primary bg-tint px-4 text-note font-bold text-primary-ink"
+                : "inline-flex min-h-11 shrink-0 items-center rounded-tag border border-line bg-panel px-4 text-note text-ink-soft hover:bg-section"
             }
           >
             {tab.label}
@@ -52,15 +52,15 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
               <h2 className="text-card-title font-bold text-ink">{card.title}</h2>
               {card.previousBody ? (
                 <>
-                  <p className="rounded-button border border-line bg-panel-2 p-3 text-secondary text-muted line-through">{card.previousBody}</p>
-                  <p className="flex items-center gap-2 text-secondary text-hh-2736">
+                  <p className="rounded-button border border-line bg-section p-3 text-note text-muted line-through">{card.previousBody}</p>
+                  <p className="flex items-center gap-2 text-note text-primary-ink">
                     <Icon name="forward" size={14} />
                     <span>صار الآن</span>
                   </p>
                 </>
               ) : null}
               <p className="text-body text-ink">{card.body}</p>
-              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-2 text-secondary text-muted">
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-2 text-note text-muted">
                 <span>المصدر: {card.source}</span>
                 <span>{formatDate(card.date)}</span>
               </p>

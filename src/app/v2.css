@@ -3,8 +3,17 @@
     inline-size: 100%;
     max-inline-size: 480px;
     margin-inline: auto;
-    background: var(--color-bg);
-    box-shadow: 0 0 44px rgb(15 42 68 / 0.08);
+    background: transparent;
+  }
+
+  /* سطح المكتب: النافذة تتسع إلى مقاس الدليل بدل أن يبقى التطبيق عمودًا ضيقًا
+     وسط صورة عريضة. المحتوى يبقى بعرض قراءة مريح داخلها. */
+  @media (min-width: 768px) {
+    .v2-app-frame {
+      max-inline-size: min(100%, var(--layout-max-window));
+      padding-inline: 24px;
+      padding-block: 24px;
+    }
   }
 
   .v2-app-frame--immersive {
@@ -12,42 +21,72 @@
     overflow: hidden;
   }
 
-  .v2-appbar {
-    background: color-mix(in srgb, var(--color-panel) 94%, transparent);
-    border-block-end: 1px solid var(--color-line);
-    backdrop-filter: blur(18px);
+  /* الرأس شفاف: يقع فوق المشهد مباشرة ولا يحمل مادة خاصة به،
+     فيبقى الشعار والعنوان ثابتين بينما يتبدّل المحتوى تحتهما. */
+  .v2-appbar,
+  .v2-hero {
+    background: transparent;
   }
-
-  .v2-hero { border-end-start-radius: 28px; border-end-end-radius: 28px; }
 
   .v2-sound-toggle {
     min-inline-size: 44px;
     min-block-size: 44px;
     border-radius: 999px;
     border: 1px solid var(--color-line);
-    background: color-mix(in srgb, var(--color-panel) 88%, transparent);
-    color: var(--color-hh-2736);
+    background: rgb(255 255 255 / 0.88);
+    color: var(--color-primary);
     transition: transform 160ms var(--ease-brand), background-color 160ms ease;
   }
-  .surface-dark .v2-sound-toggle { border-color: color-mix(in srgb, var(--color-panel) 24%, transparent); color: var(--color-panel); background: color-mix(in srgb, var(--color-night-deep) 58%, transparent); }
+  .surface-dark .v2-sound-toggle { border-color: color-mix(in srgb, var(--color-panel) 24%, transparent); color: var(--color-panel); background: color-mix(in srgb, var(--color-primary-ink) 58%, transparent); }
   .v2-sound-toggle:active { transform: scale(.94); }
 
   .v2-bottom-nav {
     min-block-size: calc(68px + env(safe-area-inset-bottom));
     padding-block-end: env(safe-area-inset-bottom);
-    border-block-start: 1px solid var(--color-line);
-    background: color-mix(in srgb, var(--color-panel) 94%, transparent);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 -10px 34px rgb(15 42 68 / 0.08);
+    border-block-start: 1px solid rgb(255 255 255 / 0.4);
+    background: rgb(255 255 255 / 0.44);
+    backdrop-filter: blur(var(--blur-dock));
+    -webkit-backdrop-filter: blur(var(--blur-dock));
+    box-shadow: var(--shadow-floating), var(--shadow-edge);
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .v2-bottom-nav { background: var(--color-panel); }
+  }
+
+  /* سطح المكتب: الشريط يصير حبّة عائمة بعرض محتواها فوق النافذة،
+     بدل شريط ملتصق بالأسفل بعرض الجوال. */
+  @media (min-width: 768px) {
+    .v2-bottom-nav {
+      min-block-size: 0;
+      margin-inline: auto;
+      margin-block-end: 20px;
+      padding-block-end: 0;
+      border-radius: var(--radius-tag);
+      border-block-start: 0;
+      border: 1px solid rgb(255 255 255 / 0.4);
+      inline-size: fit-content;
+      padding-inline: 12px;
+      padding-block: 8px;
+      gap: 4px;
+    }
+
+    /* داخل الحبّة لا تتمدد الروابط لتملأ العرض، بل يأخذ كل واحد قدر نصّه
+       مع هامش يفصله عن جاره، فلا تتلاصق التسميات. */
+    .v2-bottom-nav > a {
+      flex: 0 0 auto;
+      min-inline-size: 84px;
+      padding-inline: 10px;
+    }
   }
 
   .v2-share-tab svg { transition: transform 180ms var(--ease-brand); }
   .v2-share-tab[aria-current="page"] svg { transform: rotate(45deg); }
 
   .v2-action-card {
-    background: linear-gradient(160deg, var(--color-panel), var(--color-panel-2));
-    border: 1px solid var(--color-line);
-    box-shadow: 0 8px 24px -18px rgb(15 42 68 / 0.3);
+    background: rgb(255 255 255 / 0.68);
+    border: 1px solid rgb(255 255 255 / 0.4);
+    box-shadow: var(--shadow-surface), var(--shadow-edge);
   }
 
   .v2-media-main {

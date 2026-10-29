@@ -44,7 +44,7 @@ function SheetPanel({ title, onClose, children, contained = false }: Omit<SheetP
   return (
     <div
       className={cn(
-        "z-10 flex items-end justify-center",
+        "z-[400] flex items-end justify-center",
         contained ? "absolute inset-0" : "fixed inset-0",
       )}
     >
@@ -83,7 +83,7 @@ function SheetPanel({ title, onClose, children, contained = false }: Omit<SheetP
           onPointerCancel={endDrag}
           className="flex cursor-grab touch-none items-center justify-center py-3"
         >
-          <span className="block h-1 w-10 rounded-tag bg-line-strong" />
+          <span className="block h-1 w-10 rounded-tag bg-control-border" />
         </div>
 
         <header className="flex items-center justify-between gap-3 px-4 pb-3">
@@ -92,7 +92,7 @@ function SheetPanel({ title, onClose, children, contained = false }: Omit<SheetP
             type="button"
             onClick={onClose}
             aria-label="إغلاق"
-            className="inline-flex items-center justify-center rounded-button text-muted hover:bg-panel-2 hover:text-ink"
+            className="inline-flex items-center justify-center rounded-button text-muted hover:bg-section hover:text-ink"
           >
             <Icon name="close" size={18} />
           </button>

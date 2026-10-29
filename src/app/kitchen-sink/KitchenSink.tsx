@@ -43,7 +43,7 @@ function Section({
     <section id={id} className="flex flex-col gap-4 border-t border-line px-4 py-8">
       <div>
         <h2 className="text-screen-title font-bold text-ink">{title}</h2>
-        {note ? <p className="mt-1 text-secondary text-muted">{note}</p> : null}
+        {note ? <p className="mt-1 text-note text-muted">{note}</p> : null}
       </div>
       {children}
     </section>
@@ -51,7 +51,7 @@ function Section({
 }
 
 function StateLabel({ children }: { children: React.ReactNode }) {
-  return <p className="text-tag text-faint">{children}</p>;
+  return <p className="text-tag text-disabled-ink">{children}</p>;
 }
 
 export function KitchenSink() {
@@ -64,15 +64,15 @@ export function KitchenSink() {
     <main className="mx-auto max-w-[430px] bg-panel pb-24">
       <header className="surface-dark px-4 pt-6 pb-8">
         <Image
-          src="/brand/health-holding-lockup.webp"
-          alt="شعار شركة الصحة القابضة"
+          src="/brand/hadithah-logo.svg"
+          alt="شعار مستشفى الحديثة العام"
           width={132}
           height={132}
           priority
           className="brand-lockup--light h-auto w-[132px]"
         />
         <h1 className="mt-6 text-screen-title font-bold">نظام التصميم</h1>
-        <p className="mt-2 text-body text-on-dark/80">
+        <p className="mt-2 text-body text-inverse-muted/80">
           كل قيمة هنا من دليل الهوية الرسمي — لا لون مبتكر ولا مقاس خارج السلّم.
         </p>
       </header>
@@ -88,7 +88,7 @@ export function KitchenSink() {
             <li key={pantone} className="overflow-hidden rounded-card border border-line">
               <span className="block h-14" style={{ backgroundColor: hex }} />
               <span className="flex flex-col gap-0.5 p-3">
-                <b className="text-secondary text-ink">{pantone}</b>
+                <b className="text-note text-ink">{pantone}</b>
                 <span className="code-ltr text-tag text-muted">{hex}</span>
               </span>
             </li>
@@ -121,8 +121,8 @@ export function KitchenSink() {
         <p className="text-screen-title font-bold text-ink">عنوان شاشة — ٢٢px / ٧٠٠</p>
         <p className="text-card-title font-bold text-ink">عنوان بطاقة — ١٦px / ٧٠٠</p>
         <p className="text-body text-ink">نص أساسي — ١٥px / ٤٠٠ · ارتفاع السطر ١٫٨</p>
-        <p className="text-secondary text-muted">نص ثانوي — ١٣px / ٤٠٠</p>
-        <p className="text-tag text-faint">وسم حالة — ١٢px / ٤٠٠</p>
+        <p className="text-note text-muted">نص ثانوي — ١٣px / ٤٠٠</p>
+        <p className="text-tag text-disabled-ink">وسم حالة — ١٢px / ٤٠٠</p>
         <p className="code-ltr text-code text-ink">A7K4M9QP</p>
         <StateLabel>الأرقام في الواجهة عربية-هندية: {toArabicDigits(1234567890)}</StateLabel>
         <StateLabel>
@@ -252,14 +252,14 @@ export function KitchenSink() {
         <button
           type="button"
           onClick={() => setSheetOpen(true)}
-          className="inline-flex items-center justify-center gap-2 rounded-button bg-hh-2736 px-4 py-3 text-body font-bold text-panel"
+          className="inline-flex items-center justify-center gap-2 rounded-button bg-primary px-4 py-3 text-body font-bold text-panel"
         >
           <Icon name="plus" size={16} />
           <span>افتح اللوح</span>
         </button>
 
-        <div className="relative h-64 overflow-hidden rounded-card border border-line bg-panel-2">
-          <p className="p-4 text-secondary text-muted">اللوح يظهر داخل هذا الإطار في المعرض.</p>
+        <div className="relative h-64 overflow-hidden rounded-card border border-line bg-section">
+          <p className="p-4 text-note text-muted">اللوح يظهر داخل هذا الإطار في المعرض.</p>
           <Sheet contained open={sheetOpen} title="تأكيد الإرسال" onClose={() => setSheetOpen(false)}>
             <p>{STRINGS.privacyNotice}</p>
           </Sheet>
@@ -276,7 +276,7 @@ export function KitchenSink() {
           {ICON_GALLERY.map((name) => (
             <li
               key={name}
-              className="flex flex-col items-center gap-2 rounded-card border border-line p-3 text-hh-2736"
+              className="flex flex-col items-center gap-2 rounded-card border border-line p-3 text-primary"
             >
               <Icon name={name} size={22} />
               <span className="code-ltr text-tag text-muted">{name}</span>
@@ -287,7 +287,7 @@ export function KitchenSink() {
 
       {/* ================= المسافات والحركة ================= */}
       <Section id="shape" title="المسافات والأشكال والحركة">
-        <ul className="flex flex-col gap-2 text-secondary text-ink-soft">
+        <ul className="flex flex-col gap-2 text-note text-ink-soft">
           <li>
             وحدة المسافة {toArabicDigits(SHAPE.spacingUnit)}px · السلّم{" "}
             {SHAPE.spacingScale.map((s) => toArabicDigits(s)).join(" / ")}
@@ -302,7 +302,8 @@ export function KitchenSink() {
           </li>
           <li>
             الحدود {toArabicDigits(SHAPE.borderWidth)}px بلون{" "}
-            <span className="code-ltr">{SURFACE_TOKENS.line}</span> — بلا ظلال
+            <span className="code-ltr">{SURFACE_TOKENS.border}</span> · حدّ الحقل{" "}
+            <span className="code-ltr">{SURFACE_TOKENS.controlBorder}</span>
           </li>
           <li>
             أصغر مساحة لمس {toArabicDigits(SHAPE.minTouchTarget)}×
@@ -317,7 +318,7 @@ export function KitchenSink() {
         <div className="flex items-end gap-2">
           {SHAPE.spacingScale.map((size) => (
             <span key={size} className="flex flex-col items-center gap-1">
-              <span className="bg-hh-2736" style={{ inlineSize: size, blockSize: size }} />
+              <span className="bg-primary" style={{ inlineSize: size, blockSize: size }} />
               <span className="code-ltr text-tag text-muted">{size}</span>
             </span>
           ))}

@@ -53,7 +53,7 @@ export function Icon({ name, size = ICONS.sizeInCard, title, ...rest }: IconProp
 
 export function IconBadge({ name, size = ICONS.sizeInCard }: { name: IconName; size?: number }) {
   return (
-    <span className="inline-flex shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736" style={{ inlineSize: ICONS.containerSize, blockSize: ICONS.containerSize }}>
+    <span className="inline-flex shrink-0 items-center justify-center rounded-icon bg-tint text-primary" style={{ inlineSize: ICONS.containerSize, blockSize: ICONS.containerSize }}>
       <Icon name={name} size={size} />
     </span>
   );

@@ -25,13 +25,13 @@ export default async function JourneyPage() {
               aria-current={stage.state === "current" ? "step" : undefined}
               className={
                 stage.state === "current"
-                  ? "flex flex-col gap-3 rounded-card border-2 border-hh-2736 bg-panel p-4"
+                  ? "flex flex-col gap-3 rounded-card border-2 border-primary bg-panel p-4"
                   : "flex flex-col gap-3 rounded-card border border-line bg-panel p-4"
               }
             >
               <div className="flex items-center justify-between gap-3">
                 <h2 className="flex items-center gap-2 text-card-title font-bold text-ink">
-                  <span className="code-ltr text-secondary text-muted">{toArabicDigits(stage.sort)}</span>
+                  <span className="code-ltr text-note text-muted">{toArabicDigits(stage.sort)}</span>
                   <span>{stage.title}</span>
                 </h2>
                 <span
@@ -39,7 +39,7 @@ export default async function JourneyPage() {
                     stage.state === "done"
                       ? "inline-flex items-center gap-2 rounded-tag border border-status-answered bg-status-answered-tint px-3 py-1 text-tag text-status-answered"
                       : stage.state === "current"
-                        ? "inline-flex items-center gap-2 rounded-tag border border-hh-2736 bg-tint px-3 py-1 text-tag font-bold text-hh-2736"
+                        ? "inline-flex items-center gap-2 rounded-tag border border-primary bg-tint px-3 py-1 text-tag font-bold text-primary-ink"
                         : "inline-flex items-center gap-2 rounded-tag border border-status-new bg-status-new-tint px-3 py-1 text-tag text-status-new"
                   }
                 >
@@ -49,16 +49,16 @@ export default async function JourneyPage() {
               </div>
 
               <p className="text-body text-ink">{stage.whatHappens}</p>
-              <p className="rounded-button border border-line bg-panel-2 p-3 text-secondary text-ink-soft">
+              <p className="rounded-button border border-line bg-section p-3 text-note text-ink-soft">
                 <span className="font-bold">ماذا يحتاج منك: </span>
                 {stage.employeeAction}
               </p>
               {stage.openQuestions.length > 0 ? (
                 <div className="border-t border-line pt-2">
-                  <p className="text-secondary font-bold text-ink-soft">أسئلة ما زالت مفتوحة</p>
+                  <p className="text-note font-bold text-ink-soft">أسئلة ما زالت مفتوحة</p>
                   <ul className="mt-1 flex flex-col gap-1">
                     {stage.openQuestions.map((q) => (
-                      <li key={q} className="flex items-center gap-2 text-secondary text-muted">
+                      <li key={q} className="flex items-center gap-2 text-note text-muted">
                         <Icon name="clock" size={14} />
                         <span>{q}</span>
                       </li>

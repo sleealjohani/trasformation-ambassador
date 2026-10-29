@@ -26,9 +26,9 @@ export function ChatBubble({ side, children, typing = false, failed = false, onR
         className={cn(
           "max-w-[80%] rounded-card px-4 py-3 text-body shadow-[0_2px_10px_-6px_rgb(15_42_68_/_0.3)]",
           isOutgoing
-            ? "bg-hh-2736 text-panel rounded-ee-xs"
+            ? "bg-primary text-panel rounded-ee-xs"
             : "border border-line bg-panel text-ink rounded-es-xs",
-          failed && "border-hh-072 bg-status-escalated-tint text-hh-072",
+          failed && "border-error bg-status-escalated-tint text-error",
         )}
       >
         {typing ? (
@@ -50,7 +50,7 @@ export function ChatBubble({ side, children, typing = false, failed = false, onR
         <button
           type="button"
           onClick={onRetry}
-          className="inline-flex items-center gap-2 px-2 text-secondary text-hh-2736 underline-offset-4 hover:underline"
+          className="inline-flex items-center gap-2 px-2 text-note text-primary-ink underline-offset-4 hover:underline"
         >
           <Icon name="retry" size={14} />
           <span>لم تُرسل — إعادة المحاولة</span>

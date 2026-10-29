@@ -6,6 +6,11 @@ import { SoundToggle } from "@/components/app/SiteAudio";
 import { STRINGS } from "@/content/strings";
 import { cn } from "@/lib/cn";
 
+/**
+ * هيكل التطبيق على طبقات الهوية الخمس:
+ * ١ المكان (صورة المبنى) · ٢ الإضاءة · ٣ النافذة والمحتوى · ٤ الشريط العائم · ٥ النوافذ.
+ * الطبقتان الأولى والثانية زخرفيتان خلف القراءة ولا تتلقّيان أي تفاعل.
+ */
 export function AppShell({ title, subtitle, back, hero = false, immersive = false, children }: {
   title: string;
   subtitle?: string;
@@ -15,31 +20,75 @@ export function AppShell({ title, subtitle, back, hero = false, immersive = fals
   immersive?: boolean;
   children: React.ReactNode;
 }) {
+  if (immersive) {
+    return (
+      <div className="v2-app-frame v2-app-frame--immersive flex min-h-dvh flex-col">
+        <main className="v2-media-main flex flex-1 flex-col">{children}</main>
+        <div className="fixed inset-x-0 bottom-0 z-[100] mx-auto max-w-[480px]"><BottomTabs /></div>
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("v2-app-frame flex min-h-dvh flex-col", immersive && "v2-app-frame--immersive")}>
-      {!immersive ? (
-        <header className={cn("relative px-4 pb-5 pt-[max(16px,env(safe-area-inset-top))]", hero ? "surface-dark v2-hero" : "v2-appbar")}>
-          <div className="flex min-h-11 items-center justify-between gap-3">
-            {back ? (
-              <Link href={back.href} className={cn("inline-flex min-h-11 items-center gap-2 rounded-tag px-2 text-secondary", hero ? "text-on-dark" : "text-ink-soft")}>
-                <Icon name="forward" size={16} /><span>{back.label}</span>
+    <>
+      {/* الطبقة ١ و٢ — المكان والإضاءة، خارج تدفّق المحتوى تمامًا */}
+      <div className="scene" aria-hidden="true" />
+
+      <div className="v2-app-frame relative z-10 flex min-h-dvh flex-col">
+        {/* الطبقة ٣ — النافذة: تبدأ من الأعلى فيقع الرأس داخلها، ولا يُقرأ أي نص
+            فوق الصورة مباشرة. هذا ما يفعله المرجع في الحزمة. */}
+        <div className="glass-window mx-3 mb-32 mt-3 flex flex-1 flex-col md:mx-0 md:mt-6">
+          <header className={cn("relative px-4 pb-5 pt-[max(16px,env(safe-area-inset-top))] md:px-8 md:pt-8", hero ? "v2-hero" : "v2-appbar")}>
+            <div className="mx-auto flex w-full max-w-[var(--layout-max-content)] min-h-11 items-start justify-between gap-3">
+              {back ? (
+                <Link href={back.href} className="press inline-flex min-h-11 items-center gap-2 rounded-tag px-2 text-note text-ink-soft">
+                  <Icon name="forward" size={16} /><span>{back.label}</span>
+                </Link>
+              ) : (
+                <div className="min-h-11" />
+              )}
+              <div className="flex items-center gap-2">
+                <SoundToggle />
+                {/* جزيرة الشعار: أبيض ٩٢٪، والشعار بداخلها بلا ظل ولا تمويه ولا تغيير نسبة */}
+                <Link href="/" aria-label="الرئيسية" className="logo-island inline-flex items-center justify-center p-2">
+                  <Image
+                    src="/brand/hadithah-logo.svg"
+                    alt="شعار مستشفى الحديثة العام"
+                    width={128}
+                    height={122}
+                    priority={hero}
+                    className="h-auto w-[52px] md:w-[64px]"
+                  />
+                </Link>
+              </div>
+            </div>
+            <div className="mx-auto w-full max-w-[var(--layout-max-content)]">
+              <p className="rise mt-4 text-tag font-bold text-primary-ink" style={{ "--i": 0 } as React.CSSProperties}>
+                {STRINGS.appName}
+              </p>
+              <h1 className="rise mt-1 text-screen-title font-bold text-ink" style={{ "--i": 1 } as React.CSSProperties}>{title}</h1>
+              {subtitle ? (
+                <p className="rise mt-2 max-w-[42ch] text-body text-muted" style={{ "--i": 2 } as React.CSSProperties}>{subtitle}</p>
+              ) : null}
+            </div>
+          </header>
+
+          <main className="screen-in content-swap flex flex-1 flex-col gap-5 px-4 pb-6 md:px-8">
+            <div className="mx-auto flex w-full max-w-[var(--layout-max-content)] flex-1 flex-col gap-5">
+              {children}
+            </div>
+            <footer className="mx-auto mt-3 flex w-full max-w-[var(--layout-max-content)] flex-col items-center gap-3 border-t border-line pb-2 pt-5">
+              <p className="text-center text-tag text-disabled-ink">{STRINGS.privacyNotice}</p>
+              <Link href="/admin/login" className="press inline-flex min-h-11 items-center gap-2 rounded-tag px-3 text-note text-muted hover:text-primary-ink">
+                <Icon name="lock" size={14} /><span>دخول سفير التغيير</span>
               </Link>
-            ) : (
-              <Link href="/" aria-label="الرئيسية" className="inline-flex min-h-11 items-center">
-                <Image src="/brand/health-holding-lockup.webp" alt="شعار شركة الصحة القابضة" width={132} height={132} priority={hero} className={cn("h-auto w-[104px]", hero && "brand-lockup--light")} />
-              </Link>
-            )}
-            <SoundToggle />
-          </div>
-          <h1 className={cn("rise mt-3 font-bold", hero ? "text-[26px] leading-[1.45] text-panel" : "text-screen-title text-ink")} style={{ "--i": 1 } as React.CSSProperties}>{title}</h1>
-          {subtitle ? <p className={cn("rise mt-1.5 text-body", hero ? "max-w-[360px] text-on-dark" : "text-muted")} style={{ "--i": 2 } as React.CSSProperties}>{subtitle}</p> : null}
-        </header>
-      ) : null}
-      <main className={cn("flex flex-1 flex-col", immersive ? "v2-media-main" : "screen-in gap-5 px-4 pb-32 pt-5")}>
-        {children}
-        {!immersive ? <footer className="mt-3 flex flex-col items-center gap-3 border-t border-line pb-2 pt-5"><p className="text-center text-tag text-faint">{STRINGS.privacyNotice}</p><Link href="/admin/login" className="inline-flex min-h-11 items-center gap-2 rounded-tag px-3 text-secondary text-muted hover:text-hh-2736"><Icon name="lock" size={14} /><span>دخول سفير التغيير</span></Link></footer> : null}
-      </main>
-      <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-[480px]"><BottomTabs /></div>
-    </div>
+            </footer>
+          </main>
+        </div>
+
+        {/* الطبقة ٤ — الشريط العائم */}
+        <div className="fixed inset-x-0 bottom-0 z-[100] mx-auto max-w-[480px] md:max-w-none"><BottomTabs /></div>
+      </div>
+    </>
   );
 }

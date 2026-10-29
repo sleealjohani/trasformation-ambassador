@@ -21,88 +21,162 @@
 }
 
 /* ============================================================================
-   نظام التصميم — كل قيمة هنا مصدرها دليل هوية شركة الصحة القابضة.
-   لا يُضاف لون ولا مقاس خارج هذا الملف.
+   نظام التصميم — دليل الهوية الرقمية «جسر التحول»، توجه «وضوح متصل / Spatial Glass».
+   ألوان الأساس والثانوي والتمييز مستخرجة من شعار مستشفى الحديثة العام.
+   المصدر الواحد للقيم: src/lib/tokens.ts — لا يُضاف لون خارجهما.
    ============================================================================ */
 @theme {
-  /* --- لوحة الهوية الرسمية (Pantone → HEX) --- */
-  --color-hh-2985: #2fa9e0; /* أساسي — أسطح ورسوم · لا يُستخدم لنص على أبيض */
-  --color-hh-299: #1691d0; /* أساسي — عناصر نشطة · نص ١٨px فأكبر فقط */
-  --color-hh-2736: #15508a; /* الفعل الأساسي والنص الأزرق والخلفيات */
-  --color-hh-072: #283a83; /* «غير صحيح» والتصعيد */
-  --color-hh-3145: #057590; /* «بانتظار توضيح» */
-  --color-hh-229: #1194d2; /* روابط ثانوية */
-  --color-hh-7479: #3ac0c3; /* تمييز مضيء وأشرطة تقدّم — ≤ ٥٪ من الشاشة */
-  --color-hh-802: #48ad48; /* مؤشرات إيجابية (رسوم) */
-  --color-hh-375: #9ecc3b; /* اتجاه صاعد في المؤشرات (رسوم فقط) */
-  --color-hh-7543: #a09ea4; /* «جديدة» والنص الثانوي */
+  /* --- ألوان الهوية وتدرّجات الفعل --- */
+  --color-primary: #057590;
+  --color-primary-ink: #073d4b;
+  --color-primary-hover: #045e74;
+  --color-primary-active: #034b5d;
+  --color-secondary: #04a67a;
+  --color-secondary-ink: #06563f;
+  --color-accent: #9ecc3b; /* رسوم وتمييز — لا يُستخدم لنص على أبيض */
 
-  /* --- الأسطح والنص --- */
-  --color-bg: #f2f6fa;
-  --color-panel: #ffffff;
-  --color-panel-2: #f7fafc;
-  --color-tint: #e8f2fa; /* خلفية حاوية الأيقونة والعناصر المختارة */
-  --color-line: #e3e8ed; /* الحد الوحيد في الواجهة — ١px بلا ظلال */
-  --color-line-strong: #c9d8e4;
-  --color-ink: #0f2a44;
-  --color-ink-soft: #2c4e6e;
-  --color-muted: #657f98;
-  --color-faint: #93a9bc;
-  --color-night: #0b2c4e; /* السطح الداكن المعتمد للترويسة */
-  --color-night-deep: #071f3a;
-  --color-on-dark: #eaf2f8;
+  /* --- الأسطح والنص والحدود --- */
+  --color-bg: #dde4df; /* page */
+  --color-panel: #ffffff; /* solid */
+  --color-section: #e3ece7;
+  --color-tint: #e3ece7;
+  --color-line: #c5d3ce; /* border */
+  --color-control-border: #516c70; /* حدود الحقول — تباين ٤٫٦+ */
+  --color-ink: #12353f;
+  --color-ink-soft: #3d5155;
+  --color-muted: #3d5155;
+  --color-disabled-ink: #53676b;
+  --color-disabled-bg: #e3eae8;
+  --color-night: #103f4b; /* السطح الداكن المعتمد */
+  --color-inverse: #ffffff;
+  --color-inverse-muted: #d8e8e5;
+  --color-selection-bg: #c7e9e0;
+  --color-selection-text: #12353f;
 
-  /* --- ألوان الحالات: لكل حالة لون + رمز + نص، ولا لون وحده --- */
-  --color-status-new: #a09ea4;
-  --color-status-new-tint: #f0f0f2;
-  --color-status-reviewed: #15508a;
-  --color-status-reviewed-tint: #e8f2fa;
-  --color-status-referred: #1691d0;
-  --color-status-referred-tint: #e6f2fb;
-  --color-status-waiting: #057590;
-  --color-status-waiting-tint: #e6f1f4;
-  --color-status-answered: #2f8a4a; /* نسخة أغمق من 802C ليصلح للنص */
-  --color-status-answered-tint: #e9f4e9;
-  --color-status-escalated: #283a83;
-  --color-status-escalated-tint: #e8eaf3;
+  /* --- الألوان الدلالية: لون + رمز + نص دائمًا، ولا لون وحده --- */
+  --color-success: #16704a;
+  --color-success-bg: #e8f4ed;
+  --color-warning: #895500;
+  --color-warning-bg: #fff3da;
+  --color-error: #b2383b;
+  --color-error-bg: #fbecee;
+  --color-info: #0751a0;
+  --color-info-bg: #eaf2fc;
+  --color-focus: #0751a0;
 
-  /* --- الطباعة --- */
+  /* --- ألوان الحالات الست --- */
+  --color-status-new: #53676b;
+  --color-status-new-tint: #e3eae8;
+  --color-status-reviewed: #057590;
+  --color-status-reviewed-tint: #e3ece7;
+  --color-status-referred: #0751a0;
+  --color-status-referred-tint: #eaf2fc;
+  --color-status-waiting: #895500;
+  --color-status-waiting-tint: #fff3da;
+  --color-status-answered: #16704a;
+  --color-status-answered-tint: #e8f4ed;
+  --color-status-escalated: #103f4b;
+  --color-status-escalated-tint: #d8e8e5;
+
+  /* --- الطباعة: Janna LT بوزنين فقط --- */
   --font-sans: "Janna", "Janna LT", "Segoe UI", Tahoma, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --text-screen-title: 22px;
-  --text-screen-title--line-height: 1.4;
+  --text-display: clamp(2rem, 1.5rem + 2vw, 3rem);
+  --text-display--line-height: 1.3;
+  --text-display--font-weight: 700;
+  --text-screen-title: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --text-screen-title--line-height: 1.35;
   --text-screen-title--font-weight: 700;
-  --text-card-title: 16px;
+  --text-section-title: clamp(1.25rem, 1.1rem + 0.35vw, 1.5rem);
+  --text-section-title--line-height: 1.5;
+  --text-section-title--font-weight: 700;
+  --text-card-title: 1.0625rem;
   --text-card-title--line-height: 1.6;
   --text-card-title--font-weight: 700;
-  --text-body: 15px;
+  --text-body: 1rem;
   --text-body--line-height: 1.8;
-  --text-secondary: 13px;
-  --text-secondary--line-height: 1.7;
-  --text-tag: 12px;
+  /* «note» لا «secondary»: الاسم الأخير محجوز للون الهوية #04A67A،
+     ووجوده في السلّمين معًا يجعل Tailwind يحوّل المقاس إلى لون. */
+  --text-note: 0.875rem;
+  --text-note--line-height: 1.7;
+  --text-tag: 0.8125rem;
   --text-tag--line-height: 1.4;
-  --text-tag--letter-spacing: 0.01em;
-  --text-code: 16px;
+  --text-tag--font-weight: 700;
+  --text-code: 1rem;
   --text-code--line-height: 1.5;
 
-  /* --- المسافات: الوحدة ٤px · السلّم ٤ / ٨ / ١٢ / ١٦ / ٢٤ / ٣٢ --- */
+  /* --- المسافات: الوحدة ٤px --- */
   --spacing: 4px;
 
   /* --- الاستدارة --- */
-  --radius-card: 12px;
-  --radius-button: 10px;
-  --radius-icon: 9px;
+  --radius-small: 8px;
+  --radius-button: 12px;
+  --radius-control: 12px;
+  --radius-nested: 16px;
+  --radius-compact: 22px;
+  --radius-card: 24px;
+  --radius-dialog: 24px;
+  --radius-nav: 32px;
+  --radius-panel: 32px;
+  --radius-icon: 12px;
   --radius-tag: 999px;
 
-  /* --- الحركة: ١٨٠ms دخول · ١٢٠ms خروج --- */
-  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
-  --animate-duration-in: 180ms;
-  --animate-duration-out: 120ms;
+  /* --- الحركة --- */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-duration-press: 150ms;
+  --animate-duration-in: 280ms;
+  --animate-duration-out: 180ms;
+  --animate-duration-reveal: 520ms;
+}
+
+/* ============================================================================
+   رموز غير لونية: الظل والضبابية والطبقات والتخطيط.
+   خارج @theme لأنها لا تولّد أدوات Tailwind، وتُقرأ بـvar() مباشرة.
+   ============================================================================ */
+:root {
+  /* الظل: الضوء من أعلى اليمين، ولا ظل أسود حاد */
+  --shadow-surface: 0 2px 6px rgb(16 63 75 / 0.03), 0 14px 36px rgb(16 63 75 / 0.05);
+  --shadow-floating: 0 4px 12px rgb(16 63 75 / 0.06), 0 20px 56px rgb(16 63 75 / 0.1);
+  --shadow-modal: 0 8px 24px rgb(16 63 75 / 0.1), 0 32px 80px rgb(16 63 75 / 0.16);
+  --shadow-edge: inset 0 1px 0 rgb(255 255 255 / 0.52);
+  --shadow-edge-dark: inset 0 1px 0 rgb(255 255 255 / 0.14);
+
+  /* تدرّج الضبابية — أربعة أنواع */
+  --blur-scene-subtle: 1.4px;
+  --blur-scene-strong: 20px;
+  --blur-dock: 12px;
+  --blur-window: 20px;
+  --blur-transition: 6px;
+  --blur-overlay: 4px;
+
+  /* طبقات العمق الخمس */
+  --z-decoration: 1;
+  --z-content: 10;
+  --z-sticky: 100;
+  --z-dropdown: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-tooltip: 500;
+
+  /* التخطيط */
+  --layout-max-content: 1152px;
+  --layout-max-window: 1344px;
+  --layout-reading: 680px;
+
+  /* التدرّجات */
+  --gradient-bridge: linear-gradient(120deg, #057590 0%, #04a67a 100%);
+  --gradient-atmosphere: linear-gradient(
+    135deg,
+    rgb(5 117 144 / 0.08) 0%,
+    rgb(4 166 122 / 0.06) 58%,
+    rgb(221 228 223 / 0) 100%
+  );
+  --gradient-edge: linear-gradient(180deg, rgb(255 255 255 / 0.52) 0%, rgb(255 255 255 / 0.14) 100%);
 }
 
 @theme static {
-  /* نقش «Flow of Care» الرسمي — النسخة الفاتحة على الأسطح الداكنة فقط */
+  /* نقش «Flow of Care» — النسخة الفاتحة على الأسطح الداكنة فقط */
   --pattern-flow: url("/brand/flow-of-care.webp");
 }
 
@@ -122,6 +196,11 @@
     line-height: 1.8;
   }
 
+  ::selection {
+    background-color: var(--color-selection-bg);
+    color: var(--color-selection-text);
+  }
+
   /* أصغر مساحة لمس ٤٤×٤٤px بلا استثناء */
   button,
   a[role="button"],
@@ -131,8 +210,8 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-hh-2736);
-    outline-offset: 2px;
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
   }
 
   /* الأيقونات: سماكة ١٫٦ ثابتة · أطراف مستديرة · ترث لون النص */
@@ -167,7 +246,7 @@
     position: relative;
     overflow: hidden;
     background-color: var(--color-night);
-    color: var(--color-on-dark);
+    color: var(--color-inverse-muted);
   }
 
   .surface-dark::before {
@@ -214,7 +293,7 @@
   }
   /* إزاحة فقط بلا تصغير: التصغير يُنقص هدف اللمس عن ٤٤px أثناء الحركة */
   @keyframes rise {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: none; }
   }
 
@@ -246,8 +325,8 @@
       border-color 160ms ease;
     will-change: transform;
   }
-  .lift:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -12px rgb(15 42 68 / 0.22); }
-  .lift:active { transform: translateY(0) scale(0.988); transition-duration: 110ms; }
+  .lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-floating); }
+  .lift:active { transform: translateY(0) scale(0.98); transition-duration: 150ms; }
 
   /* رسم الأيقونة عند الظهور */
   .draw svg[data-icon] path {
@@ -291,7 +370,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    border: 2px solid var(--color-status-answered);
+    border: 2px solid var(--color-success);
     animation: burst 700ms var(--ease-brand) forwards;
   }
   @keyframes burst {
@@ -303,9 +382,9 @@
 @layer components {
   /* السطح الفاخر: تدرّج خفيف داخل اللوحة + حد شعري */
   .surface-raise {
-    background: linear-gradient(180deg, var(--color-panel) 0%, var(--color-panel-2) 100%);
+    background: var(--color-panel);
     border: 1px solid var(--color-line);
-    box-shadow: 0 1px 2px rgb(15 42 68 / 0.04), 0 8px 24px -18px rgb(15 42 68 / 0.28);
+    box-shadow: var(--shadow-surface);
   }
 
   /* مؤشّر التبويب النشط ينزلق أسفل الأيقونة */
@@ -314,7 +393,7 @@
     inset-block-start: 0;
     block-size: 2px;
     border-radius: 999px;
-    background: var(--color-hh-2736);
+    background: var(--color-primary);
     transition: inset-inline-start 280ms var(--ease-brand), inline-size 280ms var(--ease-brand);
   }
 
@@ -330,14 +409,14 @@
     min-block-size: 52px;
     padding-inline: 20px;
     border-radius: 999px;
-    background: var(--color-hh-2736);
-    color: var(--color-panel);
+    background: var(--gradient-bridge);
+    color: var(--color-inverse);
     font-weight: 700;
-    box-shadow: 0 12px 32px -10px rgb(21 80 138 / 0.55);
+    box-shadow: var(--shadow-floating);
     transition: transform 220ms var(--ease-brand), box-shadow 220ms var(--ease-brand);
   }
-  .fab:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -12px rgb(21 80 138 / 0.62); }
-  .fab:active { transform: scale(0.97); }
+  .fab:hover { transform: translateY(-2px); box-shadow: var(--shadow-modal); }
+  .fab:active { transform: scale(0.98); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -366,4 +445,203 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sheet-in { animation: none !important; }
+}
+
+/* ============================================================================
+   المواد والعمق — «المادة نافذة فوق المكان».
+   الشفافية في خلفية السطح وحدها. لا يُطبَّق opacity على حاوية تحمل نصًا،
+   فيبقى النص عند وضوح كامل مهما خفّت تعبئة السطح خلفه.
+   ============================================================================ */
+@layer components {
+  /* الطبقة ١ — المكان: صورة المبنى ثابتة خلف الصفحة كلها ومصدر اللون */
+  .scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    /* التمويه ٢٠px مخبوز في الصورة نفسها (٧٫٥KB) في كل المقاسات.
+       backdrop-filter تحسينٌ فوقه لا شرطٌ له: لا يُرسَّم بلا GPU، ونُطفئه على
+       الجوال لكلفته، فلا يصحّ أن تتعلّق به مقروئية النص. */
+    background: var(--color-bg) url("/brand/scene-soft.webp") center / cover no-repeat;
+    pointer-events: none;
+  }
+
+  /* الهالة الخارجية: النسخة الحادة ١٫٤px تظهر في حافة الشاشة حول النافذة،
+     فيبقى المكان حاضرًا كما ينصّ الدليل دون أن ينافس القراءة. */
+  @media (min-width: 768px) {
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("/brand/scene.webp") center / cover no-repeat;
+      -webkit-mask-image: radial-gradient(ellipse 78% 86% at 50% 50%, transparent 55%, #000000 100%);
+      mask-image: radial-gradient(ellipse 78% 86% at 50% 50%, transparent 55%, #000000 100%);
+    }
+  }
+
+  /* الطبقة ٢ — الإضاءة: غسل أبيض ١٢٪ وجو لوني خفيف، غير تفاعلية وخلف القراءة */
+  .scene::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* غسل أبيض يرفع المشهد إلى مدى فاتح ثابت، فلا يتأرجح التباين
+       بين سماء ساطعة وواجهة داكنة أثناء التمرير. */
+    background: var(--gradient-atmosphere), rgb(255 255 255 / 0.42);
+  }
+
+  /* الطبقة ٣ — النافذة: اللوح الزجاجي الكبير الذي يحمل المحتوى */
+  .glass-window {
+    position: relative;
+    z-index: var(--z-content);
+    background: rgb(255 255 255 / 0.28);
+    backdrop-filter: blur(var(--blur-window));
+    -webkit-backdrop-filter: blur(var(--blur-window));
+    border: 1px solid rgb(255 255 255 / 0.42);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--shadow-floating), var(--shadow-edge);
+  }
+
+  /* البطاقة المصنفرة — المادة الأكثر استعمالًا */
+  .glass-card {
+    background: rgb(255 255 255 / 0.68);
+    border: 1px solid rgb(255 255 255 / 0.4);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-surface), var(--shadow-edge);
+  }
+
+  /* البطاقة الداكنة — الفعل الرئيسي. نص أبيض ووصف #D8E8E5 */
+  .glass-accent {
+    background: rgb(16 63 75 / 0.94);
+    color: var(--color-inverse);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-floating), var(--shadow-edge-dark);
+  }
+
+  /* السطح الصلب — القراءة الطويلة والنماذج والجداول */
+  .glass-solid {
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-surface);
+  }
+
+  /* الطبقة ٤ — الشريط العائم: المادة الوحيدة ذات backdrop متكرر */
+  .glass-dock {
+    background: rgb(255 255 255 / 0.44);
+    backdrop-filter: blur(var(--blur-dock));
+    -webkit-backdrop-filter: blur(var(--blur-dock));
+    border: 1px solid rgb(255 255 255 / 0.4);
+    border-radius: var(--radius-tag);
+    box-shadow: var(--shadow-floating), var(--shadow-edge);
+  }
+
+  /* جزيرة الشعار: أبيض ٩٢٪ ولا تمويه ولا ظل على الشعار نفسه */
+  .logo-island {
+    background: rgb(255 255 255 / 0.92);
+    border-radius: var(--radius-nested);
+    box-shadow: var(--shadow-surface);
+  }
+
+  /* ---- البديل الصلب حين لا يُدعم backdrop-filter ----
+     لا شفافية بلا تمويه: السطح يصير معتمًا مقروءًا بدل أن يبهت المحتوى. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass-window {
+      background: var(--color-section);
+      border-color: var(--color-line);
+    }
+    .glass-dock {
+      background: var(--color-panel);
+      border-color: var(--color-line);
+    }
+    .glass-card {
+      background: var(--color-panel);
+      border-color: var(--color-line);
+    }
+  }
+
+  /* ---- كلفة البلور على الجوال ----
+     النافذة مساحة كبيرة، وتمويهها على الهواتف يكلف إطارات.
+     تبقى النافذة سطحًا صلبًا تحت 768px، ويبقى الشريط العائم وحده مموّهًا. */
+  @media (max-width: 767px) {
+    .glass-window {
+      background: rgb(255 255 255 / 0.62);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .glass-card {
+      background: rgb(255 255 255 / 0.86);
+    }
+  }
+
+  /* الأجهزة التي تطلب شفافية أقل: مواد صلبة بالكامل */
+  @media (prefers-reduced-transparency: reduce) {
+    .glass-window,
+    .glass-card,
+    .glass-dock {
+      background: var(--color-panel);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-color: var(--color-line);
+    }
+    .glass-accent {
+      background: var(--color-night);
+    }
+  }
+}
+
+/* ============================================================================
+   انتقال المحتوى — ١٩٠ms خروج و١٩٠ms دخول مع تمويه ٦px وإزاحة ٨px.
+   الرأس والشعار والخلفية والشريط العائم لا يتحرك منها شيء.
+   ============================================================================ */
+@layer utilities {
+  .content-swap {
+    animation: contentIn var(--animate-duration-in) var(--ease-brand) both;
+  }
+  @keyframes contentIn {
+    from {
+      opacity: 0;
+      filter: blur(var(--blur-transition));
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: none;
+    }
+  }
+
+  /* ضغط الزر: ٠٫٩٨ ثم العودة — لا تحريك للتخطيط */
+  .press {
+    transition: transform var(--animate-duration-press) var(--ease-brand);
+  }
+  .press:active {
+    transform: scale(0.98);
+  }
+
+  /* رفع البطاقة لأجهزة المؤشر وحدها */
+  @media (hover: hover) and (pointer: fine) {
+    .hover-lift {
+      transition:
+        transform var(--animate-duration-in) var(--ease-brand),
+        box-shadow var(--animate-duration-in) var(--ease-brand);
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-floating);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-swap {
+    animation: none !important;
+    filter: none !important;
+  }
+  .press:active,
+  .hover-lift:hover {
+    transform: none !important;
+  }
+  .scene::after {
+    transition: none;
+  }
 }

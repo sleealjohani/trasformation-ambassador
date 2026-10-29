@@ -44,13 +44,13 @@ function AskFlowClient({ gate, prefill }: { gate: Gate; prefill: string }) {
   }
 
   return <div className="flex flex-col gap-4">
-    {gate === "question" ? <Link href="/info" className="surface-raise lift flex items-center gap-3 rounded-card p-4"><span className="inline-flex size-9 shrink-0 items-center justify-center rounded-icon bg-tint text-hh-2736"><Icon name="info" size={18} /></span><span className="flex-1"><b className="block text-body text-ink">يمكن جوابك موجود أصلًا</b><span className="text-secondary text-muted">جرّب المعلومات الرسمية قبل ما ترسل</span></span><Icon name="forward" size={16} /></Link> : null}
+    {gate === "question" ? <Link href="/info" className="surface-raise lift flex items-center gap-3 rounded-card p-4"><span className="inline-flex size-9 shrink-0 items-center justify-center rounded-icon bg-tint text-primary"><Icon name="info" size={18} /></span><span className="flex-1"><b className="block text-body text-ink">يمكن جوابك موجود أصلًا</b><span className="text-note text-muted">جرّب المعلومات الرسمية قبل ما ترسل</span></span><Icon name="forward" size={16} /></Link> : null}
     <section className="surface-raise flex flex-col gap-3 rounded-card p-4">
       <label htmlFor="ask-input" className="text-card-title font-bold text-ink">{STRINGS.gateOpeners[gate]}</label>
-      <textarea id="ask-input" aria-label="اكتب مشاركتك" value={body} onChange={(e) => setBody(e.target.value)} rows={7} maxLength={2000} autoFocus className="w-full resize-none rounded-card border border-line bg-panel-2 p-4 text-body text-ink outline-none transition-colors focus-visible:border-hh-2736" placeholder="اكتب هنا…" />
-      <p className="text-secondary text-muted">اكتب بطريقتك، وإحنا ننقّي أي بيانات ممكن تدل عليك قبل ما تنحفظ.</p>
+      <textarea id="ask-input" aria-label="اكتب مشاركتك" value={body} onChange={(e) => setBody(e.target.value)} rows={7} maxLength={2000} autoFocus className="w-full resize-none rounded-card border border-line bg-section p-4 text-body text-ink outline-none transition-colors focus-visible:border-primary" placeholder="اكتب هنا…" />
+      <p className="text-note text-muted">اكتب بطريقتك، وإحنا ننقّي أي بيانات ممكن تدل عليك قبل ما تنحفظ.</p>
     </section>
     <Button full onClick={review} disabled={!canContinue}><span>راجع وأرسل</span><Icon name="forward" size={16} /></Button>
-    <Link href="/share" className="inline-flex min-h-11 items-center justify-center text-secondary text-muted">أبي أختار نوع مشاركة ثاني</Link>
+    <Link href="/share" className="inline-flex min-h-11 items-center justify-center text-note text-muted">أبي أختار نوع مشاركة ثاني</Link>
   </div>;
 }

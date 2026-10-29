@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 
 /** هيكل عظمي لا دوّارة */
 export function Skeleton({ className }: { className?: string }) {
-  return <div aria-hidden className={cn("shimmer rounded-button bg-panel-2", className)} />;
+  return <div aria-hidden className={cn("shimmer rounded-button bg-section", className)} />;
 }
 
 export function SkeletonCard() {
@@ -30,7 +30,7 @@ export function SkeletonList({ count = 3 }: { count?: number }) {
 export function EmptyState({ text, icon = "issues" }: { text: string; icon?: IconName }) {
   return (
     <div className="rise surface-raise flex flex-col items-center gap-3 rounded-card px-4 py-10 text-center">
-      <span className="draw inline-flex size-11 items-center justify-center rounded-icon bg-tint text-hh-2736">
+      <span className="draw inline-flex size-11 items-center justify-center rounded-icon bg-tint text-primary">
         <Icon name={icon} size={22} />
       </span>
       <p className="text-body text-muted">{text}</p>
@@ -40,8 +40,8 @@ export function EmptyState({ text, icon = "issues" }: { text: string; icon?: Ico
 
 export function ErrorState({ text, onRetry }: { text: string; onRetry?: () => void }) {
   return (
-    <div role="alert" className="flex flex-col items-start gap-3 rounded-card border border-hh-072 bg-status-escalated-tint p-4">
-      <p className="flex items-center gap-2 text-body text-hh-072">
+    <div role="alert" className="flex flex-col items-start gap-3 rounded-card border border-error bg-status-escalated-tint p-4">
+      <p className="flex items-center gap-2 text-body text-error">
         <Icon name="escalate" size={16} />
         <span>{text}</span>
       </p>
@@ -57,7 +57,7 @@ export function ErrorState({ text, onRetry }: { text: string; onRetry?: () => vo
 
 export function OfflineBanner() {
   return (
-    <p role="status" className="flex items-center gap-2 rounded-card border border-line bg-status-waiting-tint p-3 text-secondary text-hh-3145">
+    <p role="status" className="flex items-center gap-2 rounded-card border border-line bg-status-waiting-tint p-3 text-note text-primary-ink">
       <Icon name="clock" size={16} />
       <span>لا يوجد اتصال. حفظنا ما كتبت وسنرسله عند عودة الشبكة.</span>
     </p>
