@@ -25,3 +25,6 @@ next-env.d.ts
 .DS_Store
 *.pem
 .vercel
+
+# مهارات الوكلاء — الثنائي الخاص بالمعمارية يُعاد توليده بـ npx impeccable install
+.claude/skills/impeccable/scripts/bin/
