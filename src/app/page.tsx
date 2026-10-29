@@ -37,7 +37,7 @@ export default async function HomePage() {
       </section>
 
       <section aria-labelledby="official" className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3"><div><h2 id="official" className="text-card-title font-bold text-ink">يمكن جوابك موجود</h2><p className="text-note text-muted">معلومات مختصرة من مصادر الصحة القابضة الرسمية</p></div><Link href="/info" className="inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-note font-bold text-primary-ink">الكل <Icon name="forward" size={14} /></Link></div>
+        <div className="flex items-center justify-between gap-3"><div><h2 id="official" className="text-card-title font-bold text-ink">يمكن جوابك موجود</h2><p className="text-note text-ink-soft">معلومات مختصرة من مصادر الصحة القابضة الرسمية</p></div><Link href="/info" className="inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-note font-bold text-primary-ink">الكل <Icon name="forward" size={14} /></Link></div>
         <div className="flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-5 md:overflow-visible">
           {OFFICIAL_TOPICS.slice(0, 5).map((topic) => <Link key={topic.slug} href={{ pathname: "/info", query: { topic: topic.slug } }} className="surface-raise flex min-w-[128px] flex-col gap-2 rounded-card p-3"><Icon name={TOPIC_ICON[topic.slug] ?? "info"} size={18} /><span className="text-note font-bold text-ink">{topic.label}</span></Link>)}
         </div>
@@ -49,7 +49,7 @@ export default async function HomePage() {
       </Link>
 
       <section aria-labelledby="live" className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3"><div><h2 id="live" className="text-card-title font-bold text-ink">أكثر الأشياء اللي تشغل الموظفين</h2><p className="text-note text-muted">المواضيع اللي عليها اهتمام الآن</p></div><Link href="/issues" className="inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-note font-bold text-primary-ink">شوف الكل <Icon name="forward" size={14} /></Link></div>
+        <div className="flex items-center justify-between gap-3"><div><h2 id="live" className="text-card-title font-bold text-ink">أكثر الأشياء اللي تشغل الموظفين</h2><p className="text-note text-ink-soft">المواضيع اللي عليها اهتمام الآن</p></div><Link href="/issues" className="inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-note font-bold text-primary-ink">شوف الكل <Icon name="forward" size={14} /></Link></div>
         {issues.length === 0 ? <p className="surface-raise rounded-card p-4 text-note text-muted">{STRINGS.emptyIssues}</p> : <ul className="flex flex-col gap-2">{issues.map((issue) => <li key={issue.id}><Link href="/issues" className="surface-raise lift flex items-center justify-between gap-3 rounded-card p-4"><span className="min-w-0 flex-1"><b className="block text-body text-ink">{issue.title}</b><span className="text-note text-muted">{issue.topicLabel}{issue.weight > 0 ? ` · ${toArabicDigits(issue.weight)} مهتم` : ""}</span></span><StatusTag status={issue.status === "answered" ? "answered" : issue.status === "referred" ? "referred" : issue.status === "waiting" ? "waiting" : "new"} /></Link></li>)}</ul>}
       </section>
 

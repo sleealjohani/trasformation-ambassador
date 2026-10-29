@@ -51,6 +51,6 @@ function AskFlowClient({ gate, prefill }: { gate: Gate; prefill: string }) {
       <p className="text-note text-muted">اكتب بطريقتك، وإحنا ننقّي أي بيانات ممكن تدل عليك قبل ما تنحفظ.</p>
     </section>
     <Button full onClick={review} disabled={!canContinue}><span>راجع وأرسل</span><Icon name="forward" size={16} /></Button>
-    <Link href="/share" className="inline-flex min-h-11 items-center justify-center text-note text-muted">أبي أختار نوع مشاركة ثاني</Link>
+    <Link href="/share" className="inline-flex min-h-11 items-center justify-center text-note font-bold text-primary-ink">أبي أختار نوع مشاركة ثاني</Link>
   </div>;
 }

@@ -27,6 +27,7 @@ export const SURFACE_TOKENS = {
   solid: "#FFFFFF",
   ink: "#12353F",
   muted: "#3D5155",
+  inkSoft: "#244450",
   inverse: "#FFFFFF",
   inverseMuted: "#D8E8E5",
   night: "#103F4B",

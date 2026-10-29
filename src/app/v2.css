@@ -44,9 +44,9 @@
     min-block-size: calc(68px + env(safe-area-inset-bottom));
     padding-block-end: env(safe-area-inset-bottom);
     border-block-start: 1px solid rgb(255 255 255 / 0.4);
-    background: rgb(255 255 255 / 0.86);
-    backdrop-filter: blur(var(--blur-dock));
+    background: rgb(255 255 255 / 0.6);
     -webkit-backdrop-filter: blur(var(--blur-dock));
+    backdrop-filter: blur(var(--blur-dock));
     box-shadow: var(--shadow-floating), var(--shadow-edge);
   }
 
@@ -84,9 +84,11 @@
   .v2-share-tab[aria-current="page"] svg { transform: rotate(45deg); }
 
   .v2-action-card {
-    background: rgb(255 255 255 / 0.68);
-    border: 1px solid rgb(255 255 255 / 0.4);
-    box-shadow: var(--shadow-surface), var(--shadow-edge);
+    background: linear-gradient(165deg, rgb(255 255 255 / 0.58), rgb(255 255 255 / 0.44));
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    backdrop-filter: blur(18px) saturate(1.5);
+    border: 1px solid rgb(255 255 255 / 0.68);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.7) inset, var(--shadow-surface);
   }
 
   .v2-media-main {
