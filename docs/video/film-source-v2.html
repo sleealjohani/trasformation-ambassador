@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<title>جسر التحول — الفيلم</title>
+<style>
+@font-face{font-family:"Janna";font-weight:400;src:url("file:///home/user/trasformation-ambassador/public/fonts/JannaLT-Regular.woff2") format("woff2");font-display:block}
+@font-face{font-family:"Janna";font-weight:700;src:url("file:///home/user/trasformation-ambassador/public/fonts/JannaLT-Bold.woff2") format("woff2");font-display:block}
+:root{--primary:#057590;--primary-ink:#073D4B;--secondary:#04A67A;--accent:#9ECC3B;--night:#103F4B;
+  --ink:#12353F;--muted:#3D5155;--section:#E3ECE7;--inverse:#FFFFFF;--inverse-muted:#D8E8E5;--success:#16704A}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#071F27}
+body{font-family:"Janna",Tahoma,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#071F27}
+
+/* ——— الكاميرا على المكان ——— */
+#cam{position:absolute;inset:0;will-change:transform}
+#scene{position:absolute;inset:0;background:url("file:///home/user/trasformation-ambassador/public/brand/scene-mobile.webp") center/cover no-repeat}
+#tint{position:absolute;inset:0;background:linear-gradient(180deg,rgb(16 63 75/var(--tt,.6)),rgb(7 40 50/var(--tb,.75)))}
+#halo{position:absolute;inset:0;opacity:var(--halo,0);mix-blend-mode:screen;background:
+  radial-gradient(60% 40% at 74% 16%,rgb(4 166 122/.30),transparent 70%),
+  radial-gradient(55% 38% at 20% 80%,rgb(5 117 144/.36),transparent 72%)}
+#scrim{position:absolute;inset:0;background:radial-gradient(76% 42% at 50% var(--sy,60%),rgb(6 28 36/.66) 0%,rgb(6 28 36/.36) 50%,rgb(6 28 36/0) 78%)}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 58%,rgb(4 18 24/.55) 100%)}
+#grain{position:absolute;inset:-20px;pointer-events:none;opacity:.055;mix-blend-mode:overlay}
+#flash{position:absolute;inset:0;background:#FFFFFF;opacity:0;pointer-events:none}
+
+/* ——— الأسطح ——— */
+.card{border-radius:34px;background:linear-gradient(165deg,rgb(255 255 255/.93),rgb(255 255 255/.84));
+  -webkit-backdrop-filter:blur(7px) saturate(1.35);backdrop-filter:blur(7px) saturate(1.35);
+  border:1px solid rgb(255 255 255/.75);box-shadow:0 1px 0 rgb(255 255 255/.8) inset,0 22px 56px rgb(4 24 30/.30)}
+.glass{border-radius:30px;background:rgb(255 255 255/.12);border:1px solid rgb(255 255 255/.26);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+
+.scn{position:absolute;inset:0;opacity:0;will-change:opacity,transform,filter}
+.ln{display:block;will-change:opacity,transform,filter}
+h1{font-size:112px;line-height:1.24;font-weight:700}
+h2{font-size:78px;line-height:1.32;font-weight:700}
+.w{color:#FFFFFF}.ws{color:#E6F1F0}
+.kick{font-size:36px;font-weight:700;color:#FFFFFF}
+.kick i{display:inline-block;width:46px;height:4px;border-radius:4px;background:var(--accent);vertical-align:middle;margin-inline-end:16px;font-style:normal}
+
+/* ١ */
+#s1 .wh{position:absolute;font-size:42px;color:#E2EFF0;white-space:nowrap;will-change:opacity,transform,filter}
+#s1 .cap{position:absolute;inset-inline:84px;inset-block-end:23%;text-align:center}
+
+/* ٢ */
+#s2{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px}
+#island{position:relative;width:320px;height:320px;border-radius:60px;background:rgb(255 255 255/.95);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 1px 0 #FFFFFF inset,0 36px 90px rgb(4 24 30/.5)}
+#island img{width:226px;height:auto;display:block}
+#sweep{position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgb(255 255 255/.95) 50%,transparent 60%);transform:translateX(-120%)}
+
+/* ٣ */
+#s3{padding:0 78px;display:flex;flex-direction:column;justify-content:center}
+.gates{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:58px}
+.gate{position:relative;padding:44px 40px;min-height:236px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;will-change:transform,opacity}
+.gate b{font-size:48px;font-weight:700;color:var(--ink)}
+.gate span{font-size:32px;color:var(--muted);line-height:1.5}
+.gate .ring{position:absolute;inset:-3px;border-radius:37px;border:3px solid var(--secondary);opacity:0}
+.gi{width:66px;height:66px;border-radius:22px;background:var(--section);display:flex;align-items:center;justify-content:center;align-self:flex-start;margin-bottom:auto}
+.gi svg{width:34px;height:34px;fill:none;stroke:var(--primary);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ٤ */
+#s4{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:0 96px}
+.field{position:relative;width:100%;padding:40px 46px;font-size:44px;color:#E6F1F0;display:flex;justify-content:space-between;align-items:center;overflow:hidden}
+.field .st{position:absolute;inset-inline-start:36px;top:50%;height:4px;border-radius:3px;background:var(--accent);width:0}
+.field .x{font-size:42px;font-weight:700;color:var(--accent);opacity:0}
+
+/* ٥ */
+#s5{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px;padding:0 90px}
+#ring{position:relative;width:440px;height:440px}
+#ring svg{transform:rotate(-90deg)}
+#ringIn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+#ringIn small{font-size:40px;color:#E6F1F0}
+#ringIn b{font-size:96px;font-weight:700;color:#FFFFFF;line-height:1.1}
+#amb{display:flex;align-items:center;gap:18px;padding:24px 40px;border-radius:999px;background:rgb(255 255 255/.94);
+  font-size:40px;font-weight:700;color:var(--primary-ink);box-shadow:0 22px 56px rgb(4 24 30/.4)}
+#amb svg{width:38px;height:38px;fill:none;stroke:var(--primary);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+/* ٦ */
+#s6{padding:0 86px;display:flex;flex-direction:column;justify-content:center;gap:44px}
+#kicks{position:relative;height:56px;text-align:center}
+#kicks .kick{position:absolute;inset-inline:0}
+#code{align-self:center;display:flex;gap:6px;padding:30px 54px;border-radius:999px;background:rgb(255 255 255/.95);
+  direction:ltr;box-shadow:0 22px 60px rgb(4 24 30/.42)}
+#code span{font-family:ui-monospace,Menlo,monospace;font-size:64px;font-weight:700;color:var(--primary-ink);width:44px;text-align:center;opacity:0}
+#caret{width:4px;height:64px;background:var(--primary);align-self:center;border-radius:2px}
+.steps{display:flex;flex-direction:column;gap:22px}
+.step{display:flex;align-items:center;gap:26px;padding:32px 40px;border-radius:28px;opacity:0;
+  background:rgb(255 255 255/.12);border:1px solid rgb(255 255 255/.22);will-change:transform,opacity,background}
+.step .dot{position:relative;width:46px;height:46px;border-radius:999px;border:3px solid #D8E8E5;flex:0 0 auto}
+.step .dot svg{position:absolute;inset:6px;width:28px;height:28px;fill:none;stroke:#FFFFFF;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.step .dot path{stroke-dasharray:30;stroke-dashoffset:30}
+.step b{font-size:44px;font-weight:700;color:#FFFFFF}
+
+/* ٧ */
+#s7{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:56px;padding:0 84px;text-align:center}
+#go{display:flex;flex-direction:column;align-items:center;gap:20px}
+#goBtn{padding:34px 84px;border-radius:999px;background:var(--primary);color:#FFFFFF;font-size:54px;font-weight:700;
+  box-shadow:0 26px 64px rgb(5 117 144/.55),0 1px 0 rgb(255 255 255/.35) inset}
+#goUrl{font-size:36px;color:#E6F1F0;direction:ltr}
+
+/* ٨ */
+#s8{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;text-align:center}
+#island2{width:260px;height:260px;border-radius:52px;background:rgb(255 255 255/.95);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 0 #FFFFFF inset,0 30px 80px rgb(4 24 30/.5)}
+#island2 img{width:184px;height:auto}
+#mark{position:absolute;inset-block-end:86px;inset-inline:0;text-align:center;font-size:26px;letter-spacing:.42em;color:rgb(255 255 255/.30);direction:ltr;opacity:0}
+#fade{position:absolute;inset:0;background:#071F27;opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cam"><div id="scene"></div></div>
+  <div id="tint"></div><div id="halo"></div><div id="scrim"></div><div id="vig"></div>
+  <svg id="grain" width="1120" height="1960"><filter id="gn"><feTurbulence id="turb" type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="1"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg>
+
+  <section class="scn" id="s1">
+    <div class="wh" data-i="0" style="top:24%;right:7%">«سمعت إن العقود بتتغيّر»</div>
+    <div class="wh" data-i="1" style="top:35%;right:20%">«قالوا الرواتب بتتأخر»</div>
+    <div class="wh" data-i="2" style="top:46%;right:5%">«محد يدري وش بيصير»</div>
+    <div class="wh" data-i="3" style="top:57%;right:17%">«الكلام كثر وما فيه توضيح»</div>
+    <div class="cap">
+      <span class="ln w" id="c1a" style="font-size:64px;font-weight:700">في كل تحوّل، تكثر الأسئلة</span>
+      <span class="ln ws" id="c1b" style="font-size:46px;margin-top:20px">ويكثر الكلام اللي ما أحد يعرف صحته</span>
+    </div>
+  </section>
+
+  <section class="scn" id="s2">
+    <div id="island"><img src="file:///home/user/trasformation-ambassador/public/brand/hadithah-logo.svg" alt=""/><div id="sweep"></div></div>
+    <h1 class="ln w" id="c2a">جسر التحول</h1>
+    <span class="ln ws" id="c2b" style="font-size:54px">صوت الموظف</span>
+  </section>
+
+  <section class="scn" id="s3">
+    <span class="ln kick" id="c3k"><i></i>ابدأ من هنا</span>
+    <h2 class="ln w" id="c3a" style="margin-top:16px">اكتب اللي بخاطرك</h2>
+    <div class="gates">
+      <div class="gate card" data-g="0"><div class="ring"></div><span class="gi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .9-1 1.6v.3"/><path d="M12 16.6h.01"/></svg></span><b>عندي سؤال</b><span>اسأل عن أي شيء مو واضح</span></div>
+      <div class="gate card" data-g="1"><div class="ring"></div><span class="gi"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.1 7.9-8 9-4.9-1.1-8-4.6-8-9V7z"/><path d="M12 9v4"/><path d="M12 16h.01"/></svg></span><b>فيه شي مقلقني</b><span>قول لنا وش شاغل بالك</span></div>
+      <div class="gate card" data-g="2"><div class="ring"></div><span class="gi"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 1 3.5 10.9c-.5.4-.8 1-.8 1.6H9.3c0-.6-.3-1.2-.8-1.6A6 6 0 0 1 12 3z"/></svg></span><b>عندي اقتراح</b><span>فكرة تسهّل رحلة التحول</span></div>
+      <div class="gate card" data-g="3"><div class="ring"></div><span class="gi"><svg viewBox="0 0 24 24"><path d="M4 6h16v10H8l-4 4z"/><path d="M8 10h8"/><path d="M8 13h5"/></svg></span><b>سمعت معلومة</b><span>نوضح لك الموقف الرسمي</span></div>
+    </div>
+  </section>
+
+  <section class="scn" id="s4">
+    <h2 class="ln w" id="c4a" style="text-align:center">بدون اسمك</h2>
+    <div class="ln" id="f1w" style="width:100%"><div class="field glass"><span>الاسم الكامل</span><span class="x" id="x1">✕</span><i class="st" id="st1"></i></div></div>
+    <div class="ln" id="f2w" style="width:100%"><div class="field glass"><span>الرقم الوظيفي</span><span class="x" id="x2">✕</span><i class="st" id="st2"></i></div></div>
+    <span class="ln ws" id="c4b" style="font-size:38px;text-align:center;line-height:1.6">ما نطلبهما أصلًا — ولا مكان لهما في قاعدة البيانات</span>
+  </section>
+
+  <section class="scn" id="s5">
+    <div id="ring">
+      <svg width="440" height="440" viewBox="0 0 440 440">
+        <circle cx="220" cy="220" r="196" fill="none" stroke="rgba(216,232,229,.2)" stroke-width="14"/>
+        <circle id="arc" cx="220" cy="220" r="196" fill="none" stroke="#04A67A" stroke-width="14" stroke-linecap="round" stroke-dasharray="1231.5" stroke-dashoffset="1231.5"/>
+      </svg>
+      <div id="ringIn"><small>أقل من</small><b>دقيقة</b></div>
+    </div>
+    <h2 class="ln w" id="c5a" style="text-align:center">وتوصل مشاركتك</h2>
+    <div class="ln" id="ambW"><div id="amb"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>سفير التغيير</div></div>
+  </section>
+
+  <section class="scn" id="s6">
+    <div id="kicks"><span class="kick" id="k6a"><i></i>رمز المتابعة</span><span class="kick" id="k6b"><i></i>كل مشاركة لها حالة</span></div>
+    <div class="ln" id="codeW" style="display:flex;justify-content:center"><div id="code">
+      <span>A</span><span>B</span><span>C</span><span>D</span><span>1</span><span>2</span><span>3</span><span>4</span><i id="caret"></i></div></div>
+    <div class="steps">
+      <div class="step" data-s="0"><span class="dot"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><b>وصلت</b></div>
+      <div class="step" data-s="1"><span class="dot"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><b>أُحيلت لفريق التحول</b></div>
+      <div class="step" data-s="2"><span class="dot"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><b>صدر الرد الرسمي</b></div>
+    </div>
+  </section>
+
+  <section class="scn" id="s7">
+    <h1 class="ln w" id="c7a">صوتك يصنع<br/>الوضوح</h1>
+    <div id="go" class="ln"><div id="goBtn">ابدأ الحين</div><span id="goUrl">transformation-bridge.vercel.app</span></div>
+  </section>
+
+  <section class="scn" id="s8">
+    <div id="island2"><img src="file:///home/user/trasformation-ambassador/public/brand/hadithah-logo.svg" alt=""/></div>
+    <h2 class="ln w" id="c8a">جسر التحول</h2>
+    <span class="ln ws" id="c8b" style="font-size:44px">صوت الموظف</span>
+    <span class="ln ws" id="c8c" style="font-size:34px;direction:ltr;margin-top:18px;opacity:.9">transformation-bridge.vercel.app</span>
+  </section>
+
+  <div id="flash"></div>
+  <div id="mark">saaalrowily</div>
+  <div id="fade"></div>
+</div>
+
+<script>
+/* ==================================================================
+   كل إطار دالة في t وحدها. التوقيتات مأخوذة من طوابع كلمات التعليق
+   الصوتي الفعلي (faster-whisper)، فكل حدث يقع على كلمته.
+   ================================================================== */
+const C = {"vo_start": 0.3, "s1_line2": 3.18, "reveal_hunaa": 6.39, "reveal_jisr": 6.6, "reveal_tahawwul": 7.4, "sawt": 8.61, "uktub": 10.12, "g_question": 11.61, "g_concern": 12.44, "g_idea": 13.26, "g_rumor": 14.24, "bidoon": 15.6, "ismak": 15.9, "raqmak": 17.06, "aqall": 18.44, "watoosal": 19.5, "safeer": 20.68, "takhudh": 22.12, "ramz": 22.44, "tarja": 23.59, "kull1": 25.55, "haala": 26.6, "sual2": 27.56, "rasmi": 28.68, "sawtak": 29.53, "ibda": 31.57, "vo_end": 32.28};
+const DUR = 36.4;
+const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const out3=p=>1-Math.pow(1-p,3), io3=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const back=p=>{const c1=1.55,c3=c1+1;return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2)};
+const pr=(t,a,b,e=out3)=>e(cl((t-a)/(b-a)));
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const set=(k,v)=>document.documentElement.style.setProperty(k,v);
+
+/* نوافذ المشاهد: دخول وخروج بانتقال تمويه */
+const SC=[
+ ["#s1", 0.00,           C.reveal_hunaa+0.02],
+ ["#s2", C.reveal_hunaa-0.10, C.uktub-0.05],
+ ["#s3", C.uktub-0.20,   C.bidoon-0.12],
+ ["#s4", C.bidoon-0.28,  C.aqall-0.08],
+ ["#s5", C.aqall-0.24,   C.takhudh-0.10],
+ ["#s6", C.takhudh-0.26, C.sawtak-0.10],
+ ["#s7", C.sawtak-0.26,  C.vo_end+0.10],
+ ["#s8", C.vo_end-0.05,  DUR],
+];
+const XF=0.42;
+
+/* الكاميرا: مفاتيح [t, مقياس, إزاحة أفقية٪, إزاحة رأسية٪] */
+const CAM=[
+ [0.0, 1.46, 0.0, 9.0],
+ [C.reveal_hunaa-0.2, 1.56, 0.0, 6.0],
+ [C.reveal_jisr, 1.26, 0.0, 0.0],
+ [C.uktub, 1.31, 0.0, -1.5],
+ [C.bidoon, 1.30, 0.0, -6.0],
+ [C.aqall, 1.50, 0.0, -9.0],
+ [C.takhudh, 1.18, 0.0, -2.0],
+ [C.kull1, 1.21, -2.4, -3.5],
+ [C.sawtak, 1.24, 2.2, -1.0],
+ [C.vo_end, 1.36, 0.0, 2.0],
+ [DUR, 1.20, 0.0, 0.0],
+];
+function camAt(t){
+  for(let i=0;i<CAM.length-1;i++){
+    const [t0,s0,x0,y0]=CAM[i],[t1,s1,x1,y1]=CAM[i+1];
+    if(t>=t0&&t<=t1){
+      // الكشف عند «جسر» حركة سريعة؛ البقية انجراف بطيء
+      const fast = t1===C.reveal_jisr;
+      const p = fast ? out3(cl((t-t0)/(t1-t0))) : io3(cl((t-t0)/(t1-t0)));
+      return [s0+(s1-s0)*p, x0+(x1-x0)*p, y0+(y1-y0)*p];
+    }
+  }
+  const l=CAM[CAM.length-1]; return [l[1],l[2],l[3]];
+}
+
+function ln(id,t,at,dist=30){
+  const el=$(id); if(!el) return;
+  const p=pr(t,at,at+0.62);
+  el.style.opacity=p.toFixed(3);
+  el.style.transform=`translateY(${((1-p)*dist).toFixed(1)}px)`;
+  el.style.filter=`blur(${((1-p)*6).toFixed(2)}px)`;
+}
+
+function seek(t){
+  /* الكاميرا */
+  const [cs,cx,cy]=camAt(t);
+  $("#cam").style.transform=`translate(${cx}%,${cy}%) scale(${cs.toFixed(4)})`;
+
+  /* الإضاءة: ضباب في البداية، انفتاح عند الكشف، عودة لليل في الختام */
+  const fog=1-pr(t,C.reveal_hunaa-0.3,C.reveal_jisr+0.4);
+  const priv=pr(t,C.bidoon-0.2,C.bidoon+0.6)*(1-pr(t,C.aqall-0.3,C.aqall+0.3));
+  const fin=pr(t,C.vo_end-0.2,C.vo_end+1.2);
+  set("--tt",(0.40+0.36*fog+0.14*priv+0.18*fin).toFixed(3));
+  set("--tb",(0.58+0.28*fog+0.14*priv+0.16*fin).toFixed(3));
+  set("--halo",(0.15+0.65*(1-fog)*(1-fin*0.4)).toFixed(3));
+  const sy = t<C.reveal_hunaa?64 : t<C.uktub?56 : t<C.bidoon?48 : t<C.aqall?50 : t<C.takhudh?56 : t<C.sawtak?50 : t<C.vo_end?48 : 50;
+  set("--sy",sy+"%");
+
+  /* الحبيبات: بذرة تتغير كل إطارين — ملمس فيلم يمنع التدرّج المتقطع في الضغط */
+  $("#turb").setAttribute("seed", String(1+Math.floor(t*15)%97));
+
+  /* وميض خفيف مع ضربة الموسيقى على «جسر» */
+  const fl=pr(t,C.reveal_jisr-0.02,C.reveal_jisr+0.06)*(1-pr(t,C.reveal_jisr+0.06,C.reveal_jisr+0.55));
+  $("#flash").style.opacity=(fl*0.22).toFixed(3);
+
+  /* المشاهد */
+  for(const [id,a,b] of SC){
+    const el=$(id);
+    const fi=pr(t,a,a+XF), fo=1-pr(t,b-XF,b,io3);
+    const op=cl(Math.min(fi,fo));
+    el.style.opacity=op.toFixed(3);
+    const yIn=(1-fi)*36, yOut=(1-fo)*-30;
+    el.style.transform=`translateY(${(yIn+yOut).toFixed(1)}px) scale(${(0.985+0.015*fi).toFixed(4)})`;
+    el.style.filter=`blur(${(((1-fi)+(1-fo))*9).toFixed(2)}px)`;
+    el.style.visibility = op<0.002 ? "hidden" : "visible";
+  }
+
+  /* ١ — الهمسات */
+  $$("#s1 .wh").forEach(w=>{
+    const i=+w.dataset.i, a=0.35+i*0.62;
+    const p=pr(t,a,a+1.3);
+    const drift=(t-a)*6;
+    w.style.opacity=(p*(1-pr(t,C.reveal_hunaa-1.6,C.reveal_hunaa-0.2))).toFixed(3);
+    w.style.transform=`translateX(${((1-p)*-50 + drift).toFixed(1)}px)`;
+    w.style.filter=`blur(${(1.4+(1-p)*6).toFixed(2)}px)`;
+  });
+  ln("#c1a",t,C.vo_start); ln("#c1b",t,C.s1_line2);
+
+  /* ٢ — الكشف */
+  const ip=pr(t,C.reveal_jisr-0.10,C.reveal_jisr+0.55,back);
+  $("#island").style.opacity=cl(ip*1.4).toFixed(3);
+  $("#island").style.transform=`translateY(${((1-ip)*-60).toFixed(1)}px) scale(${(0.82+0.18*ip).toFixed(4)})`;
+  const sw=pr(t,C.reveal_jisr+0.05,C.reveal_jisr+0.95,io3);
+  $("#sweep").style.transform=`translateX(${(-120+240*sw).toFixed(1)}%)`;
+  ln("#c2a",t,C.reveal_jisr+0.04,40); ln("#c2b",t,C.sawt);
+
+  /* ٣ — البوابات على كلماتها */
+  ln("#c3k",t,C.uktub-0.15); ln("#c3a",t,C.uktub);
+  const GT=[C.g_question,C.g_concern,C.g_idea,C.g_rumor];
+  $$(".gate").forEach(g=>{
+    const i=+g.dataset.g, at=GT[i]-0.06;
+    const p=pr(t,at,at+0.52,back);
+    g.style.opacity=cl(pr(t,at,at+0.22)).toFixed(3);
+    g.style.transform=`translateY(${((1-p)*46).toFixed(1)}px) scale(${(0.88+0.12*p).toFixed(4)})`;
+    // الحلقة تومض على البطاقة لحظة ذكرها ثم تخبو
+    const r=pr(t,at,at+0.18)*(1-pr(t,at+0.5,at+1.1));
+    g.querySelector(".ring").style.opacity=r.toFixed(3);
+  });
+
+  /* ٤ — الشطب على «اسمك» و«رقمك» */
+  ln("#c4a",t,C.bidoon); ln("#f1w",t,C.bidoon+0.10); ln("#f2w",t,C.bidoon+0.24);
+  const s1=pr(t,C.ismak,C.ismak+0.42,io3), s2=pr(t,C.raqmak,C.raqmak+0.42,io3);
+  $("#st1").style.width=`calc(${(s1*100).toFixed(1)}% - ${(s1*72).toFixed(1)}px)`;
+  $("#st2").style.width=`calc(${(s2*100).toFixed(1)}% - ${(s2*72).toFixed(1)}px)`;
+  $("#x1").style.opacity=pr(t,C.ismak+0.30,C.ismak+0.55).toFixed(3);
+  $("#x2").style.opacity=pr(t,C.raqmak+0.30,C.raqmak+0.55).toFixed(3);
+  ln("#c4b",t,C.raqmak+0.55);
+
+  /* ٥ — الحلقة تمتلئ ٨٥٪ ولا تكتمل: «أقل من دقيقة» */
+  const rp=pr(t,C.aqall,C.aqall+1.25,io3)*0.86;
+  $("#arc").setAttribute("stroke-dashoffset",(1231.5*(1-rp)).toFixed(1));
+  const rIn=pr(t,C.aqall-0.15,C.aqall+0.45,back);
+  $("#ring").style.transform=`scale(${(0.86+0.14*rIn).toFixed(4)})`;
+  $("#ring").style.opacity=cl(rIn*1.3).toFixed(3);
+  ln("#c5a",t,C.watoosal); 
+  const ap=pr(t,C.safeer-0.10,C.safeer+0.45,back);
+  $("#ambW").style.opacity=cl(ap*1.4).toFixed(3);
+  $("#ambW").style.transform=`translateY(${((1-ap)*40).toFixed(1)}px) scale(${(0.86+0.14*ap).toFixed(4)})`;
+
+  /* ٦ — الرمز يُكتب حرفًا حرفًا (لاتيني، فلا وصل يُكسر) ثم الحالات */
+  const kA=pr(t,C.takhudh,C.takhudh+0.5)*(1-pr(t,C.kull1-0.25,C.kull1+0.1));
+  const kB=pr(t,C.kull1-0.05,C.kull1+0.45);
+  $("#k6a").style.opacity=kA.toFixed(3); $("#k6a").style.transform=`translateY(${((1-kA)*14).toFixed(1)}px)`;
+  $("#k6b").style.opacity=kB.toFixed(3); $("#k6b").style.transform=`translateY(${((1-kB)*14).toFixed(1)}px)`;
+  ln("#codeW",t,C.takhudh+0.08);
+  $$("#code span").forEach((s,i)=>{ s.style.opacity = t >= C.ramz + i*0.075 ? "1" : "0"; });
+  const typed = t >= C.ramz && t < C.ramz + 8*0.075 + 0.9;
+  $("#caret").style.opacity = typed ? ((Math.floor(t*4)%2)?"0.2":"1") : "0";
+  const ST=[C.haala,C.sual2,C.rasmi];
+  $$(".step").forEach(s=>{
+    const i=+s.dataset.s;
+    const show=pr(t,C.tarja+i*0.16,C.tarja+0.5+i*0.16);
+    s.style.opacity=show.toFixed(3);
+    const on=pr(t,ST[i]-0.04,ST[i]+0.30);
+    const pop=pr(t,ST[i]-0.04,ST[i]+0.42,back);
+    s.style.transform=`translateY(${((1-show)*28).toFixed(1)}px) scale(${(1+0.035*Math.sin(Math.PI*cl((t-ST[i])/0.42))*(on>0?1:0)).toFixed(4)})`;
+    s.style.background = on>0.5 ? "rgb(255 255 255 / .94)" : "rgb(255 255 255 / .12)";
+    s.style.borderColor = on>0.5 ? "transparent" : "rgb(255 255 255 / .22)";
+    s.querySelector("b").style.color = on>0.5 ? "#12353F" : "#FFFFFF";
+    const d=s.querySelector(".dot");
+    d.style.background = on>0.5 ? "#16704A" : "transparent";
+    d.style.borderColor = on>0.5 ? "#16704A" : "#D8E8E5";
+    d.querySelector("path").style.strokeDashoffset = (30*(1-pr(t,ST[i]+0.06,ST[i]+0.36))).toFixed(1);
+  });
+
+  /* ٧ — الدعوة */
+  ln("#c7a",t,C.sawtak,44);
+  const gp=pr(t,C.ibda-0.08,C.ibda+0.48,back);
+  $("#go").style.opacity=cl(gp*1.4).toFixed(3);
+  $("#go").style.filter="none";
+  $("#go").style.transform=`translateY(${((1-gp)*36).toFixed(1)}px) scale(${(0.84+0.16*gp).toFixed(4)})`;
+
+  /* ٨ — بطاقة الختام مع الشعار الصوتي */
+  const e=pr(t,C.vo_end+0.05,C.vo_end+0.75,back);
+  $("#island2").style.opacity=cl(e*1.4).toFixed(3);
+  $("#island2").style.transform=`scale(${(0.8+0.2*e).toFixed(4)})`;
+  ln("#c8a",t,C.vo_end+0.30); ln("#c8b",t,C.vo_end+0.55); ln("#c8c",t,C.vo_end+0.85);
+  $("#mark").style.opacity=(0.9*pr(t,C.vo_end+1.4,C.vo_end+2.4)).toFixed(3);
+  $("#fade").style.opacity=pr(t,DUR-0.75,DUR,io3).toFixed(3);
+}
+window.seek=seek; window.FILM_DURATION=DUR;
+seek(0);
+</script>
+</body>
+</html>
