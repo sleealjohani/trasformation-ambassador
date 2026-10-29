@@ -527,12 +527,21 @@
 
   /* الطبقة ٤ — الشريط العائم: المادة الوحيدة ذات backdrop متكرر */
   .glass-dock {
-    background: rgb(255 255 255 / 0.44);
+    background: rgb(255 255 255 / 0.86);
     backdrop-filter: blur(var(--blur-dock));
     -webkit-backdrop-filter: blur(var(--blur-dock));
     border: 1px solid rgb(255 255 255 / 0.4);
     border-radius: var(--radius-tag);
     box-shadow: var(--shadow-floating), var(--shadow-edge);
+  }
+
+  /* الشاشات العريضة: قيمة الدليل ٤٤٪ مع التمويه — التسريع مرجَّح هناك،
+     والشريط حبّة صغيرة لا تغطي محتوى طويلًا. */
+  @media (min-width: 768px) {
+    .glass-dock,
+    .v2-bottom-nav {
+      background: rgb(255 255 255 / 0.62);
+    }
   }
 
   /* جزيرة الشعار: أبيض ٩٢٪ ولا تمويه ولا ظل على الشعار نفسه */
