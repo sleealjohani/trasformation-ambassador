@@ -477,8 +477,18 @@
     inset: 0;
     z-index: 0;
     block-size: 100%;
-    background: var(--color-bg) url("/brand/scene.webp") center / cover fixed no-repeat;
+    /* الجوال يأخذ قصًّا رأسيًا مستقلًا: النسخة العريضة عند `cover` على شاشة
+       ٣٩٠×٨٤٤ تعرض ربع عرضها فقط، فيضيع التكوين ويُرسل ملف أثقل بلا فائدة.
+       القصّ الرأسي يتمحور حول المدخل واللافتة، ويزن نصف الآخر. */
+    background: var(--color-bg) url("/brand/scene-mobile.webp") center / cover fixed no-repeat;
     pointer-events: none;
+  }
+
+  /* من ٧٦٨px فأعلى: النسخة العريضة، فالشاشة أفقية والقصّ الرأسي يضيع عليها */
+  @media (min-width: 768px) {
+    .scene {
+      background-image: url("/brand/scene.webp");
+    }
   }
 
   /* الطبقة ٢ — الإضاءة: غسل خفيف متدرّج. أفتح في الأعلى حيث يقع العنوان،
