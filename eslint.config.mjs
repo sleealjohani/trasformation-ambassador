@@ -10,6 +10,9 @@ const config = [
       "playwright-report/**",
       "test-results/**",
       "db/migrations/**",
+      // مهارات الوكلاء — ملفات طرف ثالث، ليست من كود المشروع ولا تُعدَّل
+      ".claude/**",
+      ".agents/**",
     ],
   },
   ...nextCoreWebVitals,
