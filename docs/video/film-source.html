@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<title>جسر التحول — فيلم تعريفي</title>
+<style>
+@font-face{font-family:"Janna";font-weight:400;src:url("file:///home/user/trasformation-ambassador/public/fonts/JannaLT-Regular.woff2") format("woff2");font-display:block}
+@font-face{font-family:"Janna";font-weight:700;src:url("file:///home/user/trasformation-ambassador/public/fonts/JannaLT-Bold.woff2") format("woff2");font-display:block}
+
+:root{
+  --primary:#057590; --primary-ink:#073D4B; --secondary:#04A67A; --accent:#9ECC3B;
+  --night:#103F4B; --ink:#12353F; --muted:#3D5155; --page:#DDE4DF; --section:#E3ECE7;
+  --inverse:#FFFFFF; --inverse-muted:#D8E8E5; --success:#16704A; --info:#0751A0;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--night)}
+body{font-family:"Janna",Tahoma,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+
+/* ——— المسرح ——— */
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--night)}
+
+/* الطبقة ١: المكان */
+#scene{position:absolute;inset:-6%;background:url("file:///home/user/trasformation-ambassador/public/brand/scene.webp") center/cover no-repeat;
+  transform:scale(var(--scene-s,1.08)) translateY(var(--scene-y,0px));
+  filter:saturate(var(--scene-sat,1)) brightness(var(--scene-b,1))}
+#tint{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgb(16 63 75/var(--tint-t,.55)) 0%,rgb(7 61 75/var(--tint-b,.72)) 100%)}
+#scrim{position:absolute;inset:0;pointer-events:none;opacity:var(--scrim,1);background:
+  radial-gradient(74% 44% at 50% var(--scrim-y,62%), rgb(7 32 40/.62) 0%, rgb(7 32 40/.34) 52%, rgb(7 32 40/0) 78%)}
+#halo{position:absolute;inset:0;opacity:var(--halo,0);background:
+  radial-gradient(60% 40% at 72% 18%,rgb(4 166 122/.30),transparent 70%),
+  radial-gradient(55% 38% at 22% 76%,rgb(5 117 144/.34),transparent 72%)}
+
+/* الطبقة ٢: الزجاج */
+.pane{position:absolute;border-radius:48px;
+  background:linear-gradient(180deg,rgb(255 255 255/.40) 0%,rgb(255 255 255/.28) 60%,rgb(255 255 255/.34) 100%);
+  -webkit-backdrop-filter:blur(11px) saturate(1.3);backdrop-filter:blur(11px) saturate(1.3);
+  border:1px solid rgb(255 255 255/.52);
+  box-shadow:0 1px 0 rgb(255 255 255/.6) inset,0 40px 120px rgb(7 61 75/.34)}
+
+.card{border-radius:34px;
+  background:linear-gradient(165deg,rgb(255 255 255/.90),rgb(255 255 255/.80));
+  -webkit-backdrop-filter:blur(7px) saturate(1.35);backdrop-filter:blur(7px) saturate(1.35);
+  border:1px solid rgb(255 255 255/.7);
+  box-shadow:0 1px 0 rgb(255 255 255/.75) inset,0 18px 48px rgb(7 61 75/.20)}
+
+/* ——— المشاهد ——— */
+.scn{position:absolute;inset:0;opacity:0;will-change:opacity,transform}
+
+/* نص: يتحرك سطرًا لا حرفًا — العربية تتصل */
+.line{display:block;opacity:0;transform:translateY(26px);will-change:opacity,transform}
+
+h1{font-size:104px;line-height:1.28;font-weight:700;letter-spacing:0}
+h2{font-size:74px;line-height:1.34;font-weight:700}
+.lead{font-size:46px;line-height:1.62;font-weight:400;color:var(--muted)}
+.onDark{color:var(--inverse)} .onDarkSoft{color:var(--inverse-muted)}
+.kicker{font-size:34px;font-weight:700;color:#FFFFFF;opacity:.82;letter-spacing:0}
+
+/* ١ — الشائعات */
+#s1{display:flex;align-items:center;justify-content:center;padding:0 110px}
+.whisper{position:absolute;font-size:40px;color:#E2EFF0;white-space:nowrap;
+  filter:blur(var(--wb,2px));will-change:opacity,transform}
+
+/* ٢ — الاسم */
+#s2{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px}
+#logoIsland{width:300px;height:300px;border-radius:56px;background:rgb(255 255 255/.94);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 0 rgb(255 255 255/.8) inset,0 30px 80px rgb(7 61 75/.4)}
+#logoIsland img{width:214px;height:auto;display:block}
+
+/* ٣ — البوابات */
+#s3{padding:0 80px;display:flex;flex-direction:column;justify-content:center}
+.gates{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px}
+.gate{padding:44px 40px;min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px}
+.gate b{font-size:46px;font-weight:700;color:var(--ink)}
+.gate span{font-size:32px;color:var(--muted);line-height:1.5}
+.gdot{width:64px;height:64px;border-radius:22px;background:var(--section);
+  display:flex;align-items:center;justify-content:center;align-self:flex-start;margin-bottom:auto}
+.gdot svg{width:34px;height:34px;fill:none;stroke:var(--primary);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ٤ — بلا اسم */
+#s4{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:0 100px}
+.field{width:100%;padding:38px 44px;border-radius:28px;background:rgb(255 255 255/.14);
+  border:1px solid rgb(255 255 255/.26);font-size:42px;color:#E6F1F0;
+  display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.strike{position:absolute;inset-inline-start:34px;inset-block-start:50%;height:3px;background:var(--accent);
+  width:calc(var(--sw,0) * 1%);max-width:calc(100% - 68px);border-radius:2px}
+.xmark{font-size:40px;color:var(--accent);font-weight:700}
+
+/* ٥ — الزمن */
+#s5{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:50px}
+#ring{width:420px;height:420px;position:relative}
+#ring svg{transform:rotate(-90deg)}
+#ringTxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+#ringNum{font-size:120px;font-weight:700;color:var(--inverse);font-variant-numeric:tabular-nums}
+#ringLbl{font-size:36px;color:var(--inverse-muted)}
+
+/* ٦ — الرمز والحالة */
+#s6{padding:0 90px;display:flex;flex-direction:column;justify-content:center;gap:46px}
+#code{align-self:center;padding:30px 60px;border-radius:999px;background:rgb(255 255 255/.94);
+  font-family:ui-monospace,Menlo,monospace;font-size:62px;font-weight:700;letter-spacing:.14em;
+  color:var(--primary-ink);direction:ltr;box-shadow:0 20px 56px rgb(7 61 75/.34)}
+.steps{display:flex;flex-direction:column;gap:22px;margin-top:10px}
+.step{display:flex;align-items:center;gap:26px;padding:30px 38px;border-radius:26px;
+  background:rgb(255 255 255/.12);border:1px solid rgb(255 255 255/.2)}
+.sdot{width:22px;height:22px;border-radius:999px;background:var(--inverse-muted);flex:0 0 auto}
+.step.on{background:rgb(255 255 255/.92);border-color:transparent}
+.step.on .sdot{background:var(--success)}
+.step b{font-size:42px;font-weight:700;color:var(--inverse)}
+.step.on b{color:var(--ink)}
+
+/* ٧ — الختام */
+#s7{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:46px;padding:0 90px;text-align:center}
+#url{padding:28px 58px;border-radius:999px;background:var(--inverse);color:var(--primary-ink);
+  font-size:40px;font-weight:700;direction:ltr;box-shadow:0 24px 64px rgb(7 61 75/.4)}
+#mark{position:absolute;inset-block-end:74px;inset-inline:0;text-align:center;
+  font-size:26px;letter-spacing:.42em;color:rgb(255 255 255/.26);direction:ltr}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="scene"></div><div id="tint"></div><div id="halo"></div><div id="scrim"></div>
+
+  <section class="scn" id="s1">
+    <div style="position:relative;width:100%;height:100%">
+      <div class="whisper" data-w="0" style="top:30%;right:8%">«سمعت إن العقود بتتغيّر»</div>
+      <div class="whisper" data-w="1" style="top:44%;right:16%">«قالوا الرواتب بتتأخر»</div>
+      <div class="whisper" data-w="2" style="top:57%;right:6%">«محد يدري وش بيصير»</div>
+      <div class="whisper" data-w="3" style="top:70%;right:20%">«الكلام كثر ومافي توضيح»</div>
+      <div style="position:absolute;inset-block-end:26%;inset-inline:90px;text-align:center">
+        <span class="line" data-l="0" style="font-size:58px;font-weight:700;color:#FFFFFF;display:block">في كل تحوّل، تكثر الأسئلة</span>
+        <span class="line" data-l="1" style="font-size:44px;color:#D8E8E5;display:block;margin-top:18px">ويكثر الكلام اللي ما أحد يعرف صحته</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="scn" id="s2">
+    <div id="logoIsland"><img src="file:///home/user/trasformation-ambassador/public/brand/hadithah-logo.svg" alt="" /></div>
+    <h1 class="line onDark" data-l="0" style="text-align:center">جسر التحول</h1>
+    <span class="line onDarkSoft" data-l="1" style="font-size:50px">صوت الموظف</span>
+  </section>
+
+  <section class="scn" id="s3">
+    <span class="line kicker" data-l="0">ابدأ من هنا</span>
+    <h2 class="line onDark" data-l="1" style="margin-top:14px">اكتب اللي بخاطرك</h2>
+    <div class="gates">
+      <div class="gate card" data-g="0"><span class="gdot"><svg viewBox="0 0 24 24"><path d="M9.1 9a3 3 0 1 1 4.2 2.8c-.8.4-1.3 1.1-1.3 2v.4"/><path d="M12 17.5h.01"/></svg></span><b>عندي سؤال</b><span>اسأل عن أي شيء مو واضح</span></div>
+      <div class="gate card" data-g="1"><span class="gdot"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.1 7.9-8 9-4.9-1.1-8-4.6-8-9V7z"/><path d="M12 9v4"/><path d="M12 16h.01"/></svg></span><b>فيه شي مقلقني</b><span>قول لنا وش شاغل بالك</span></div>
+      <div class="gate card" data-g="2"><span class="gdot"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 1 3.5 10.9c-.5.4-.8 1-.8 1.6H9.3c0-.6-.3-1.2-.8-1.6A6 6 0 0 1 12 3z"/></svg></span><b>عندي اقتراح</b><span>فكرة تسهّل رحلة التحول</span></div>
+      <div class="gate card" data-g="3"><span class="gdot"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 1 1-3.1-6.3"/><path d="M12 8v4l3 2"/></svg></span><b>سمعت معلومة</b><span>نوضح لك الموقف الرسمي</span></div>
+    </div>
+  </section>
+
+  <section class="scn" id="s4">
+    <h2 class="line onDark" data-l="0" style="text-align:center">بدون اسمك</h2>
+    <div class="line" data-l="1" style="width:100%"><div class="field"><span>الاسم الكامل</span><span class="xmark" id="x1">✕</span><i class="strike" id="st1"></i></div></div>
+    <div class="line" data-l="2" style="width:100%"><div class="field"><span>الرقم الوظيفي</span><span class="xmark" id="x2">✕</span><i class="strike" id="st2"></i></div></div>
+    <span class="line onDarkSoft" data-l="3" style="font-size:38px;text-align:center;line-height:1.6">ما نطلبهما أصلًا — ولا يوجد لهما مكان في قاعدة البيانات</span>
+  </section>
+
+  <section class="scn" id="s5">
+    <div id="ring">
+      <svg width="420" height="420" viewBox="0 0 420 420">
+        <circle cx="210" cy="210" r="186" fill="none" stroke="rgba(216,232,229,.22)" stroke-width="14"/>
+        <circle id="arc" cx="210" cy="210" r="186" fill="none" stroke="#04A67A" stroke-width="14"
+          stroke-linecap="round" stroke-dasharray="1168" stroke-dashoffset="1168"/>
+      </svg>
+      <div id="ringTxt"><span id="ringNum">٦٠</span><span id="ringLbl">ثانية</span></div>
+    </div>
+    <h2 class="line onDark" data-l="0" style="text-align:center;padding:0 90px">أقل من دقيقة<br/>وتوصل لسفير التغيير</h2>
+  </section>
+
+  <section class="scn" id="s6">
+    <span class="line kicker" data-l="0" style="text-align:center;display:block">رمز المتابعة</span>
+    <div class="line" data-l="1" style="display:flex;justify-content:center"><div id="code">ABCD1234</div></div>
+    <div class="steps">
+      <div class="step" data-s="0"><span class="sdot"></span><b>وصلت</b></div>
+      <div class="step" data-s="1"><span class="sdot"></span><b>أُحيلت لفريق التحول</b></div>
+      <div class="step" data-s="2"><span class="sdot"></span><b>صدر الرد الرسمي</b></div>
+    </div>
+  </section>
+
+  <section class="scn" id="s7">
+    <h1 class="line onDark" data-l="0">صوتك يصنع<br/>الوضوح</h1>
+    <div class="line" data-l="1"><div id="url">transformation-bridge.vercel.app</div></div>
+    <span class="line onDarkSoft" data-l="2" style="font-size:36px">بدون اسمك · بدون رقمك الوظيفي</span>
+  </section>
+
+  <div id="mark">saaalrowily</div>
+</div>
+
+<script>
+/* ============================================================
+   تموضع زمني حتمي: كل إطار دالة في t وحدها، فلا يعتمد شيء
+   على ساعة التشغيل ويخرج الفيديو متطابقًا في كل مرة.
+   ============================================================ */
+const DUR = 38.5;
+const E = {
+  out: p => 1 - Math.pow(1 - p, 3),
+  io:  p => p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p+2,3)/2,
+};
+const cl = (v,a=0,b=1) => Math.min(b, Math.max(a, v));
+// تقدّم مُطبَّع بين زمنين مع تخفيف
+const pr = (t,a,b,e=E.out) => e(cl((t-a)/(b-a)));
+const AR = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+
+const S = [
+  {el:"#s1", in:0.0,  out:6.6},
+  {el:"#s2", in:6.4,  out:11.2},
+  {el:"#s3", in:11.0, out:17.8},
+  {el:"#s4", in:17.6, out:21.8},
+  {el:"#s5", in:21.6, out:26.2},
+  {el:"#s6", in:26.0, out:30.8},
+  {el:"#s7", in:30.6, out:38.5},
+];
+
+function seek(t){
+  // المكان: زحف بطيء ثابت يعطي حياة دون أن يشتّت
+  const g = t / DUR;
+  document.documentElement.style.setProperty("--scene-s", (1.08 + g*0.10).toFixed(4));
+  document.documentElement.style.setProperty("--scene-y", (-g*34).toFixed(2) + "px");
+  // الغلاف يفتح من ليل شبه كامل إلى ليل أخف، ثم يعود للختام
+  const open = pr(t, 0.6, 7.2);
+  const close = pr(t, 30.4, 32.4);
+  // المشهد الأول ضبابٌ عمدًا: تعتيم إضافي يخدم المعنى ويضمن قراءة الهمسات
+  const fog = 1 - pr(t, 5.2, 7.0);
+  document.documentElement.style.setProperty("--tint-t", (0.78 - 0.30*open + 0.22*close + 0.22*fog).toFixed(3));
+  document.documentElement.style.setProperty("--tint-b", (0.88 - 0.26*open + 0.20*close).toFixed(3));
+  document.documentElement.style.setProperty("--halo", (0.25 + 0.55*open).toFixed(3));
+
+  // الستار يتبع كتلة النص في المشهد الحالي
+  const scrimY = (t<6.6)?66 : (t<11.2)?58 : (t<17.8)?46 : (t<21.8)?50 : (t<26.2)?64 : (t<30.8)?50 : 46;
+  document.documentElement.style.setProperty("--scrim-y", scrimY + "%");
+
+  for (const s of S){
+    const node = document.querySelector(s.el);
+    const fi = pr(t, s.in, s.in + 0.75);
+    const fo = 1 - pr(t, s.out - 0.55, s.out);
+    const a = cl(Math.min(fi, fo));
+    node.style.opacity = a.toFixed(3);
+    node.style.transform = `translateY(${((1-fi)*34).toFixed(2)}px) scale(${(0.985 + 0.015*fi).toFixed(4)})`;
+    node.style.pointerEvents = "none";
+    // الأسطر تدخل متتابعة داخل كل مشهد
+    node.querySelectorAll(".line").forEach(l => {
+      const i = +l.dataset.l;
+      const p = pr(t, s.in + 0.30 + i*0.30, s.in + 1.15 + i*0.30);
+      l.style.opacity = p.toFixed(3);
+      l.style.transform = `translateY(${((1-p)*26).toFixed(2)}px)`;
+    });
+  }
+
+  // ١ — الهمسات تطفو وتتلاشى
+  document.querySelectorAll(".whisper").forEach(w => {
+    const i = +w.dataset.w;
+    const a0 = 0.35 + i*0.55;
+    const p = pr(t, a0, a0 + 1.1);
+    const fade = 1 - pr(t, 4.5, 6.2);
+    w.style.opacity = (p * fade).toFixed(3);
+    w.style.transform = `translateX(${((1-p)*-42).toFixed(1)}px)`;
+    w.style.setProperty("--wb", (2 + (1-p)*5).toFixed(2) + "px");
+  });
+
+  // ٢ — جزيرة الشعار تهبط
+  const li = document.getElementById("logoIsland");
+  const lp = pr(t, 6.6, 7.9);
+  li.style.opacity = lp.toFixed(3);
+  li.style.transform = `translateY(${((1-lp)*-46).toFixed(1)}px) scale(${(0.9 + 0.1*lp).toFixed(3)})`;
+
+  // ٣ — البوابات الأربع تتابعًا
+  document.querySelectorAll(".gate").forEach(g => {
+    const i = +g.dataset.g;
+    const p = pr(t, 12.2 + i*0.34, 13.3 + i*0.34);
+    g.style.opacity = p.toFixed(3);
+    g.style.transform = `translateY(${((1-p)*40).toFixed(1)}px) scale(${(0.96+0.04*p).toFixed(3)})`;
+  });
+
+  // ٤ — الشطب يمرّ على الحقلين
+  const sw1 = pr(t, 19.0, 19.9), sw2 = pr(t, 19.5, 20.4);
+  document.getElementById("st1").style.setProperty("--sw", (sw1*100).toFixed(1));
+  document.getElementById("st2").style.setProperty("--sw", (sw2*100).toFixed(1));
+  document.getElementById("x1").style.opacity = pr(t, 19.6, 20.1).toFixed(2);
+  document.getElementById("x2").style.opacity = pr(t, 20.1, 20.6).toFixed(2);
+
+  // ٥ — الحلقة تمتلئ والعدّ ينزل
+  const rp = pr(t, 22.2, 25.4, E.io);
+  document.getElementById("arc").setAttribute("stroke-dashoffset", (1168*(1-rp)).toFixed(1));
+  document.getElementById("ringNum").textContent = AR(Math.max(0, Math.round(60 - 60*rp)));
+
+  // ٦ — الحالات تُضاء واحدة تلو الأخرى
+  document.querySelectorAll(".step").forEach(s => {
+    const i = +s.dataset.s;
+    s.classList.toggle("on", t >= 27.6 + i*0.72);
+  });
+
+  // العلامة المحفورة تظهر في الختام فقط
+  document.getElementById("mark").style.opacity = (0.35 * pr(t, 34.5, 36.5)).toFixed(3);
+}
+window.seek = seek; window.FILM_DURATION = DUR;
+seek(0);
+</script>
+</body>
+</html>
