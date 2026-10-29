@@ -145,7 +145,7 @@
   /* تدرّج الضبابية — أربعة أنواع */
   --blur-scene-subtle: 1.4px;
   --blur-scene-strong: 20px;
-  --blur-dock: 12px;
+  --blur-dock: 10px;
   --blur-window: 20px;
   --blur-transition: 6px;
   --blur-overlay: 4px;
@@ -390,8 +390,8 @@
       rgb(255 255 255 / 0.58) 0%,
       rgb(255 255 255 / 0.44) 100%
     );
-    -webkit-backdrop-filter: blur(18px) saturate(1.5);
-    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(7px) saturate(1.35);
+    backdrop-filter: blur(7px) saturate(1.35);
     border: 1px solid rgb(255 255 255 / 0.68);
     box-shadow:
       0 1px 0 rgb(255 255 255 / 0.7) inset,
@@ -530,8 +530,8 @@
       rgb(255 255 255 / 0.27) 62%,
       rgb(255 255 255 / 0.34) 100%
     );
-    -webkit-backdrop-filter: blur(26px) saturate(1.4) brightness(1.06);
-    backdrop-filter: blur(26px) saturate(1.4) brightness(1.06);
+    -webkit-backdrop-filter: blur(11px) saturate(1.3) brightness(1.03);
+    backdrop-filter: blur(11px) saturate(1.3) brightness(1.03);
     border: 1px solid rgb(255 255 255 / 0.5);
     border-radius: var(--radius-panel);
     box-shadow:
@@ -559,8 +559,8 @@
       rgb(255 255 255 / 0.58) 0%,
       rgb(255 255 255 / 0.44) 100%
     );
-    -webkit-backdrop-filter: blur(18px) saturate(1.5);
-    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(7px) saturate(1.35);
+    backdrop-filter: blur(7px) saturate(1.35);
     border: 1px solid rgb(255 255 255 / 0.68);
     border-radius: var(--radius-card);
     box-shadow:
