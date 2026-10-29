@@ -16,10 +16,12 @@ export function Button({ variant = "primary", full = false, className, children,
       className={cn(
         "relative inline-flex min-h-11 items-center justify-center gap-2 rounded-button px-4 py-3 text-body",
         "transition-all duration-[180ms] ease-brand active:scale-[0.98]",
-        "disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100",
+        // التعطيل بتعبئة ونص مخصّصين لا بـopacity: خفض شفافية الحاوية يخفض النص معها
+        "disabled:cursor-not-allowed disabled:bg-disabled-bg disabled:text-disabled-ink",
+        "disabled:border-transparent disabled:shadow-none disabled:active:scale-100",
         variant === "primary" &&
-          "bg-primary font-bold text-panel shadow-[0_8px_24px_-12px_rgb(21_80_138_/_0.7)] hover:bg-error hover:shadow-[0_12px_28px_-12px_rgb(21_80_138_/_0.8)]",
-        variant === "secondary" && "border border-line bg-panel text-primary hover:border-primary hover:bg-tint",
+          "bg-primary font-bold text-inverse shadow-[0_8px_24px_-12px_rgb(5_117_144_/_0.55)] hover:bg-primary-hover active:bg-primary-active",
+        variant === "secondary" && "border border-control-border bg-panel text-primary hover:border-primary hover:bg-tint",
         variant === "ghost" && "text-primary hover:bg-tint",
         full && "w-full",
         className,

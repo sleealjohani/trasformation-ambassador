@@ -55,7 +55,7 @@ export function BottomTabs({ active }: { active?: TabKey }) {
       {TABS.map((tab) => {
         const isActive = tab.key === current;
         return (
-          <Link key={tab.key} href={tab.href} data-tab={tab.key} aria-current={isActive ? "page" : undefined} className={cn("group flex min-h-11 min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 py-2 transition-colors duration-[160ms] ease-brand", isActive ? "font-bold text-primary" : "text-muted hover:text-ink-soft", tab.key === "share" && "v2-share-tab")}>
+          <Link key={tab.key} href={tab.href} data-tab={tab.key} aria-current={isActive ? "page" : undefined} className={cn("group flex min-h-11 min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 py-2 transition-colors duration-[160ms] ease-brand", isActive ? "font-bold text-primary-ink" : "text-muted hover:text-ink-soft", tab.key === "share" && "v2-share-tab")}>
             <span className={cn("transition-transform duration-[220ms] ease-brand", isActive ? "-translate-y-0.5 scale-110" : "group-hover:-translate-y-0.5")}>
               <Icon name={tab.icon} size={ICONS.sizeInTabs} />
             </span>

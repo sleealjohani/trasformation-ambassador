@@ -451,70 +451,113 @@
    المواد والعمق — «المادة نافذة فوق المكان».
    الشفافية في خلفية السطح وحدها. لا يُطبَّق opacity على حاوية تحمل نصًا،
    فيبقى النص عند وضوح كامل مهما خفّت تعبئة السطح خلفه.
+
+   العمق لا يأتي من البلور وحده، بل من أربعة فروق مجتمعة:
+   تعبئة أقل كلما بعُدت الطبقة · ظل أوسع وأخفت كلما ارتفعت ·
+   حافة عليا مضيئة تحاكي ضوءًا من أعلى · وإزاحة عند التمرير.
    ============================================================================ */
 @layer components {
-  /* الطبقة ١ — المكان: صورة المبنى ثابتة خلف الصفحة كلها ومصدر اللون */
+  /* الطبقة ١ — المكان: صورة المبنى، مموّهة مسبقًا في الملف نفسه.
+     سبب الخبز لا الأداء: المشهد `fixed` فيُرفع إلى طبقة تركيب منفصلة،
+     و`backdrop-filter` على النافذة لا يلتقط تلك الطبقة في Chromium.
+     قيس الفرق فكان صفرًا، فالتمويه هنا لا هناك. */
   .scene {
     position: fixed;
-    inset: 0;
+    inset: -8% 0 0;
     z-index: 0;
-    /* التمويه ٢٠px مخبوز في الصورة نفسها (٧٫٥KB) في كل المقاسات.
-       backdrop-filter تحسينٌ فوقه لا شرطٌ له: لا يُرسَّم بلا GPU، ونُطفئه على
-       الجوال لكلفته، فلا يصحّ أن تتعلّق به مقروئية النص. */
     background: var(--color-bg) url("/brand/scene-soft.webp") center / cover no-repeat;
     pointer-events: none;
+    will-change: transform;
   }
 
-  /* الهالة الخارجية: النسخة الحادة ١٫٤px تظهر في حافة الشاشة حول النافذة،
-     فيبقى المكان حاضرًا كما ينصّ الدليل دون أن ينافس القراءة. */
   @media (min-width: 768px) {
-    .scene::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: url("/brand/scene.webp") center / cover no-repeat;
-      -webkit-mask-image: radial-gradient(ellipse 78% 86% at 50% 50%, transparent 55%, #000000 100%);
-      mask-image: radial-gradient(ellipse 78% 86% at 50% 50%, transparent 55%, #000000 100%);
+    .scene {
+      inset: -10% -4% -4%;
     }
   }
 
-  /* الطبقة ٢ — الإضاءة: غسل أبيض ١٢٪ وجو لوني خفيف، غير تفاعلية وخلف القراءة */
+  /* الطبقة ٢ — الإضاءة: غسل خفيف متدرّج. أفتح في الأعلى حيث يقع العنوان،
+     وأشفّ في الوسط ليظهر لون المكان خلف البطاقات. */
   .scene::after {
     content: "";
     position: absolute;
     inset: 0;
-    /* غسل أبيض يرفع المشهد إلى مدى فاتح ثابت، فلا يتأرجح التباين
-       بين سماء ساطعة وواجهة داكنة أثناء التمرير. */
-    background: var(--gradient-atmosphere), rgb(255 255 255 / 0.42);
+    background:
+      linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.14) 0%,
+        rgb(255 255 255 / 0.04) 34%,
+        rgb(255 255 255 / 0) 60%,
+        rgb(221 228 223 / 0.24) 100%
+      ),
+      var(--gradient-atmosphere);
   }
 
-  /* الطبقة ٣ — النافذة: اللوح الزجاجي الكبير الذي يحمل المحتوى */
+  /* هالة لونية من ألوان الهوية تمنح المشهد عمقًا بلا تفاصيل */
+  .scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 42% at 78% 12%, rgb(4 166 122 / 0.16), transparent 70%),
+      radial-gradient(52% 38% at 12% 74%, rgb(5 117 144 / 0.18), transparent 72%);
+  }
+
+  /* الطبقة ٣ — النافذة: اللوح الزجاجي الكبير.
+     تعبئتها متدرّجة: أكثف خلف الرأس، وأشفّ حيث تطفو البطاقات فوق المكان. */
   .glass-window {
     position: relative;
     z-index: var(--z-content);
-    background: rgb(255 255 255 / 0.28);
-    backdrop-filter: blur(var(--blur-window));
-    -webkit-backdrop-filter: blur(var(--blur-window));
-    border: 1px solid rgb(255 255 255 / 0.42);
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.62) 0%,
+      rgb(255 255 255 / 0.5) 26%,
+      rgb(255 255 255 / 0.46) 60%,
+      rgb(255 255 255 / 0.56) 100%
+    );
+    backdrop-filter: blur(26px) saturate(1.4) brightness(1.06);
+    -webkit-backdrop-filter: blur(26px) saturate(1.4) brightness(1.06);
+    border: 1px solid rgb(255 255 255 / 0.5);
     border-radius: var(--radius-panel);
-    box-shadow: var(--shadow-floating), var(--shadow-edge);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.6) inset,
+      0 -1px 0 rgb(16 63 75 / 0.05) inset,
+      var(--shadow-floating);
   }
 
-  /* البطاقة المصنفرة — المادة الأكثر استعمالًا */
+  /* لمعة علوية تقطع حافة اللوح فتُقرأ زجاجًا لا مستطيلًا شفافًا */
+  .glass-window::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 8%;
+    block-size: 1px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.95), transparent);
+    pointer-events: none;
+  }
+
+  /* البطاقة المصنفرة — المادة الأكثر استعمالًا. أكثف من النافذة فتتقدّم عليها. */
   .glass-card {
-    background: rgb(255 255 255 / 0.68);
-    border: 1px solid rgb(255 255 255 / 0.4);
+    position: relative;
+    background: linear-gradient(
+      165deg,
+      rgb(255 255 255 / 0.9) 0%,
+      rgb(255 255 255 / 0.82) 100%
+    );
+    border: 1px solid rgb(255 255 255 / 0.62);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-surface), var(--shadow-edge);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.7) inset,
+      var(--shadow-surface);
   }
 
   /* البطاقة الداكنة — الفعل الرئيسي. نص أبيض ووصف #D8E8E5 */
   .glass-accent {
-    background: rgb(16 63 75 / 0.94);
+    background: linear-gradient(165deg, rgb(16 63 75 / 0.93), rgb(7 61 75 / 0.96));
     color: var(--color-inverse);
-    border: 1px solid rgb(255 255 255 / 0.14);
+    border: 1px solid rgb(255 255 255 / 0.18);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-floating), var(--shadow-edge-dark);
+    box-shadow: var(--shadow-edge-dark), var(--shadow-floating);
   }
 
   /* السطح الصلب — القراءة الطويلة والنماذج والجداول */
@@ -525,22 +568,20 @@
     box-shadow: var(--shadow-surface);
   }
 
-  /* الطبقة ٤ — الشريط العائم: المادة الوحيدة ذات backdrop متكرر */
+  /* الطبقة ٤ — الشريط العائم. مقروئيته لا تتعلّق على التمويه. */
   .glass-dock {
     background: rgb(255 255 255 / 0.86);
-    backdrop-filter: blur(var(--blur-dock));
-    -webkit-backdrop-filter: blur(var(--blur-dock));
-    border: 1px solid rgb(255 255 255 / 0.4);
+    backdrop-filter: blur(var(--blur-dock)) saturate(1.2);
+    -webkit-backdrop-filter: blur(var(--blur-dock)) saturate(1.2);
+    border: 1px solid rgb(255 255 255 / 0.5);
     border-radius: var(--radius-tag);
-    box-shadow: var(--shadow-floating), var(--shadow-edge);
+    box-shadow: var(--shadow-edge), var(--shadow-floating);
   }
 
-  /* الشاشات العريضة: قيمة الدليل ٤٤٪ مع التمويه — التسريع مرجَّح هناك،
-     والشريط حبّة صغيرة لا تغطي محتوى طويلًا. */
   @media (min-width: 768px) {
     .glass-dock,
     .v2-bottom-nav {
-      background: rgb(255 255 255 / 0.62);
+      background: rgb(255 255 255 / 0.68);
     }
   }
 
@@ -548,37 +589,23 @@
   .logo-island {
     background: rgb(255 255 255 / 0.92);
     border-radius: var(--radius-nested);
-    box-shadow: var(--shadow-surface);
+    box-shadow: var(--shadow-edge), var(--shadow-surface);
   }
 
   /* ---- البديل الصلب حين لا يُدعم backdrop-filter ----
-     لا شفافية بلا تمويه: السطح يصير معتمًا مقروءًا بدل أن يبهت المحتوى. */
+     لا شفافية بلا تمويه: الأسطح تصير معتمة مقروءة بدل أن يبهت المحتوى. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .glass-window {
-      background: var(--color-section);
+      background: rgb(255 255 255 / 0.74);
+      border-color: var(--color-line);
+    }
+    .glass-card {
+      background: var(--color-panel);
       border-color: var(--color-line);
     }
     .glass-dock {
       background: var(--color-panel);
       border-color: var(--color-line);
-    }
-    .glass-card {
-      background: var(--color-panel);
-      border-color: var(--color-line);
-    }
-  }
-
-  /* ---- كلفة البلور على الجوال ----
-     النافذة مساحة كبيرة، وتمويهها على الهواتف يكلف إطارات.
-     تبقى النافذة سطحًا صلبًا تحت 768px، ويبقى الشريط العائم وحده مموّهًا. */
-  @media (max-width: 767px) {
-    .glass-window {
-      background: rgb(255 255 255 / 0.62);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-    .glass-card {
-      background: rgb(255 255 255 / 0.86);
     }
   }
 
@@ -594,6 +621,9 @@
     }
     .glass-accent {
       background: var(--color-night);
+    }
+    .scene::after {
+      background: rgb(255 255 255 / 0.72);
     }
   }
 }
@@ -652,5 +682,102 @@
   }
   .scene::after {
     transition: none;
+  }
+}
+
+/* ============================================================================
+   حركة التمرير — تعمل بـCSS scroll-driven animations: صفر جافاسكربت وصفر كيلوبايت.
+   المتصفحات التي لا تدعمها تُبقي المحتوى ظاهرًا ساكنًا، ويتكفّل الراصد الصغير
+   في ScrollMotion بظهور الأقسام فيها. لا شيء من هذا يحجب محتوى عند تعطّل أيٍّ منهما.
+   ============================================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    /* المكان يتحرك أبطأ من المحتوى، فتُدرك العين بُعده خلف الزجاج */
+    .scene {
+      animation: sceneDrift linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes sceneDrift {
+      from { transform: translate3d(0, 0, 0) scale(1.06); }
+      to { transform: translate3d(0, 6%, 0) scale(1.14); }
+    }
+
+    /* الهالة اللونية تزحف عكس اتجاه المشهد فيزداد الفصل بين الطبقتين */
+    .scene::before {
+      animation: haloDrift linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes haloDrift {
+      from { transform: translate3d(0, 0, 0); opacity: 1; }
+      to { transform: translate3d(0, -4%, 0); opacity: 0.72; }
+    }
+
+    /* الرأس يفقد ارتفاعه ويكتسب مادة كلما نزل القارئ */
+    .scroll-head {
+      animation: headCondense linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 220px;
+    }
+    @keyframes headCondense {
+      to {
+        padding-block-start: max(10px, env(safe-area-inset-top));
+        padding-block-end: 12px;
+      }
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    /* ظهور الأقسام: شفافية وإزاحة وتمويه خفيف يستقر إلى صفر */
+    [data-reveal] {
+      animation: revealIn linear both;
+      animation-timeline: view(block);
+      animation-range: entry 2% cover 26%;
+    }
+    @keyframes revealIn {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0);
+        filter: blur(3px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+        filter: blur(0);
+      }
+    }
+  }
+}
+
+/* الراصد الصغير للمتصفحات بلا scroll-timeline.
+   الحالة المخفية لا تُكتب إلا بعد أن يعلن ScrollMotion أن جافاسكربت يعمل،
+   فلا يختفي محتوى على متصفح بلا جافاسكربت. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports not (animation-timeline: view()) {
+    [data-motion="js"] [data-reveal],
+    [data-motion="js"] .reveal-group > * {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      transition:
+        opacity 560ms var(--ease-brand),
+        transform 560ms var(--ease-brand);
+    }
+    [data-motion="js"] [data-reveal].is-in,
+    [data-motion="js"] .reveal-group > .is-in {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .scene::before,
+  .scroll-head,
+  [data-reveal],
+  .reveal-group > * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }
