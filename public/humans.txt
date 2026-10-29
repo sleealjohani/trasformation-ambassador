@@ -1,0 +1,18 @@
+/* فريق العمل · TEAM */
+
+    صانعة الموقع · Creator: saaalrowily
+    الموقع · Site: جسر التحول — صوت الموظف
+    الجهة · For: مستشفى الحديثة العام
+
+/* شكر · THANKS */
+
+    سفراء التغيير وكل موظف شارك بصوته.
+
+/* الموقع · SITE */
+
+    اللغة · Language: العربية (RTL)
+    المعيار · Standard: HTML5 · CSS · WCAG AA
+    الخط · Typeface: Janna LT
+    الهوية · Direction: وضوح متصل / Spatial Glass
+
+    © saaalrowily

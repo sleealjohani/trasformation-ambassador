@@ -796,3 +796,21 @@
     filter: none !important;
   }
 }
+
+/* ============================================================================
+   نسبة الصنع — لا تُرى على الشاشة إطلاقًا، وتظهر على الورق.
+   أي نسخة مطبوعة من أي صفحة تحمل اسم صانعة الموقع.
+   ============================================================================ */
+@media print {
+  body::after {
+    content: "© saaalrowily";
+    display: block;
+    margin-block-start: 24px;
+    padding-block-start: 8px;
+    border-block-start: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-size: 10pt;
+    text-align: center;
+    direction: ltr;
+  }
+}

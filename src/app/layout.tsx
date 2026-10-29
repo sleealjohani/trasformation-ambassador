@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Intro } from "@/components/app/Intro";
 import { ServiceWorker } from "@/components/app/ServiceWorker";
+import { Signature } from "@/components/app/Signature";
 import { SiteAudioProvider } from "@/components/app/SiteAudio";
 import { STRINGS } from "@/content/strings";
 import "./globals.css";
@@ -11,6 +12,9 @@ export const metadata: Metadata = {
   title: { default: `${STRINGS.appName} — ${STRINGS.appSubtitle}`, template: `%s` },
   description: STRINGS.promise,
   applicationName: STRINGS.appName,
+  authors: [{ name: "saaalrowily", url: "/humans.txt" }],
+  creator: "saaalrowily",
+  publisher: "saaalrowily",
   robots: { index: false, follow: false },
   formatDetection: { telephone: false, email: false, address: false },
 };
@@ -26,10 +30,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" href="/fonts/JannaLT-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
+        {/* © saaalrowily — جسر التحول · التفاصيل في /humans.txt */}
         <SiteAudioProvider>
           <Intro />
           {children}
           <ServiceWorker />
+          <Signature />
         </SiteAudioProvider>
       </body>
     </html>
