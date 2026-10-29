@@ -814,3 +814,51 @@
     direction: ltr;
   }
 }
+
+/* ============================================================================
+   علامة الصانعة — محفورة في زاوية اللوح الزجاجي.
+   كما يحفر صانع الزجاج توقيعه: لا حبر فوق السطح بل أثر داخله.
+   اللون شفافية ٦٪ من حبر الهوية، ويعلوه خط أبيض بمقدار بكسل واحد
+   فيبدو غائرًا لا مطبوعًا. لا يُرى إلا إذا وقع عليه النظر.
+
+   `content` بنصّ بديل فارغ فلا يُنطق لقارئ الشاشة — النسبة المقروءة
+   مكانها البيانات الوصفية و/humans.txt، وهذه زينة لا معلومة.
+   ============================================================================ */
+@layer components {
+  .glass-window::after {
+    content: "saaalrowily" / "";
+    /* على الحافة العليا للّوح، حيث تمرّ اللمعة وحيث يقع النظر عند فتح
+       أي صفحة — لا في أسفل لوحٍ طوله ألفا بكسل لا يبلغه أحد. */
+    position: absolute;
+    inset-block-start: 9px;
+    inset-inline: 0;
+    text-align: center;
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: lowercase;
+    color: rgb(16 63 75 / 0.06);
+    text-shadow: 0 1px 0 rgb(255 255 255 / 0.42);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* الشاشات الضيقة: العلامة أصغر وأقرب إلى الحافة فلا تزاحم المحتوى */
+  @media (max-width: 480px) {
+    .glass-window::after {
+      inset-block-start: 7px;
+      font-size: 9px;
+      letter-spacing: 0.32em;
+    }
+  }
+
+  /* من يطلب تباينًا أعلى لا يُقدَّم له زخرف شبه مرئي: يُرفع قليلًا ليُقرأ أو يُخفى */
+  @media (prefers-contrast: more) {
+    .glass-window::after {
+      content: none;
+    }
+  }
+}
