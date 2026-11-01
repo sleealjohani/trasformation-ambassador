@@ -2,8 +2,6 @@
 import type { Metadata } from "next";
 import { CardForm } from "@/components/app/CardForm";
 import { CARD } from "@/content/card";
-// شعار التجمع الرسمي يبقى نسخة واحدة في أصول المطبوعات، ويُخدم من هنا بعنوان مُبصَم
-import clusterLogo from "../../../docs/print/assets/jouf-health-cluster.svg";
 import "./card.css";
 
 export const metadata: Metadata = { title: "سؤالك يفتح الحوار — جسر التحول", description: CARD.lede, robots: { index: false } };
@@ -18,7 +16,7 @@ export default function CardPage() {
       <div className="qcard">
         <section className="qcard-cover" aria-labelledby="qcard-title">
           <div className="qcard-logos logo-island">
-            <img src={(clusterLogo as { src: string }).src} alt="تجمع الجوف الصحي" width={922} height={882} />
+            <img src="/brand/jouf-health-cluster.svg" alt="تجمع الجوف الصحي" width={922} height={882} />
             <span className="qcard-logos-rule" aria-hidden="true" />
             <img src="/brand/hadithah-logo.svg" alt="مستشفى الحديثة العام" width={922} height={882} />
           </div>
