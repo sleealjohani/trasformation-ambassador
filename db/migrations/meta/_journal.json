@@ -15,6 +15,13 @@
       "when": 1788888885038,
       "tag": "0001_ambassador_control_center",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793559606408,
+      "tag": "0002_card_channel",
+      "breakpoints": true
     }
   ]
 }

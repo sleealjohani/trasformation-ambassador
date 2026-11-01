@@ -7,9 +7,11 @@ import { expect, test } from "./fixtures";
  * لذلك نقيس البكسل المرسوم: نُخفي كل نص، نلتقط الخلفية الصافية، ثم نحسب
  * نسبة كل لون نص مقابل متوسط ما تحته.
  */
-const PAGES = ["/", "/issues", "/ask", "/knowledge", "/track"] as const;
+const PAGES = ["/", "/issues", "/ask", "/knowledge", "/track", "/q"] as const;
 
 test("كل نص يحقق عتبة WCAG AA فوق ما يقع تحته فعلًا", async ({ page }) => {
+  // ست صفحات × موضعان، ولكل موضع لقطتان: يتجاوز مهلة ٣٠ ثانية الافتراضية، خاصة مع العمّال المتوازين
+  test.setTimeout(120_000);
   const failures: string[] = [];
 
   for (const path of PAGES) {

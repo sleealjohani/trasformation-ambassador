@@ -5,15 +5,18 @@ import { AdminDashboard } from "./AdminDashboard";
 import { AdminContentManager } from "./AdminContentManager";
 import { AdminMediaManager } from "./AdminMediaManager";
 import { AdminReports } from "./AdminReports";
+import { AdminCardQuestions } from "./AdminCardQuestions";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { apiGet, errorMessage } from "@/lib/api";
 import type { ControlSnapshot } from "./admin-control-types";
+import type { CardQuestionRow } from "@/server/submissions";
 
 type WorkProps = ComponentProps<typeof AdminDashboard>;
-type Tab = "overview" | "work" | "content" | "media" | "reports" | "audit";
+type Tab = "overview" | "work" | "questions" | "content" | "media" | "reports" | "audit";
 const NAV: ReadonlyArray<{ key: Tab; label: string; icon: IconName }> = [
   { key: "overview", label: "نظرة عامة", icon: "home" },
   { key: "work", label: "صندوق العمل", icon: "issues" },
+  { key: "questions", label: "أسئلة الحوار", icon: "question" },
   { key: "content", label: "المحتوى", icon: "knowledge" },
   { key: "media", label: "المختصرات", icon: "video" },
   { key: "reports", label: "التقارير", icon: "copy" },
@@ -35,7 +38,7 @@ function actionLabel(action: string): string {
   return action.replaceAll("admin.", "").replaceAll("content.", "");
 }
 
-export function AmbassadorControlCenter({ topics, initialInbox, initialIssues, initialSnapshot }: WorkProps & { initialSnapshot: ControlSnapshot }) {
+export function AmbassadorControlCenter({ topics, initialInbox, initialIssues, initialSnapshot, initialCard }: WorkProps & { initialSnapshot: ControlSnapshot; initialCard: CardQuestionRow[] }) {
   const [tab, setTab] = useState<Tab>("overview");
   const [snapshot, setSnapshot] = useState(initialSnapshot);
   const [refreshing, setRefreshing] = useState(false);
@@ -67,7 +70,7 @@ export function AmbassadorControlCenter({ topics, initialInbox, initialIssues, i
     </div>
 
     <div className="fixed inset-x-0 bottom-0 z-[100] border-t border-line bg-panel p-2 pb-[max(8px,env(safe-area-inset-bottom))] shadow-[0_-8px_28px_rgb(15_42_68_/_0.12)] md:hidden">
-      <div className="mx-auto grid max-w-[480px] grid-cols-3 gap-1.5" role="tablist" aria-label="أقسام مركز التحكم">{NAV.map((item) => <button key={item.key} type="button" role="tab" aria-selected={tab === item.key} onClick={() => setTab(item.key)} className={tab === item.key ? "flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-button bg-primary px-1 text-[11px] font-bold leading-tight text-panel" : "flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-button px-1 text-[11px] leading-tight text-ink-soft"}><Icon name={item.icon} size={17} /><span className="max-w-full truncate">{item.label}</span></button>)}</div>
+      <div className="mx-auto grid max-w-[480px] grid-cols-4 gap-1.5" role="tablist" aria-label="أقسام مركز التحكم">{NAV.map((item) => <button key={item.key} type="button" role="tab" aria-selected={tab === item.key} onClick={() => setTab(item.key)} className={tab === item.key ? "flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-button bg-primary px-1 text-[11px] font-bold leading-tight text-panel" : "flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-button px-1 text-[11px] leading-tight text-ink-soft"}><Icon name={item.icon} size={17} /><span className="max-w-full truncate">{item.label}</span></button>)}</div>
     </div>
 
     <div className="sticky top-0 z-[100] hidden rounded-card border border-line bg-panel p-2 backdrop-blur md:block">
@@ -91,6 +94,7 @@ export function AmbassadorControlCenter({ topics, initialInbox, initialIssues, i
     </div> : null}
 
     {tab === "work" ? <AdminDashboard topics={topics} initialInbox={initialInbox} initialIssues={initialIssues} /> : null}
+    {tab === "questions" ? <AdminCardQuestions initial={initialCard} /> : null}
     {tab === "content" ? <AdminContentManager snapshot={snapshot} topics={topics} onSnapshot={setSnapshot} /> : null}
     {tab === "media" ? <AdminMediaManager snapshot={snapshot} onSnapshot={setSnapshot} /> : null}
     {tab === "reports" ? <AdminReports snapshot={snapshot} /> : null}
