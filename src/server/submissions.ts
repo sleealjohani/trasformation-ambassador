@@ -23,6 +23,9 @@ export type CreateInput = {
   answers?: Record<string, string> | undefined;
   dept?: string | null | undefined;
   deviceHash: string;
+  /** «card» لمشاركات صفحة /q، وإلا فهي من المنصة */
+  channel?: "app" | "card" | undefined;
+  cardKind?: string | null | undefined;
 };
 
 export type CreateResult = {
@@ -117,6 +120,8 @@ export async function createSubmission(input: CreateInput): Promise<CreateResult
       needsReading: classification.needsReading,
       status: "new",
       deptOptional: input.dept ?? null,
+      channel: input.channel ?? "app",
+      cardKind: input.cardKind ?? null,
       issueId: issueId || null,
       deviceHash: device,
       slaDueAt: slaDueFor("new", now),
@@ -130,7 +135,7 @@ export async function createSubmission(input: CreateInput): Promise<CreateResult
     .from(submissions)
     .where(and(eq(submissions.issueId, issueId), ne(submissions.id, row?.id ?? "")));
 
-  await audit({ actorRole: "employee", action: "submission.create", entity: "submission", entityId: row?.id, after: { gate: input.gate, topic: classification.topic, needsReading: classification.needsReading } });
+  await audit({ actorRole: "employee", action: "submission.create", entity: "submission", entityId: row?.id, after: { gate: input.gate, channel: input.channel ?? "app", topic: classification.topic, needsReading: classification.needsReading } });
 
   return {
     refCode,
@@ -380,4 +385,24 @@ export async function listInbox(filter: { status?: string | undefined; topic?: s
       score: computeUrgencyScore({ repeat: similar, maxRepeat, createdAt: s.createdAt, now, urgency: s.urgency }),
     }))
     .sort((a, b) => b.score - a.score);
+}
+
+export type CardQuestionRow = {
+  id: string;
+  kind: string | null;
+  bodyClean: string | null;
+  topic: string | null;
+  status: string;
+  createdAt: string;
+};
+
+/** أسئلة صفحة «سؤالك يفتح الحوار» (/q) للوحة السفير — النص المنقّى وحده، الأحدث أولًا */
+export async function listCardQuestions(limit = 500): Promise<CardQuestionRow[]> {
+  const rows = await db
+    .select({ id: submissions.id, kind: submissions.cardKind, bodyClean: submissions.bodyClean, topic: submissions.topic, status: submissions.status, createdAt: submissions.createdAt })
+    .from(submissions)
+    .where(and(eq(submissions.channel, "card"), isNull(submissions.deletedAt)))
+    .orderBy(desc(submissions.createdAt))
+    .limit(limit);
+  return rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString() }));
 }

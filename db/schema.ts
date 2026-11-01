@@ -55,6 +55,10 @@ export const submissions = pgTable(
     needsReading: boolean("needs_reading").notNull().default(false),
     status: text("status").notNull().default("new"),
     deptOptional: text("dept_optional"),
+    /** من أين وصلت: «app» من المنصة، «card» من صفحة «سؤالك يفتح الحوار» (/q) */
+    channel: text("channel").notNull().default("app"),
+    /** ما اختاره الموظف في صفحة /q (فيها «معلومة سمعتها» التي لا بوابة لها في المنصة) */
+    cardKind: text("card_kind"),
     issueId: uuid("issue_id"),
     deviceHash: text("device_hash").notNull(),
     slaDueAt: timestamp("sla_due_at", { withTimezone: true }),
@@ -68,6 +72,7 @@ export const submissions = pgTable(
     index("submissions_status_idx").on(t.status),
     index("submissions_issue_idx").on(t.issueId),
     index("submissions_created_idx").on(t.createdAt),
+    index("submissions_channel_idx").on(t.channel, t.createdAt),
   ],
 );
 

@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element -- العلامات SVG ثابتة داخل مشهد متحرك */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { STRINGS } from "@/content/strings";
 import { SoundToggle } from "@/components/app/SiteAudio";
 
@@ -10,7 +11,9 @@ const TIMELINE: ReadonlyArray<[Phase, number]> = [["core", 720], ["emerge", 1180
 const HOLD_MS = 1500;
 const FADE_MS = 700;
 const SEEN_KEY = "bridge:intro-seen";
-export function Intro() { return <IntroStage />; }
+/** صفحة «سؤالك يفتح الحوار» (/q) مستقلة: يصلها الموظف من باركود، فلا مشهد افتتاح يؤخّره */
+const STANDALONE = new Set(["/q"]);
+export function Intro() { const pathname = usePathname(); return STANDALONE.has(pathname) ? null : <IntroStage />; }
 
 function IntroStage() {
   const [show, setShow] = useState(true);
